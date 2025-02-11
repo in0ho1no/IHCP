@@ -9,8 +9,9 @@ class SimpleDiagramParser:
 
     TAB2SPACE = 4
 
-    def __init__(self, text_data: list[str]) -> None:
-        self.text_data = text_data
+    def __init__(self, text_data: str) -> None:
+        self.lines = text_data.strip().split("\n")
+        self.pair_line_level: list[tuple] = self.__set_pair_line_level()
 
     @staticmethod
     def create_indent_pattern(tab_count: int) -> str:
@@ -69,3 +70,18 @@ class SimpleDiagramParser:
 
         # 該当しなければエラーとする
         return cls.LEVEL_ERROR
+
+    def __set_pair_line_level(self) -> list[tuple]:
+        pair_line_level: list[tuple] = []
+        for line in self.lines:
+            line_level = self.get_line_level(line)
+            if self.LEVEL_MIN > line_level:
+                continue
+
+            pair = (line_level, line)
+            pair_line_level.append(pair)
+
+        return pair_line_level
+
+    def get_pair_line_level(self) -> list[tuple]:
+        return self.pair_line_level
