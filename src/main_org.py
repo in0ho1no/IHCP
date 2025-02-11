@@ -2,8 +2,6 @@ import re
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from parse import SimpleDiagramParser
-
 
 @dataclass
 class DiagramElement:
@@ -13,6 +11,31 @@ class DiagramElement:
     y: int = 0
     width: int = 100
     height: int = 50
+
+
+class SimpleDiagramParser:
+    def __init__(self) -> None:
+        self.elements: list[DiagramElement] = []
+        self.connections: list[tuple] = []
+
+    def parse(self, text: str) -> None:
+        """テキスト記法を解析して図形要素と接続を抽出"""
+        lines = text.strip().split("\n")
+
+        for line in lines:
+            line_bare = line.strip()
+            # 図形要素の定義を解析
+            element_match = re.match(r'(\w+)\s*:\s*"([^"]*)"', line_bare)
+            if element_match:
+                element_id, content = element_match.groups()
+                self.elements.append(DiagramElement(type="box", content=content))
+                continue
+
+            # 接続の定義を解析
+            connection_match = re.match(r"(\w+)\s*->\s*(\w+)", line_bare)
+            if connection_match:
+                start, end = connection_match.groups()
+                self.connections.append((start, end))
 
 
 class SVGRenderer:
@@ -60,22 +83,23 @@ class SVGRenderer:
 def main() -> None:
     # 入力テキスト
     input_text = """
-必要な情報を揃える
-    排他を取得
-    DBから取得
-    排他を解放
-"""
+    box1: "Start"
+    box2: "Process"
+    box3: "End"
+    box1 -> box2
+    box2 -> box3
+    """
 
     # パースと描画
-    parser = SimpleDiagramParser(input_text)
-    print(parser.get_pair_line_level())
+    parser = SimpleDiagramParser()
+    parser.parse(input_text)
 
-    # renderer = SVGRenderer(parser)
-    # svg_output = renderer.render()
+    renderer = SVGRenderer(parser)
+    svg_output = renderer.render()
 
-    # # SVGファイルとして保存
-    # with open("output.svg", "w") as f:
-    #     f.write(svg_output)
+    # SVGファイルとして保存
+    with open("output.svg", "w") as f:
+        f.write(svg_output)
 
 
 if __name__ == "__main__":

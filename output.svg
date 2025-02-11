@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+<circle cx="10" cy="10" r="9" fill="white" stroke="black"/>
+<text x="29" y="10" text-anchor="left" dominant-baseline="middle">必要な情報を揃える</text>
+<circle cx="10" cy="37" r="9" fill="white" stroke="black"/>
+<text x="29" y="37" text-anchor="left" dominant-baseline="middle">    排他を取得</text>
+<circle cx="10" cy="64" r="9" fill="white" stroke="black"/>
+<text x="29" y="64" text-anchor="left" dominant-baseline="middle">    DBから取得</text>
+<circle cx="10" cy="91" r="9" fill="white" stroke="black"/>
+<text x="29" y="91" text-anchor="left" dominant-baseline="middle">    排他を解放</text>
+</svg>
