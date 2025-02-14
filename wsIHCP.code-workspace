@@ -22,9 +22,6 @@
 			"source.fixAll": "explicit",
 			"source.organizeImports": "explicit"
 		},
-		"ruff.format.args": [
-			"--config=pyproject.toml"
-		],
 		
 		"mypy-type-checker.args": [
 			"--warn-return-any",			// 戻り値を明示する
