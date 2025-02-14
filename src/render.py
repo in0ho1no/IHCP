@@ -29,6 +29,12 @@ class SVGRenderer:
     def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str) -> None:
         svg.append(f'<text x="{center_x}" y="{center_y}" text-anchor="left" dominant-baseline="middle">{text}</text>')
 
+    def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
+        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x + length}" y2="{center_y}" stroke="black" marker-end="url(#arrowhead)"/>')
+
+    def draw_line_v(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
+        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x}" y2="{center_y + length}" stroke="black" marker-end="url(#arrowhead)"/>')
+
     def draw_figure_level_eq0(
         self,
         svg: list[str],
@@ -39,33 +45,13 @@ class SVGRenderer:
         # 円の追加 中心
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
 
-        # 垂直線の追加 上側
-        svg.append(
-            f'<line x1="{center_x}" y1="{center_y - DiagramElement.CIRCLE_R}" '
-            f'x2="{center_x}" y2="{center_y - (DiagramElement.CIRCLE_R * 2)}" '
-            f'stroke="black" marker-end="url(#arrowhead)"/>'
-        )
+        # 垂直線の追加 上下
+        self.draw_line_v(svg, center_x, center_y - DiagramElement.CIRCLE_R * 2, DiagramElement.CIRCLE_R)
+        self.draw_line_v(svg, center_x, center_y + DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R)
 
-        # 垂直線の追加 下側
-        svg.append(
-            f'<line x1="{center_x}" y1="{center_y + DiagramElement.CIRCLE_R}" '
-            f'x2="{center_x}" y2="{center_y + (DiagramElement.CIRCLE_R * 2)}" '
-            f'stroke="black" marker-end="url(#arrowhead)"/>'
-        )
-
-        # 水平線の追加 上側
-        svg.append(
-            f'<line x1="{center_x - DiagramElement.CIRCLE_R}" y1="{center_y + (DiagramElement.CIRCLE_R * 2)}" '
-            f'x2="{center_x + DiagramElement.CIRCLE_R}" y2="{center_y + (DiagramElement.CIRCLE_R * 2)}" '
-            f'stroke="black" marker-end="url(#arrowhead)"/>'
-        )
-
-        # 水平線の追加 下側
-        svg.append(
-            f'<line x1="{center_x - DiagramElement.CIRCLE_R}" y1="{center_y - (DiagramElement.CIRCLE_R * 2)}" '
-            f'x2="{center_x + DiagramElement.CIRCLE_R}" y2="{center_y - (DiagramElement.CIRCLE_R * 2)}" '
-            f'stroke="black" marker-end="url(#arrowhead)"/>'
-        )
+        # 水平線の追加 上下
+        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
+        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y - (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
 
         # テキストの描画
         if text != "":
@@ -110,10 +96,12 @@ class SVGRenderer:
 
             # 垂直線の追加
             if (before_level != 0) and (before_level == element.level):
-                now_x = element.x
-                now_y = element.y - DiagramElement.CIRCLE_R
-                next_y = now_y - (DiagramElement.LEVEL_SHIFT - DiagramElement.CIRCLE_R * 2)
-                svg.append(f'<line x1="{now_x}" y1="{now_y}" x2="{now_x}" y2="{next_y}" stroke="black" marker-end="url(#arrowhead)"/>')
+                self.draw_line_v(
+                    svg,
+                    element.x,
+                    element.y - DiagramElement.LEVEL_SHIFT + DiagramElement.CIRCLE_R,
+                    DiagramElement.LEVEL_SHIFT - DiagramElement.CIRCLE_R * 2,
+                )
 
             # 次の描画準備
             before_level = element.level
