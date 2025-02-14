@@ -13,6 +13,8 @@ class DiagramElement:
 
     SPACE_FIGURE_TO_TEXT = 15
 
+    LEVEL_SHIFT = 30
+
     level: int = 0
     content: str = ""
     x: int = 0
@@ -80,14 +82,17 @@ class SVGRenderer:
         """パースされた要素をSVGとして描画"""
         svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
 
+        start_x = 30
+        start_y = 30
+
         # 要素の配置を計算
         elements: list[DiagramElement] = []
         for i, line_pair in enumerate(line_pairs):
             element = DiagramElement()
             element.level = line_pair[0]
 
-            element.x = DiagramElement.MARGIN + element.level * (DiagramElement.CIRCLE_R * 3)
-            element.y = DiagramElement.MARGIN + i * (DiagramElement.CIRCLE_R * 3)
+            element.x = start_x + element.level * (DiagramElement.LEVEL_SHIFT)
+            element.y = start_y + i * (DiagramElement.LEVEL_SHIFT)
             element.content = line_pair[1]
             element.type = DiagramElement.TYPE_NORMAL
 
@@ -96,31 +101,22 @@ class SVGRenderer:
         # 図形要素を描画
         before_level = 0
         for element in elements:
-            if element.level == 0:
-                self.draw_figure_level_eq0(svg, element.x, element.y, element.content)
-            else:
-                self.draw_figure_level_gt0(svg, element.x, element.y, element.content)
+            # 種別に応じた図形とテキストを描画
+            if element.type == DiagramElement.TYPE_NORMAL:
+                if element.level == 0:
+                    self.draw_figure_level_eq0(svg, element.x, element.y, element.content)
+                else:
+                    self.draw_figure_level_gt0(svg, element.x, element.y, element.content)
 
             # 垂直線の追加
-            now_x = element.x
-            now_y = element.y + DiagramElement.CIRCLE_R
-            next_y = now_y + DiagramElement.MARGIN
-            svg.append(f'<line x1="{now_x}" y1="{now_y}" x2="{now_x}" y2="{next_y}" stroke="black" marker-end="url(#arrowhead)"/>')
-
-            # 水平線の追加
-            if before_level < element.level:
-                bef_x = now_x - DiagramElement.MARGIN - DiagramElement.CIRCLE_R
-                bef_y = element.y - DiagramElement.CIRCLE_R
-                svg.append(f'<line x1="{now_x}" y1="{bef_y}" x2="{bef_x}" y2="{bef_y}" stroke="black" marker-end="url(#arrowhead)"/>')
+            if (before_level != 0) and (before_level == element.level):
+                now_x = element.x
+                now_y = element.y - DiagramElement.CIRCLE_R
+                next_y = now_y - (DiagramElement.LEVEL_SHIFT - DiagramElement.CIRCLE_R * 2)
+                svg.append(f'<line x1="{now_x}" y1="{now_y}" x2="{now_x}" y2="{next_y}" stroke="black" marker-end="url(#arrowhead)"/>')
 
             # 次の描画準備
             before_level = element.level
-
-        self.draw_figure_level_eq0(svg, 100, 100)
-        self.draw_figure_level_eq0(svg, 130, 100, "HAPPY")
-        self.draw_figure_level_gt0(svg, 100, 200)
-        self.draw_figure_level_gt0(svg, 130, 200, "NEW!!")
-        self.draw_text(svg, 100, 300, "HELLO")
 
         svg.append("</svg>")
         return "\n".join(svg)
