@@ -4,13 +4,46 @@
 <line x1="30" y1="39" x2="30" y2="48" stroke="black" marker-end="url(#arrowhead)"/>
 <line x1="21" y1="48" x2="39" y2="48" stroke="black" marker-end="url(#arrowhead)"/>
 <line x1="21" y1="12" x2="39" y2="12" stroke="black" marker-end="url(#arrowhead)"/>
-<text x="54" y="30" text-anchor="left" dominant-baseline="middle">必要な情報を揃える</text>
+<text x="54" y="30" text-anchor="left" dominant-baseline="middle">処理開始</text>
 <circle cx="60" cy="60" r="9" fill="white" stroke="black"/>
-<text x="84" y="60" text-anchor="left" dominant-baseline="middle">    排他を取得</text>
-<circle cx="60" cy="90" r="9" fill="white" stroke="black"/>
-<text x="84" y="90" text-anchor="left" dominant-baseline="middle">    DBから取得</text>
-<line x1="60" y1="69" x2="60" y2="81" stroke="black" marker-end="url(#arrowhead)"/>
-<circle cx="60" cy="120" r="9" fill="white" stroke="black"/>
-<text x="84" y="120" text-anchor="left" dominant-baseline="middle">    排他を解放</text>
-<line x1="60" y1="99" x2="60" y2="111" stroke="black" marker-end="url(#arrowhead)"/>
+<text x="84" y="60" text-anchor="left" dominant-baseline="middle">    必要な情報を揃える</text>
+<circle cx="90" cy="90" r="9" fill="white" stroke="black"/>
+<text x="114" y="90" text-anchor="left" dominant-baseline="middle">        排他を取得</text>
+<circle cx="90" cy="120" r="9" fill="white" stroke="black"/>
+<text x="114" y="120" text-anchor="left" dominant-baseline="middle">        DBから取得</text>
+<line x1="90" y1="99" x2="90" y2="111" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="90" cy="150" r="9" fill="white" stroke="black"/>
+<text x="114" y="150" text-anchor="left" dominant-baseline="middle">        排他を解放</text>
+<line x1="90" y1="129" x2="90" y2="141" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="60" cy="180" r="9" fill="white" stroke="black"/>
+<text x="84" y="180" text-anchor="left" dominant-baseline="middle">    データ更新</text>
+<line x1="60" y1="69" x2="60" y2="171" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="90" cy="210" r="9" fill="white" stroke="black"/>
+<text x="114" y="210" text-anchor="left" dominant-baseline="middle">        更新が必要か判定する</text>
+<circle cx="60" cy="240" r="9" fill="white" stroke="black"/>
+<text x="84" y="240" text-anchor="left" dominant-baseline="middle">    更新に伴った処理</text>
+<line x1="60" y1="189" x2="60" y2="231" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="90" cy="270" r="9" fill="white" stroke="black"/>
+<text x="114" y="270" text-anchor="left" dominant-baseline="middle">        機能Aの実行</text>
+<circle cx="120" cy="300" r="9" fill="white" stroke="black"/>
+<text x="144" y="300" text-anchor="left" dominant-baseline="middle">            機能Aの前処理</text>
+<circle cx="120" cy="330" r="9" fill="white" stroke="black"/>
+<text x="144" y="330" text-anchor="left" dominant-baseline="middle">            機能Aの本処理</text>
+<line x1="120" y1="309" x2="120" y2="321" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="120" cy="360" r="9" fill="white" stroke="black"/>
+<text x="144" y="360" text-anchor="left" dominant-baseline="middle">            機能Aの後処理</text>
+<line x1="120" y1="339" x2="120" y2="351" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="90" cy="390" r="9" fill="white" stroke="black"/>
+<text x="114" y="390" text-anchor="left" dominant-baseline="middle">        機能Bの実行</text>
+<line x1="90" y1="279" x2="90" y2="381" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="120" cy="420" r="9" fill="white" stroke="black"/>
+<text x="144" y="420" text-anchor="left" dominant-baseline="middle">            機能Bの前処理</text>
+<circle cx="120" cy="450" r="9" fill="white" stroke="black"/>
+<text x="144" y="450" text-anchor="left" dominant-baseline="middle">            機能Bの後処理</text>
+<line x1="120" y1="429" x2="120" y2="441" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="60" cy="480" r="9" fill="white" stroke="black"/>
+<text x="84" y="480" text-anchor="left" dominant-baseline="middle">    処理終了</text>
+<line x1="60" y1="249" x2="60" y2="471" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="90" cy="510" r="9" fill="white" stroke="black"/>
+<text x="114" y="510" text-anchor="left" dominant-baseline="middle">        戻り値を返す</text>
 </svg>

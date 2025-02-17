@@ -1,5 +1,7 @@
 import re
 
+from define import LineInfo
+
 
 class SimpleDiagramParser:
     LEVEL_MIN = 0
@@ -85,3 +87,30 @@ class SimpleDiagramParser:
 
     def get_pair_line_level(self) -> list[tuple]:
         return self.pair_line_level
+
+    def create_line_info_list(self) -> list[LineInfo]:
+        line_info_list: list[LineInfo] = []
+
+        start_count = 0
+        for num, pair_line in enumerate(self.pair_line_level, start=start_count):
+            line_info = LineInfo()
+            line_info.no = num
+            line_info.level = pair_line[0]
+            line_info.text = pair_line[1]
+
+            if num > start_count:
+                # 同じレベルで1つ前の番号を見つける
+                print(line_info.text)
+                for search_no in range(num - 1, start_count, -1):
+                    search_info = line_info_list[search_no]
+                    if search_info.level == line_info.level:
+                        line_info.before_no = search_info.no
+                        print(line_info.before_no)
+                        break
+                    elif search_info.level < line_info.level:
+                        # 自身よりレベルが小さいなら階層が変わる
+                        break
+
+            line_info_list.append(line_info)
+
+        return line_info_list

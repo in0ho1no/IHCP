@@ -1,25 +1,4 @@
-from dataclasses import dataclass
-
-
-@dataclass
-class DiagramElement:
-    TYPE_NORMAL = 0
-
-    MARGIN = 15
-
-    CIRCLE_R = 9
-    FIGURE_WIDTH = CIRCLE_R * 2
-    FIGURE_HEIGHT = CIRCLE_R * 4
-
-    SPACE_FIGURE_TO_TEXT = 15
-
-    LEVEL_SHIFT = 30
-
-    level: int = 0
-    content: str = ""
-    x: int = 0
-    y: int = 0
-    type: int = TYPE_NORMAL
+from define import DiagramElement, LineInfo
 
 
 class SVGRenderer:
@@ -64,7 +43,7 @@ class SVGRenderer:
         if text != "":
             self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
 
-    def render(self, line_pairs: list[tuple]) -> str:
+    def render(self, line_info_list: list[LineInfo]) -> str:
         """パースされた要素をSVGとして描画"""
         svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
 
@@ -73,38 +52,35 @@ class SVGRenderer:
 
         # 要素の配置を計算
         elements: list[DiagramElement] = []
-        for i, line_pair in enumerate(line_pairs):
-            element = DiagramElement()
-            element.level = line_pair[0]
+        for i, line_info in enumerate(line_info_list):
+            element = DiagramElement(line_info)
 
-            element.x = start_x + element.level * (DiagramElement.LEVEL_SHIFT)
+            element.x = start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
             element.y = start_y + i * (DiagramElement.LEVEL_SHIFT)
-            element.content = line_pair[1]
             element.type = DiagramElement.TYPE_NORMAL
 
             elements.append(element)
 
         # 図形要素を描画
-        before_level = 0
         for element in elements:
             # 種別に応じた図形とテキストを描画
             if element.type == DiagramElement.TYPE_NORMAL:
-                if element.level == 0:
-                    self.draw_figure_level_eq0(svg, element.x, element.y, element.content)
+                if element.line_info.level == 0:
+                    self.draw_figure_level_eq0(svg, element.x, element.y, element.line_info.text)
                 else:
-                    self.draw_figure_level_gt0(svg, element.x, element.y, element.content)
+                    self.draw_figure_level_gt0(svg, element.x, element.y, element.line_info.text)
 
             # 垂直線の追加
-            if (before_level != 0) and (before_level == element.level):
+            if element.line_info.before_no != LineInfo.DEFAULT_VALUE:
+                bef_elem = elements[element.line_info.before_no]
+                # 直前のレベルまで線を引く
                 self.draw_line_v(
                     svg,
                     element.x,
-                    element.y - DiagramElement.LEVEL_SHIFT + DiagramElement.CIRCLE_R,
-                    DiagramElement.LEVEL_SHIFT - DiagramElement.CIRCLE_R * 2,
+                    (bef_elem.y + DiagramElement.CIRCLE_R),
+                    (element.y - DiagramElement.CIRCLE_R) - (bef_elem.y + DiagramElement.CIRCLE_R),
                 )
-
-            # 次の描画準備
-            before_level = element.level
+                print(f"{element.x=}, {bef_elem.y=}, {bef_elem.y=} - {element.y=}, {element.line_info.text}")
 
         svg.append("</svg>")
         return "\n".join(svg)
