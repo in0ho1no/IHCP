@@ -1,3 +1,5 @@
+import math
+
 from define import DiagramElement, LineInfo
 
 
@@ -38,8 +40,37 @@ class SVGRenderer:
         # 垂直線の追加 上
         self.draw_line_v(svg, (center_x - DiagramElement.CIRCLE_R * 2), center_y - DiagramElement.CIRCLE_R * 4, DiagramElement.CIRCLE_R * 2)
 
-    def draw_figure_circle(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> None:
+    def draw_figure_normal(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> None:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
+
+        # テキストの描画
+        if text != "":
+            self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+
+    def draw_figure_fork(
+        self,
+        svg: list[str],
+        center_x: int,
+        center_y: int,
+        text: str = "",
+        rotation: int = 0,
+    ) -> None:
+        # 正三角形の各頂点の座標を求める（2π/3 = 120度ずつ）
+        vertices = []
+        for vertex in range(3):
+            angle = rotation + vertex * (2 * math.pi / 3)
+            x = int(center_x + (DiagramElement.CIRCLE_R - 2) * math.cos(angle))
+            y = int(center_y + (DiagramElement.CIRCLE_R - 2) * math.sin(angle))
+            vertices.append((x, y))
+
+        # 円の描画
+        svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
+
+        # 正三角形の描画
+        svg.append(
+            f'<polygon points="{vertices[0][0]} {vertices[0][1]} {vertices[1][0]} {vertices[1][1]} {vertices[2][0]} {vertices[2][1]}" '
+            f'fill="white" stroke="black"/>'
+        )
 
         # テキストの描画
         if text != "":
@@ -59,15 +90,16 @@ class SVGRenderer:
 
             element.x = start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
             element.y = start_y + i * (DiagramElement.LEVEL_SHIFT)
-            element.type = DiagramElement.TYPE_NORMAL
 
             elements.append(element)
 
         # 図形要素を描画
         for element in elements:
             # 種別に応じた図形とテキストを描画
-            if element.type == DiagramElement.TYPE_NORMAL:
-                self.draw_figure_circle(svg, element.x, element.y, element.line_info.text)
+            if element.line_info.category == DiagramElement.TYPE_NORMAL:
+                self.draw_figure_normal(svg, element.x, element.y, element.line_info.text)
+            elif element.line_info.category == DiagramElement.TYPE_FORK:
+                self.draw_figure_fork(svg, element.x, element.y, element.line_info.text)
 
             # 垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:

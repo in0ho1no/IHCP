@@ -1,6 +1,6 @@
 import re
 
-from define import LineInfo
+from define import DiagramElement, LineInfo
 
 
 class SimpleDiagramParser:
@@ -57,7 +57,8 @@ class SimpleDiagramParser:
             int: タブの数(半角空白なら4文字)をレベルとして返す
         """
         # 空行は無視する
-        if not line or not line.strip():
+        strip_line = line.strip()
+        if strip_line is None:
             return cls.LEVEL_NONE
 
         # レベル0から順にインデントをチェックする
@@ -73,6 +74,44 @@ class SimpleDiagramParser:
         # 該当しなければエラーとする
         return cls.LEVEL_ERROR
 
+    @classmethod
+    def get_line_type(cls, line: str) -> tuple[DiagramElement, str]:
+        """与えられた行の種別を取得する
+
+        想定しない種別の場合はエラーを返す
+
+        Args:
+            line (str): 種別を取得したい行
+
+        Returns:
+            int: タブの数(半角空白なら4文字)をレベルとして返す
+        """
+        # 空行は無視する
+        strip_line = line.strip()
+        if strip_line is None:
+            return (DiagramElement.TYPE_NORMAL, line)
+
+        # 種別指定が区切られていない行は無視する
+        if " " not in strip_line:
+            return (DiagramElement.TYPE_NORMAL, line)
+
+        # 行から先頭要素を取得する
+        line_elem = strip_line.split(" ", maxsplit=1)
+        first_elem = line_elem[0]
+
+        # 種別指定のない行は無視する
+        line_type_str = re.match("^\\\\.*$", first_elem)
+        if line_type_str is None:
+            return (DiagramElement.TYPE_NORMAL, line)
+
+        if line_type_str.group() == "\\fork":
+            print(f"{line_type_str.group()!r} is fork")
+            return (DiagramElement.TYPE_FORK, line_elem[1])
+        else:
+            # 該当しなければエラーとする
+            print(f"{line_type_str.group()!r} is None")
+            return (DiagramElement.TYPE_NORMAL, line)
+
     def __set_pair_line_level(self) -> list[tuple]:
         pair_line_level: list[tuple] = []
         for line in self.lines:
@@ -80,7 +119,10 @@ class SimpleDiagramParser:
             if self.LEVEL_MIN > line_level:
                 continue
 
-            pair = (line_level, line)
+            line_type, line_org = self.get_line_type(line)
+            line = line_org
+
+            pair = (line_level, line, line_type)
             pair_line_level.append(pair)
 
         return pair_line_level
@@ -97,6 +139,7 @@ class SimpleDiagramParser:
             line_info.no = num
             line_info.level = pair_line[0]
             line_info.text = pair_line[1]
+            line_info.category = pair_line[2]
 
             if num > start_count:
                 # 同じレベルで1つ前の番号を見つける

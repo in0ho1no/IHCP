@@ -8,6 +8,7 @@ class LineInfo:
     no: int = DEFAULT_VALUE
     level: int = DEFAULT_VALUE
     text: str = ""
+    category: int = DEFAULT_VALUE
 
     next_no: int = DEFAULT_VALUE
     before_no: int = DEFAULT_VALUE
@@ -16,6 +17,7 @@ class LineInfo:
 @dataclass
 class DiagramElement:
     TYPE_NORMAL = 0
+    TYPE_FORK = 1
 
     MARGIN = 15
 
@@ -31,4 +33,3 @@ class DiagramElement:
 
     x: int = 0
     y: int = 0
-    type: int = TYPE_NORMAL

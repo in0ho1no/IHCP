@@ -49,36 +49,44 @@
 <circle cx="120" cy="330" r="9" fill="white" stroke="black"/>
 <text x="139" y="330" text-anchor="left" dominant-baseline="middle">            機能Aの本処理</text>
 <line x1="120" y1="309" x2="120" y2="321" stroke="black" marker-end="url(#arrowhead)"/>
-<circle cx="120" cy="360" r="9" fill="white" stroke="black"/>
-<text x="139" y="360" text-anchor="left" dominant-baseline="middle">            機能Aの後処理</text>
-<line x1="120" y1="339" x2="120" y2="351" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="120" y1="369" x2="120" y2="378" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="111" y1="378" x2="129" y2="378" stroke="black" marker-end="url(#arrowhead)"/>
-<circle cx="90" cy="390" r="9" fill="white" stroke="black"/>
-<text x="109" y="390" text-anchor="left" dominant-baseline="middle">        機能Bの実行</text>
-<line x1="90" y1="279" x2="90" y2="381" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="90" y1="399" x2="90" y2="408" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="81" y1="408" x2="99" y2="408" stroke="black" marker-end="url(#arrowhead)"/>
-<circle cx="120" cy="420" r="9" fill="white" stroke="black"/>
-<text x="139" y="420" text-anchor="left" dominant-baseline="middle">            機能Bの前処理</text>
-<line x1="120" y1="402" x2="120" y2="411" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="102" y1="402" x2="120" y2="402" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="102" y1="384" x2="102" y2="402" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="150" cy="360" r="9" fill="white" stroke="black"/>
+<polygon points="157 360 146 366 146 353" fill="white" stroke="black"/>
+<text x="169" y="360" text-anchor="left" dominant-baseline="middle">条件を満足する</text>
+<line x1="150" y1="369" x2="150" y2="378" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="141" y1="378" x2="159" y2="378" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="150" y1="342" x2="150" y2="351" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="132" y1="342" x2="150" y2="342" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="132" y1="324" x2="132" y2="342" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="120" cy="390" r="9" fill="white" stroke="black"/>
+<text x="139" y="390" text-anchor="left" dominant-baseline="middle">            機能Aの後処理</text>
+<line x1="120" y1="339" x2="120" y2="381" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="120" y1="399" x2="120" y2="408" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="111" y1="408" x2="129" y2="408" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="90" cy="420" r="9" fill="white" stroke="black"/>
+<text x="109" y="420" text-anchor="left" dominant-baseline="middle">        機能Bの実行</text>
+<line x1="90" y1="279" x2="90" y2="411" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="90" y1="429" x2="90" y2="438" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="81" y1="438" x2="99" y2="438" stroke="black" marker-end="url(#arrowhead)"/>
 <circle cx="120" cy="450" r="9" fill="white" stroke="black"/>
-<text x="139" y="450" text-anchor="left" dominant-baseline="middle">            機能Bの後処理</text>
-<line x1="120" y1="429" x2="120" y2="441" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="120" y1="459" x2="120" y2="468" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="111" y1="468" x2="129" y2="468" stroke="black" marker-end="url(#arrowhead)"/>
-<circle cx="60" cy="480" r="9" fill="white" stroke="black"/>
-<text x="79" y="480" text-anchor="left" dominant-baseline="middle">    処理終了</text>
-<line x1="60" y1="249" x2="60" y2="471" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="60" y1="489" x2="60" y2="498" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="51" y1="498" x2="69" y2="498" stroke="black" marker-end="url(#arrowhead)"/>
-<circle cx="90" cy="510" r="9" fill="white" stroke="black"/>
-<text x="109" y="510" text-anchor="left" dominant-baseline="middle">        戻り値を返す</text>
-<line x1="90" y1="519" x2="90" y2="528" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="81" y1="528" x2="99" y2="528" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="90" y1="492" x2="90" y2="501" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="72" y1="492" x2="90" y2="492" stroke="black" marker-end="url(#arrowhead)"/>
-<line x1="72" y1="474" x2="72" y2="492" stroke="black" marker-end="url(#arrowhead)"/>
+<text x="139" y="450" text-anchor="left" dominant-baseline="middle">            機能Bの前処理</text>
+<line x1="120" y1="432" x2="120" y2="441" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="102" y1="432" x2="120" y2="432" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="102" y1="414" x2="102" y2="432" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="120" cy="480" r="9" fill="white" stroke="black"/>
+<text x="139" y="480" text-anchor="left" dominant-baseline="middle">            機能Bの後処理</text>
+<line x1="120" y1="459" x2="120" y2="471" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="120" y1="489" x2="120" y2="498" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="111" y1="498" x2="129" y2="498" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="60" cy="510" r="9" fill="white" stroke="black"/>
+<text x="79" y="510" text-anchor="left" dominant-baseline="middle">    処理終了</text>
+<line x1="60" y1="249" x2="60" y2="501" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="60" y1="519" x2="60" y2="528" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="51" y1="528" x2="69" y2="528" stroke="black" marker-end="url(#arrowhead)"/>
+<circle cx="90" cy="540" r="9" fill="white" stroke="black"/>
+<text x="109" y="540" text-anchor="left" dominant-baseline="middle">        戻り値を返す</text>
+<line x1="90" y1="549" x2="90" y2="558" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="81" y1="558" x2="99" y2="558" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="90" y1="522" x2="90" y2="531" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="72" y1="522" x2="90" y2="522" stroke="black" marker-end="url(#arrowhead)"/>
+<line x1="72" y1="504" x2="72" y2="522" stroke="black" marker-end="url(#arrowhead)"/>
 </svg>

@@ -4,8 +4,8 @@ from render import SVGRenderer
 
 
 def main() -> None:
-    # 入力テキスト
-    input_text = """
+    # 入力テキスト ファイルから読み込む際もrawデータで読むこと
+    input_text = r"""
 処理開始
     必要な情報を揃える
         排他を取得
@@ -17,6 +17,7 @@ def main() -> None:
         機能Aの実行
             機能Aの前処理
             機能Aの本処理
+                \fork 条件を満足する
             機能Aの後処理
         機能Bの実行
             機能Bの前処理
