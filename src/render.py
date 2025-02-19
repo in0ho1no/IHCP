@@ -28,29 +28,17 @@ class SVGRenderer:
         # 水平線の追加 下
         self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
 
-    def draw_figure_level_eq0(
-        self,
-        svg: list[str],
-        center_x: int,
-        center_y: int,
-        text: str = "",
-    ) -> None:
-        # 円の追加 中心
-        svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
-
-        # 垂直線の追加 上下
+    def draw_figure_level_step(self, svg: list[str], center_x: int, center_y: int) -> None:
+        # 垂直線の追加 上
         self.draw_line_v(svg, center_x, center_y - DiagramElement.CIRCLE_R * 2, DiagramElement.CIRCLE_R)
-        self.draw_line_v(svg, center_x, center_y + DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R)
 
-        # 水平線の追加 上下
-        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y - (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
-        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
+        # 水平線の追加 上
+        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R * 2), center_y - (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
 
-        # テキストの描画
-        if text != "":
-            self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+        # 垂直線の追加 上
+        self.draw_line_v(svg, (center_x - DiagramElement.CIRCLE_R * 2), center_y - DiagramElement.CIRCLE_R * 4, DiagramElement.CIRCLE_R * 2)
 
-    def draw_figure_level_gt0(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> None:
+    def draw_figure_circle(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> None:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
 
         # テキストの描画
@@ -79,10 +67,7 @@ class SVGRenderer:
         for element in elements:
             # 種別に応じた図形とテキストを描画
             if element.type == DiagramElement.TYPE_NORMAL:
-                if element.line_info.level == 0:
-                    self.draw_figure_level_eq0(svg, element.x, element.y, element.line_info.text)
-                else:
-                    self.draw_figure_level_gt0(svg, element.x, element.y, element.line_info.text)
+                self.draw_figure_circle(svg, element.x, element.y, element.line_info.text)
 
             # 垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:
@@ -107,6 +92,10 @@ class SVGRenderer:
             # 終端の追加
             if element.line_info.next_no == LineInfo.DEFAULT_VALUE:
                 self.draw_figure_level_end(svg, element.x, element.y)
+
+            # ステップの追加
+            if (element.line_info.level > 0) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
+                self.draw_figure_level_step(svg, element.x, element.y)
 
         svg.append("</svg>")
         return "\n".join(svg)

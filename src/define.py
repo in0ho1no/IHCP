@@ -23,7 +23,7 @@ class DiagramElement:
     FIGURE_WIDTH = CIRCLE_R * 2
     FIGURE_HEIGHT = CIRCLE_R * 4
 
-    SPACE_FIGURE_TO_TEXT = 15
+    SPACE_FIGURE_TO_TEXT = 10
 
     LEVEL_SHIFT = 30
 
