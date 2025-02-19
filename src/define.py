@@ -18,6 +18,7 @@ class LineInfo:
 class DiagramElement:
     TYPE_NORMAL = 0
     TYPE_FORK = 1
+    TYPE_MOD = 3
 
     MARGIN = 15
 

@@ -105,8 +105,9 @@ class SimpleDiagramParser:
             return (DiagramElement.TYPE_NORMAL, line)
 
         if line_type_str.group() == "\\fork":
-            print(f"{line_type_str.group()!r} is fork")
             return (DiagramElement.TYPE_FORK, line_elem[1])
+        elif line_type_str.group() == "\\mod":
+            return (DiagramElement.TYPE_MOD, line_elem[1])
         else:
             # 該当しなければエラーとする
             print(f"{line_type_str.group()!r} is None")

@@ -76,6 +76,14 @@ class SVGRenderer:
         if text != "":
             self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
 
+    def draw_figure_mod(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> None:
+        svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
+        svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{int(DiagramElement.CIRCLE_R / 2)}" fill="white" stroke="black"/>')
+
+        # テキストの描画
+        if text != "":
+            self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+
     def render(self, line_info_list: list[LineInfo]) -> str:
         """パースされた要素をSVGとして描画"""
         svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
@@ -100,6 +108,8 @@ class SVGRenderer:
                 self.draw_figure_normal(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_FORK:
                 self.draw_figure_fork(svg, element.x, element.y, element.line_info.text)
+            elif element.line_info.category == DiagramElement.TYPE_MOD:
+                self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
 
             # 垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:
