@@ -100,14 +100,14 @@ class SimpleDiagramParser:
 
             if num > start_count:
                 # 同じレベルで1つ前の番号を見つける
-                print(line_info.text)
                 for search_no in range(num - 1, start_count, -1):
-                    search_info = line_info_list[search_no]
-                    if search_info.level == line_info.level:
-                        line_info.before_no = search_info.no
-                        print(line_info.before_no)
+                    if line_info_list[search_no].level == line_info.level:
+                        # 1つ前の番号を保持する
+                        line_info.before_no = line_info_list[search_no].no
+                        # 同時に次の番号として保存する
+                        line_info_list[search_no].next_no = line_info.no
                         break
-                    elif search_info.level < line_info.level:
+                    elif line_info_list[search_no].level < line_info.level:
                         # 自身よりレベルが小さいなら階層が変わる
                         break
 

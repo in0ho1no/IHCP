@@ -14,6 +14,20 @@ class SVGRenderer:
     def draw_line_v(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
         svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x}" y2="{center_y + length}" stroke="black" marker-end="url(#arrowhead)"/>')
 
+    def draw_figure_level_start(self, svg: list[str], center_x: int, center_y: int) -> None:
+        # 垂直線の追加 上
+        self.draw_line_v(svg, center_x, center_y - DiagramElement.CIRCLE_R * 2, DiagramElement.CIRCLE_R)
+
+        # 水平線の追加 上
+        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y - (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
+
+    def draw_figure_level_end(self, svg: list[str], center_x: int, center_y: int) -> None:
+        # 垂直線の追加 下
+        self.draw_line_v(svg, center_x, center_y + DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R)
+
+        # 水平線の追加 下
+        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
+
     def draw_figure_level_eq0(
         self,
         svg: list[str],
@@ -29,8 +43,8 @@ class SVGRenderer:
         self.draw_line_v(svg, center_x, center_y + DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R)
 
         # 水平線の追加 上下
-        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
         self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y - (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
+        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + (DiagramElement.CIRCLE_R * 2), (DiagramElement.CIRCLE_R * 2))
 
         # テキストの描画
         if text != "":
@@ -80,7 +94,19 @@ class SVGRenderer:
                     (bef_elem.y + DiagramElement.CIRCLE_R),
                     (element.y - DiagramElement.CIRCLE_R) - (bef_elem.y + DiagramElement.CIRCLE_R),
                 )
-                print(f"{element.x=}, {bef_elem.y=}, {bef_elem.y=} - {element.y=}, {element.line_info.text}")
+                print(
+                    f"{element.x=}, {bef_elem.y=}, {bef_elem.y=} - {element.y=}, "
+                    f"{element.line_info.no=}, {element.line_info.before_no=}, {element.line_info.next_no=}"
+                    f"{element.line_info.text}, "
+                )
+
+            # 始点の追加
+            if element.line_info.level == 0:
+                self.draw_figure_level_start(svg, element.x, element.y)
+
+            # 終端の追加
+            if element.line_info.next_no == LineInfo.DEFAULT_VALUE:
+                self.draw_figure_level_end(svg, element.x, element.y)
 
         svg.append("</svg>")
         return "\n".join(svg)
