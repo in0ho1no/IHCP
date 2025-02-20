@@ -19,6 +19,7 @@ class DiagramElement:
     TYPE_NORMAL = 0
     TYPE_FORK = 1
     TYPE_MOD = 3
+    TYPE_RETURN = 4
 
     MARGIN = 15
 

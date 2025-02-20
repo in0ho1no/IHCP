@@ -47,6 +47,35 @@ class SVGRenderer:
         if text != "":
             self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
 
+    def get_vertices_polygon(
+        self,
+        num_of_vertex: int,
+        center_x: int,
+        center_y: int,
+        radius: int,
+        rotation: float = 0,
+    ) -> list[tuple[int, int]]:
+        """円に内接する正多角形の頂点座標を取得する
+
+        Args:
+            num_of_vertex (int): 頂点の数
+            center_x (int): 円の中心となるX座標
+            center_y (int): 円の中心となるY座標
+            radius (int): 円の半径
+            rotation (float, optional): 正多角形を回転させたい角度(ラジアン). Defaults to 0.
+
+        Returns:
+            list[tuple[int, int]]: 正多角形の頂点座標をタプル(x,y)のリストで返す
+        """
+        vertices = []
+        for vertex in range(num_of_vertex):
+            angle = rotation + vertex * (2 * math.pi / num_of_vertex)
+            x = int(center_x + radius * math.cos(angle))
+            y = int(center_y + radius * math.sin(angle))
+            vertices.append((x, y))
+
+        return vertices
+
     def draw_figure_fork(
         self,
         svg: list[str],
@@ -55,18 +84,11 @@ class SVGRenderer:
         text: str = "",
         rotation: int = 0,
     ) -> None:
-        # 正三角形の各頂点の座標を求める（2π/3 = 120度ずつ）
-        vertices = []
-        for vertex in range(3):
-            angle = rotation + vertex * (2 * math.pi / 3)
-            x = int(center_x + (DiagramElement.CIRCLE_R - 2) * math.cos(angle))
-            y = int(center_y + (DiagramElement.CIRCLE_R - 2) * math.sin(angle))
-            vertices.append((x, y))
-
         # 円の描画
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
 
         # 正三角形の描画
+        vertices = self.get_vertices_polygon(3, center_x, center_y, DiagramElement.CIRCLE_R - 2, 0)
         svg.append(
             f'<polygon points="{vertices[0][0]} {vertices[0][1]} {vertices[1][0]} {vertices[1][1]} {vertices[2][0]} {vertices[2][1]}" '
             f'fill="white" stroke="black"/>'
@@ -83,6 +105,26 @@ class SVGRenderer:
         # テキストの描画
         if text != "":
             self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+
+    def draw_figure_return(
+        self,
+        svg: list[str],
+        center_x: int,
+        center_y: int,
+        rotation: int = 0,
+    ) -> None:
+        # 垂直線の追加 上
+        self.draw_line_v(svg, center_x, center_y - DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R)
+
+        # 正三角形の描画
+        vertices = self.get_vertices_polygon(3, center_x, center_y, DiagramElement.CIRCLE_R, (math.pi / 2))
+        svg.append(
+            f'<polygon points="{vertices[0][0]} {vertices[0][1]} {vertices[1][0]} {vertices[1][1]} {vertices[2][0]} {vertices[2][1]}" '
+            f'fill="white" stroke="black"/>'
+        )
+
+        # 水平線の追加 下
+        self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + DiagramElement.CIRCLE_R, (DiagramElement.CIRCLE_R * 2))
 
     def render(self, line_info_list: list[LineInfo]) -> str:
         """パースされた要素をSVGとして描画"""
@@ -113,6 +155,8 @@ class SVGRenderer:
                 self.draw_figure_fork(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_MOD:
                 self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
+            elif element.line_info.category == DiagramElement.TYPE_RETURN:
+                self.draw_figure_return(svg, element.x, element.y)
 
             # 垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:
@@ -136,7 +180,11 @@ class SVGRenderer:
 
             # 終端の追加
             if element.line_info.next_no == LineInfo.DEFAULT_VALUE:
-                self.draw_figure_level_end(svg, element.x, element.y)
+                if element.line_info.category == DiagramElement.TYPE_RETURN:
+                    # \returnは図として終端を描画する
+                    pass
+                else:
+                    self.draw_figure_level_end(svg, element.x, element.y)
 
             # レベル下げの追加
             if (element.line_info.level > 0) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):

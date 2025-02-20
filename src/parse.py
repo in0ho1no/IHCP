@@ -108,6 +108,8 @@ class SimpleDiagramParser:
             return (DiagramElement.TYPE_FORK, line_elem[1])
         elif line_type_str.group() == "\\mod":
             return (DiagramElement.TYPE_MOD, line_elem[1])
+        elif line_type_str.group() == "\\return":
+            return (DiagramElement.TYPE_RETURN, line_elem[1])
         else:
             # 該当しなければエラーとする
             print(f"{line_type_str.group()!r} is None")

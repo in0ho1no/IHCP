@@ -28,6 +28,7 @@ def main() -> None:
             機能Bの後処理
     処理終了
         戻り値を返す
+            \return TRUE(成功値) 固定
 
 """
 
