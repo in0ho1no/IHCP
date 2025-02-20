@@ -7,8 +7,8 @@ class SVGRenderer:
     def __init__(self) -> None:
         pass
 
-    def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str) -> None:
-        svg.append(f'<text x="{center_x}" y="{center_y}" text-anchor="left" dominant-baseline="middle">{text}</text>')
+    def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100) -> None:
+        svg.append(f'<text x="{center_x}" y="{center_y}" text-anchor="left" dominant-baseline="middle" font-size="{font_size}%">{text}</text>')
 
     def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
         svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x + length}" y2="{center_y}" stroke="black" marker-end="url(#arrowhead)"/>')
@@ -111,7 +111,7 @@ class SVGRenderer:
         svg: list[str],
         center_x: int,
         center_y: int,
-        rotation: int = 0,
+        text: str = "",
     ) -> None:
         # 垂直線の追加 上
         self.draw_line_v(svg, center_x, center_y - DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R)
@@ -125,6 +125,13 @@ class SVGRenderer:
 
         # 水平線の追加 下
         self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + DiagramElement.CIRCLE_R, (DiagramElement.CIRCLE_R * 2))
+
+        # 脱出する階層数の指定
+        if text == "":
+            return
+        if text.isdecimal() is False:
+            return
+        self.draw_text(svg, center_x - (len(text) * 2), center_y + 1, text, font_size=50)
 
     def render(self, line_info_list: list[LineInfo]) -> str:
         """パースされた要素をSVGとして描画"""
@@ -156,7 +163,7 @@ class SVGRenderer:
             elif element.line_info.category == DiagramElement.TYPE_MOD:
                 self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_RETURN:
-                self.draw_figure_return(svg, element.x, element.y)
+                self.draw_figure_return(svg, element.x, element.y, element.line_info.text)
 
             # 垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:

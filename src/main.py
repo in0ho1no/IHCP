@@ -22,10 +22,12 @@ def main() -> None:
                         \mod 関数を呼び出す
                     \false 条件を満足しなかった
                         何もしない
+                \return 9
             機能Aの後処理
         機能Bの実行
             機能Bの前処理
             機能Bの後処理
+            \return 2
     処理終了
         戻り値を返す
             \return TRUE(成功値) 固定
