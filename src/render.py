@@ -86,7 +86,9 @@ class SVGRenderer:
 
     def render(self, line_info_list: list[LineInfo]) -> str:
         """パースされた要素をSVGとして描画"""
-        svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
+        # ヘッダは最後に挿入する
+        # svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
+        svg: list[str] = []
 
         start_x = 30
         start_y = 30
@@ -102,6 +104,7 @@ class SVGRenderer:
             elements.append(element)
 
         # 図形要素を描画
+        total_height = 0
         for element in elements:
             # 種別に応じた図形とテキストを描画
             if element.line_info.category == DiagramElement.TYPE_NORMAL:
@@ -135,9 +138,14 @@ class SVGRenderer:
             if element.line_info.next_no == LineInfo.DEFAULT_VALUE:
                 self.draw_figure_level_end(svg, element.x, element.y)
 
-            # ステップの追加
+            # レベル下げの追加
             if (element.line_info.level > 0) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
                 self.draw_figure_level_step(svg, element.x, element.y)
 
+            # 画像全体の高さを決定する
+            if total_height < element.y:
+                total_height = element.y
+
+        svg.insert(0, f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{total_height + 50}" style="background-color: #AFC0B1">')
         svg.append("</svg>")
         return "\n".join(svg)
