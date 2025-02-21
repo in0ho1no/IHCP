@@ -106,6 +106,8 @@ class SimpleDiagramParser:
 
         if line_type_str.group() == "\\fork":
             return (DiagramElement.TYPE_FORK, line_elem[1])
+        elif line_type_str.group() == "\\repeat":
+            return (DiagramElement.TYPE_REPEAT, line_elem[1])
         elif line_type_str.group() == "\\mod":
             return (DiagramElement.TYPE_MOD, line_elem[1])
         elif line_type_str.group() == "\\return":

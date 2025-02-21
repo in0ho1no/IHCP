@@ -18,6 +18,7 @@ class LineInfo:
 class DiagramElement:
     TYPE_NORMAL = 0
     TYPE_FORK = 1
+    TYPE_REPEAT = 2
     TYPE_MOD = 3
     TYPE_RETURN = 4
 

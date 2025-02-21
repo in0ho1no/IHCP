@@ -7,8 +7,12 @@ class SVGRenderer:
     def __init__(self) -> None:
         pass
 
-    def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100) -> None:
-        svg.append(f'<text x="{center_x}" y="{center_y}" text-anchor="left" dominant-baseline="middle" font-size="{font_size}%">{text}</text>')
+    def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> None:
+        svg.append(
+            f'<text x="{center_x}" y="{center_y}" '
+            f'text-anchor="left" dominant-baseline="middle" '
+            f'font-size="{font_size}%" rotate="{rotate}">{text}</text>'
+        )
 
     def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
         svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x + length}" y2="{center_y}" stroke="black" marker-end="url(#arrowhead)"/>')
@@ -98,6 +102,22 @@ class SVGRenderer:
         if text != "":
             self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
 
+    def draw_figure_repeat(
+        self,
+        svg: list[str],
+        center_x: int,
+        center_y: int,
+        text: str = "",
+    ) -> None:
+        # 円の描画
+        svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
+
+        self.draw_text(svg, center_x + 8, center_y - 1, "↻", rotate=240)
+
+        # テキストの描画
+        if text != "":
+            self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+
     def draw_figure_mod(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> None:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{int(DiagramElement.CIRCLE_R / 2)}" fill="white" stroke="black"/>')
@@ -160,6 +180,8 @@ class SVGRenderer:
                 self.draw_figure_normal(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_FORK:
                 self.draw_figure_fork(svg, element.x, element.y, element.line_info.text)
+            elif element.line_info.category == DiagramElement.TYPE_REPEAT:
+                self.draw_figure_repeat(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_MOD:
                 self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_RETURN:
