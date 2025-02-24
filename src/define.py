@@ -21,6 +21,9 @@ class DiagramElement:
     TYPE_REPEAT = 2
     TYPE_MOD = 3
     TYPE_RETURN = 4
+    TYPE_TRUE = 5
+    TYPE_FALSE = 6
+    TYPE_BRANCH = 7
 
     MARGIN = 15
 

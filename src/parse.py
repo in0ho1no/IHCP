@@ -112,6 +112,12 @@ class SimpleDiagramParser:
             return (DiagramElement.TYPE_MOD, line_elem[1])
         elif line_type_str.group() == "\\return":
             return (DiagramElement.TYPE_RETURN, line_elem[1])
+        elif line_type_str.group() == "\\true":
+            return (DiagramElement.TYPE_TRUE, line_elem[1])
+        elif line_type_str.group() == "\\false":
+            return (DiagramElement.TYPE_FALSE, line_elem[1])
+        elif line_type_str.group() == "\\branch":
+            return (DiagramElement.TYPE_BRANCH, line_elem[1])
         else:
             # 該当しなければエラーとする
             print(f"{line_type_str.group()!r} is None")

@@ -20,6 +20,15 @@ def main() -> None:
                 \fork 条件を満足する
                     \true 条件を満足した
                         \mod 関数を呼び出す
+                        \fork 呼び出し結果に応じて分岐する
+                            \branch 成功したので出力有り
+                                OK1
+                            \branch 成功したが出力無し
+                                OK2
+                            \branch 失敗したが出力有り
+                                NG1
+                            \branch 失敗したので出力無し
+                                NG2
                     \false 条件を満足しなかった
                         何もしない
                 \return 9
@@ -36,8 +45,6 @@ def main() -> None:
 
     # パースと描画
     parser = SimpleDiagramParser(input_text)
-    line_pairs = parser.get_pair_line_level()
-    print(line_pairs)
     line_info_list = parser.create_line_info_list()
 
     renderer = SVGRenderer()

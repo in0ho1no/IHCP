@@ -23,10 +23,19 @@ class SVGRenderer:
         return text_width
 
     def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x + length}" y2="{center_y}" stroke="black" marker-end="url(#arrowhead)"/>')
+        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x + length}" y2="{center_y}" stroke="black"/>')
 
     def draw_line_v(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x}" y2="{center_y + length}" stroke="black" marker-end="url(#arrowhead)"/>')
+        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x}" y2="{center_y + length}" stroke="black"/>')
+
+    def draw_arrow_r(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
+        end_x = center_x + length
+        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{end_x}" y2="{center_y}" stroke="black"/>')
+        arrow_hed = 8
+        svg.append(
+            f'<path d="M {end_x} {center_y} '
+            f'L {end_x - arrow_hed} {center_y - int(arrow_hed / 2)} L {end_x - arrow_hed} {center_y + int(arrow_hed / 2)}"/>'
+        )
 
     def draw_figure_level_start(self, svg: list[str], center_x: int, center_y: int) -> None:
         # 垂直線の追加 上
@@ -67,7 +76,7 @@ class SVGRenderer:
         end_x = center_x + figure_2_text_space + text_width
         return end_x
 
-    def get_vertices_polygon(
+    def __get_vertices_polygon(
         self,
         num_of_vertex: int,
         center_x: int,
@@ -108,7 +117,7 @@ class SVGRenderer:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
 
         # 正三角形の描画
-        vertices = self.get_vertices_polygon(3, center_x, center_y, DiagramElement.CIRCLE_R - 2, 0)
+        vertices = self.__get_vertices_polygon(3, center_x, center_y, DiagramElement.CIRCLE_R - 2, 0)
         svg.append(
             f'<polygon points="{vertices[0][0]} {vertices[0][1]} {vertices[1][0]} {vertices[1][1]} {vertices[2][0]} {vertices[2][1]}" '
             f'fill="white" stroke="black"/>'
@@ -177,7 +186,7 @@ class SVGRenderer:
         self.draw_line_v(svg, center_x, center_y - DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R)
 
         # 正三角形の描画
-        vertices = self.get_vertices_polygon(3, center_x, center_y, DiagramElement.CIRCLE_R, (math.pi / 2))
+        vertices = self.__get_vertices_polygon(3, center_x, center_y, DiagramElement.CIRCLE_R, (math.pi / 2))
         svg.append(
             f'<polygon points="{vertices[0][0]} {vertices[0][1]} {vertices[1][0]} {vertices[1][1]} {vertices[2][0]} {vertices[2][1]}" '
             f'fill="white" stroke="black"/>'
@@ -195,6 +204,35 @@ class SVGRenderer:
         figure_2_text_space = int(DiagramElement.CIRCLE_R)
         text_width = 0
         end_x = center_x + figure_2_text_space + text_width
+        return end_x
+
+    def __draw_figure_cond(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
+        # 垂直線の追加
+        self.draw_line_v(svg, center_x, center_y - DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R * 2)
+
+        self.draw_arrow_r(svg, center_x, center_y - DiagramElement.CIRCLE_R, 15)
+
+        # テキストの描画
+        figure_2_text_space = int(DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT)
+        text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
+
+        # 終端位置を返す
+        end_x = center_x + figure_2_text_space + text_width
+        return end_x
+
+    def draw_figure_true(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
+        text_cond = "(true) " + text
+        end_x = self.__draw_figure_cond(svg, center_x, center_y, text_cond)
+        return end_x
+
+    def draw_figure_end(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
+        text_cond = "(end) " + text
+        end_x = self.__draw_figure_cond(svg, center_x, center_y, text_cond)
+        return end_x
+
+    def draw_figure_branch(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
+        text_cond = "(" + text + ")"
+        end_x = self.__draw_figure_cond(svg, center_x, center_y, text_cond)
         return end_x
 
     def render(self, line_info_list: list[LineInfo]) -> str:
@@ -231,6 +269,12 @@ class SVGRenderer:
                 end_x = self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_RETURN:
                 end_x = self.draw_figure_return(svg, element.x, element.y, element.line_info.text)
+            elif element.line_info.category == DiagramElement.TYPE_TRUE:
+                end_x = self.draw_figure_true(svg, element.x, element.y, element.line_info.text)
+            elif element.line_info.category == DiagramElement.TYPE_FALSE:
+                end_x = self.draw_figure_end(svg, element.x, element.y, element.line_info.text)
+            elif element.line_info.category == DiagramElement.TYPE_BRANCH:
+                end_x = self.draw_figure_branch(svg, element.x, element.y, element.line_info.text)
             else:
                 end_x = 0
 
