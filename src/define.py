@@ -36,3 +36,15 @@ class DiagramElement:
 
     x: int = 0
     y: int = 0
+
+
+def get_string_bytes(string: str) -> int:
+    count = 0
+    for char in string:
+        # ASCII文字(1バイト文字)
+        if ord(char) < 128:
+            count += 1
+        # それ以外(2バイト文字)
+        else:
+            count += 2
+    return count

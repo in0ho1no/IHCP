@@ -1,18 +1,26 @@
 import math
 
-from define import DiagramElement, LineInfo
+from define import DiagramElement, LineInfo, get_string_bytes
 
 
 class SVGRenderer:
     def __init__(self) -> None:
         pass
 
-    def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> None:
+    def get_text_width(self, text: str) -> int:
+        text_bytes = get_string_bytes(text.strip())
+        half_bytes = int((text_bytes + 2 - 1) // 2)
+        text_width = half_bytes * 16  # デフォルトの文字幅は16px
+        return text_width
+
+    def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
         svg.append(
             f'<text x="{center_x}" y="{center_y}" '
             f'text-anchor="left" dominant-baseline="middle" '
             f'font-size="{font_size}%" rotate="{rotate}">{text}</text>'
         )
+        text_width = self.get_text_width(text)
+        return text_width
 
     def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
         svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x + length}" y2="{center_y}" stroke="black" marker-end="url(#arrowhead)"/>')
@@ -44,12 +52,20 @@ class SVGRenderer:
         # 垂直線の追加 上
         self.draw_line_v(svg, (center_x - DiagramElement.CIRCLE_R * 2), center_y - DiagramElement.CIRCLE_R * 4, DiagramElement.CIRCLE_R * 2)
 
-    def draw_figure_normal(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> None:
+    def draw_figure_normal(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
 
         # テキストの描画
         if text != "":
-            self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+            figure_2_text_space = int(DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT)
+            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
+        else:
+            figure_2_text_space = DiagramElement.CIRCLE_R
+            text_width = 0
+
+        # 終端位置を返す
+        end_x = center_x + figure_2_text_space + text_width
+        return end_x
 
     def get_vertices_polygon(
         self,
@@ -87,7 +103,7 @@ class SVGRenderer:
         center_y: int,
         text: str = "",
         rotation: int = 0,
-    ) -> None:
+    ) -> int:
         # 円の描画
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
 
@@ -100,7 +116,15 @@ class SVGRenderer:
 
         # テキストの描画
         if text != "":
-            self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+            figure_2_text_space = int(DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT)
+            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
+        else:
+            figure_2_text_space = DiagramElement.CIRCLE_R
+            text_width = 0
+
+        # 終端位置を返す
+        end_x = center_x + figure_2_text_space + text_width
+        return end_x
 
     def draw_figure_repeat(
         self,
@@ -108,7 +132,7 @@ class SVGRenderer:
         center_x: int,
         center_y: int,
         text: str = "",
-    ) -> None:
+    ) -> int:
         # 円の描画
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
 
@@ -116,15 +140,31 @@ class SVGRenderer:
 
         # テキストの描画
         if text != "":
-            self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+            figure_2_text_space = int(DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT)
+            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
+        else:
+            figure_2_text_space = DiagramElement.CIRCLE_R
+            text_width = 0
 
-    def draw_figure_mod(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> None:
+        # 終端位置を返す
+        end_x = center_x + figure_2_text_space + text_width
+        return end_x
+
+    def draw_figure_mod(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{DiagramElement.CIRCLE_R}" fill="white" stroke="black"/>')
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{int(DiagramElement.CIRCLE_R / 2)}" fill="white" stroke="black"/>')
 
         # テキストの描画
         if text != "":
-            self.draw_text(svg, center_x + DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT, center_y, text)
+            figure_2_text_space = int(DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT)
+            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
+        else:
+            figure_2_text_space = DiagramElement.CIRCLE_R
+            text_width = 0
+
+        # 終端位置を返す
+        end_x = center_x + figure_2_text_space + text_width
+        return end_x
 
     def draw_figure_return(
         self,
@@ -132,7 +172,7 @@ class SVGRenderer:
         center_x: int,
         center_y: int,
         text: str = "",
-    ) -> None:
+    ) -> int:
         # 垂直線の追加 上
         self.draw_line_v(svg, center_x, center_y - DiagramElement.CIRCLE_R, DiagramElement.CIRCLE_R)
 
@@ -147,11 +187,15 @@ class SVGRenderer:
         self.draw_line_h(svg, (center_x - DiagramElement.CIRCLE_R), center_y + DiagramElement.CIRCLE_R, (DiagramElement.CIRCLE_R * 2))
 
         # 脱出する階層数の指定
-        if text == "":
-            return
-        if text.isdecimal() is False:
-            return
-        self.draw_text(svg, center_x - (len(text) * 2), center_y + 1, text, font_size=50)
+        if text != "":
+            if text.isdecimal() is True:
+                self.draw_text(svg, center_x - (len(text) * 2), center_y + 1, text, font_size=50)
+
+        # 終端位置を返す
+        figure_2_text_space = int(DiagramElement.CIRCLE_R)
+        text_width = 0
+        end_x = center_x + figure_2_text_space + text_width
+        return end_x
 
     def render(self, line_info_list: list[LineInfo]) -> str:
         """パースされた要素をSVGとして描画"""
@@ -174,20 +218,23 @@ class SVGRenderer:
 
         # 図形要素を描画
         total_height = 0
+        total_width = 0
         for element in elements:
             # 種別に応じた図形とテキストを描画
             if element.line_info.category == DiagramElement.TYPE_NORMAL:
-                self.draw_figure_normal(svg, element.x, element.y, element.line_info.text)
+                end_x = self.draw_figure_normal(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_FORK:
-                self.draw_figure_fork(svg, element.x, element.y, element.line_info.text)
+                end_x = self.draw_figure_fork(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_REPEAT:
-                self.draw_figure_repeat(svg, element.x, element.y, element.line_info.text)
+                end_x = self.draw_figure_repeat(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_MOD:
-                self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
+                end_x = self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_RETURN:
-                self.draw_figure_return(svg, element.x, element.y, element.line_info.text)
+                end_x = self.draw_figure_return(svg, element.x, element.y, element.line_info.text)
+            else:
+                end_x = 0
 
-            # 垂直線の追加
+            # ステップ間の垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:
                 bef_elem = elements[element.line_info.before_no]
                 # 直前のレベルまで線を引く
@@ -223,6 +270,12 @@ class SVGRenderer:
             if total_height < element.y:
                 total_height = element.y
 
-        svg.insert(0, f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{total_height + 50}" style="background-color: #AFC0B1">')
+            # 画像全体の幅を決定する
+            if total_width < end_x:
+                total_width = end_x
+
+        svg.insert(
+            0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #AFC0B1">'
+        )
         svg.append("</svg>")
         return "\n".join(svg)
