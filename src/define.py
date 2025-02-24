@@ -25,6 +25,8 @@ class DiagramElement:
     TYPE_FALSE = 6
     TYPE_BRANCH = 7
 
+    TYPE_DATA = 50
+
     MARGIN = 15
 
     CIRCLE_R = 9

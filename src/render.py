@@ -235,7 +235,25 @@ class SVGRenderer:
         end_x = self.__draw_figure_cond(svg, center_x, center_y, text_cond)
         return end_x
 
-    def render(self, line_info_list: list[LineInfo]) -> str:
+    def draw_figure_data(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
+        svg.append(
+            f'<rect x="{center_x - DiagramElement.CIRCLE_R}" y="{center_y - DiagramElement.CIRCLE_R}" '
+            f'width="{DiagramElement.CIRCLE_R * 2}" height="{DiagramElement.CIRCLE_R * 2}" fill="white" stroke="black"/>'
+        )
+
+        # テキストの描画
+        if text != "":
+            figure_2_text_space = int(DiagramElement.CIRCLE_R + DiagramElement.SPACE_FIGURE_TO_TEXT)
+            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
+        else:
+            figure_2_text_space = DiagramElement.CIRCLE_R
+            text_width = 0
+
+        # 終端位置を返す
+        end_x = center_x + figure_2_text_space + text_width
+        return end_x
+
+    def render(self, process_info_list: list[LineInfo], data_info_list: list[LineInfo]) -> str:
         """パースされた要素をSVGとして描画"""
         # ヘッダは最後に挿入する
         # svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
@@ -245,19 +263,19 @@ class SVGRenderer:
         start_y = 30
 
         # 要素の配置を計算
-        elements: list[DiagramElement] = []
-        for i, line_info in enumerate(line_info_list):
+        process_elements: list[DiagramElement] = []
+        for line_info in process_info_list:
             element = DiagramElement(line_info)
 
             element.x = start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
-            element.y = start_y + i * (DiagramElement.LEVEL_SHIFT)
+            element.y = start_y + len(process_elements) * (DiagramElement.LEVEL_SHIFT)
 
-            elements.append(element)
+            process_elements.append(element)
 
         # 図形要素を描画
         total_height = 0
         total_width = 0
-        for element in elements:
+        for element in process_elements:
             # 種別に応じた図形とテキストを描画
             if element.line_info.category == DiagramElement.TYPE_NORMAL:
                 end_x = self.draw_figure_normal(svg, element.x, element.y, element.line_info.text)
@@ -280,7 +298,7 @@ class SVGRenderer:
 
             # ステップ間の垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:
-                bef_elem = elements[element.line_info.before_no]
+                bef_elem = process_elements[element.line_info.before_no]
                 # 直前のレベルまで線を引く
                 self.draw_line_v(
                     svg,
@@ -309,6 +327,34 @@ class SVGRenderer:
             # レベル下げの追加
             if (element.line_info.level > 0) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
                 self.draw_figure_level_step(svg, element.x, element.y)
+
+            # 画像全体の高さを決定する
+            if total_height < element.y:
+                total_height = element.y
+
+            # 画像全体の幅を決定する
+            if total_width < end_x:
+                total_width = end_x
+
+        # データ部の描画
+        data_start_x = total_width + 30
+        data_start_y = start_y
+        data_elements: list[DiagramElement] = []
+        for line_info in data_info_list:
+            element = DiagramElement(line_info)
+
+            element.x = data_start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
+            element.y = data_start_y + len(data_elements) * (DiagramElement.LEVEL_SHIFT)
+
+            data_elements.append(element)
+
+        # 図形要素を描画
+        for element in data_elements:
+            # 種別に応じた図形とテキストを描画
+            if element.line_info.category == DiagramElement.TYPE_DATA:
+                end_x = self.draw_figure_data(svg, element.x, element.y, element.line_info.text)
+            else:
+                end_x = 0
 
             # 画像全体の高さを決定する
             if total_height < element.y:

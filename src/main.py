@@ -6,6 +6,12 @@ from render import SVGRenderer
 def main() -> None:
     # 入力テキスト ファイルから読み込む際もrawデータで読むこと
     input_text = r"""
+\data データ1
+    \data データ1-1
+\data データ2
+\data データ3
+\data データ4
+
 処理開始
     必要な情報を揃える
         排他を取得
@@ -45,10 +51,11 @@ def main() -> None:
 
     # パースと描画
     parser = SimpleDiagramParser(input_text)
-    line_info_list = parser.create_line_info_list()
+    process_info_list = parser.create_process_info_list()
+    data_info_list = parser.create_data_info_list()
 
     renderer = SVGRenderer()
-    svg_output = renderer.render(line_info_list)
+    svg_output = renderer.render(process_info_list, data_info_list)
 
     # SVGファイルとして保存
     with open("output.svg", "w", encoding="utf-8") as f:

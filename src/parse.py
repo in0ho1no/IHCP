@@ -14,6 +14,8 @@ class SimpleDiagramParser:
     def __init__(self, text_data: str) -> None:
         self.lines = text_data.strip().split("\n")
         self.pair_line_level: list[tuple] = self.__set_pair_line_level()
+        self.data_line: list[tuple] = self.__set_data_line(self.pair_line_level)
+        self.process_line: list[tuple] = self.__set_process_line(self.pair_line_level)
 
     @staticmethod
     def create_indent_pattern(tab_count: int) -> str:
@@ -118,6 +120,8 @@ class SimpleDiagramParser:
             return (DiagramElement.TYPE_FALSE, line_elem[1])
         elif line_type_str.group() == "\\branch":
             return (DiagramElement.TYPE_BRANCH, line_elem[1])
+        elif line_type_str.group() == "\\data":
+            return (DiagramElement.TYPE_DATA, line_elem[1])
         else:
             # 該当しなければエラーとする
             print(f"{line_type_str.group()!r} is None")
@@ -138,32 +142,74 @@ class SimpleDiagramParser:
 
         return pair_line_level
 
+    def __set_data_line(self, pair_line_level_list: list[tuple]) -> list[tuple]:
+        # データのみのリスト生成
+        data_line_list: list[tuple] = []
+        for pair_line_level in pair_line_level_list:
+            if pair_line_level[2] == DiagramElement.TYPE_DATA:
+                data_line_list.append(pair_line_level)
+
+        return data_line_list
+
+    def __set_process_line(self, pair_line_level_list: list[tuple]) -> list[tuple]:
+        # 処理のみのリスト生成
+        process_line_list: list[tuple] = []
+        for pair_line_level in pair_line_level_list:
+            if pair_line_level[2] != DiagramElement.TYPE_DATA:
+                process_line_list.append(pair_line_level)
+
+        return process_line_list
+
     def get_pair_line_level(self) -> list[tuple]:
         return self.pair_line_level
 
-    def create_line_info_list(self) -> list[LineInfo]:
+    def create_data_info_list(self) -> list[LineInfo]:
         line_info_list: list[LineInfo] = []
 
-        start_count = 0
-        for num, pair_line in enumerate(self.pair_line_level, start=start_count):
+        for pair_line in self.data_line:
             line_info = LineInfo()
-            line_info.no = num
+            line_info.no = len(line_info_list)
             line_info.level = pair_line[0]
             line_info.text = pair_line[1]
             line_info.category = pair_line[2]
 
-            if num > start_count:
-                # 同じレベルで1つ前の番号を見つける
-                for search_no in range(num - 1, start_count, -1):
-                    if line_info_list[search_no].level == line_info.level:
-                        # 1つ前の番号を保持する
-                        line_info.before_no = line_info_list[search_no].no
-                        # 同時に次の番号として保存する
-                        line_info_list[search_no].next_no = line_info.no
-                        break
-                    elif line_info_list[search_no].level < line_info.level:
-                        # 自身よりレベルが小さいなら階層が変わる
-                        break
+            # 同じレベルで1つ前の番号を見つける
+            for search_no in range(len(line_info_list) - 1, 0, -1):
+                if line_info_list[search_no].level == line_info.level:
+                    # 1つ前の番号を保持する
+                    line_info.before_no = line_info_list[search_no].no
+                    # 同時に次の番号として保存する
+                    line_info_list[search_no].next_no = line_info.no
+                    break
+                elif line_info_list[search_no].level < line_info.level:
+                    # 自身よりレベルが小さいなら階層が変わる
+                    break
+
+            line_info_list.append(line_info)
+
+        return line_info_list
+
+    def create_process_info_list(self) -> list[LineInfo]:
+        line_info_list: list[LineInfo] = []
+
+        for pair_line in self.process_line:
+            line_info = LineInfo()
+            line_info.no = len(line_info_list)
+            line_info.level = pair_line[0]
+            line_info.text = pair_line[1]
+            line_info.category = pair_line[2]
+
+            # 同じレベルで1つ前の番号を見つける
+            for search_no in range(len(line_info_list) - 1, 0, -1):
+                if line_info_list[search_no].level == line_info.level:
+                    # 1つ前の番号を保持する
+                    line_info.before_no = line_info_list[search_no].no
+                    # 同時に次の番号として保存する
+                    line_info_list[search_no].next_no = line_info.no
+                    break
+                elif line_info_list[search_no].level < line_info.level:
+                    # 自身よりレベルが小さいなら階層が変わる
+                    break
 
             line_info_list.append(line_info)
 
