@@ -225,8 +225,8 @@ class SVGRenderer:
         end_x = self.__draw_figure_cond(svg, center_x, center_y, text_cond)
         return end_x
 
-    def draw_figure_end(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
-        text_cond = "(end) " + text
+    def draw_figure_false(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
+        text_cond = "(false) " + text
         end_x = self.__draw_figure_cond(svg, center_x, center_y, text_cond)
         return end_x
 
@@ -290,7 +290,7 @@ class SVGRenderer:
             elif element.line_info.category == DiagramElement.TYPE_TRUE:
                 end_x = self.draw_figure_true(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_FALSE:
-                end_x = self.draw_figure_end(svg, element.x, element.y, element.line_info.text)
+                end_x = self.draw_figure_false(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_BRANCH:
                 end_x = self.draw_figure_branch(svg, element.x, element.y, element.line_info.text)
             else:
