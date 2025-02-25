@@ -278,23 +278,23 @@ class SVGRenderer:
         for element in process_elements:
             # 種別に応じた図形とテキストを描画
             if element.line_info.category == DiagramElement.TYPE_NORMAL:
-                end_x = self.draw_figure_normal(svg, element.x, element.y, element.line_info.text)
+                element.end_x = self.draw_figure_normal(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_FORK:
-                end_x = self.draw_figure_fork(svg, element.x, element.y, element.line_info.text)
+                element.end_x = self.draw_figure_fork(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_REPEAT:
-                end_x = self.draw_figure_repeat(svg, element.x, element.y, element.line_info.text)
+                element.end_x = self.draw_figure_repeat(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_MOD:
-                end_x = self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
+                element.end_x = self.draw_figure_mod(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_RETURN:
-                end_x = self.draw_figure_return(svg, element.x, element.y, element.line_info.text)
+                element.end_x = self.draw_figure_return(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_TRUE:
-                end_x = self.draw_figure_true(svg, element.x, element.y, element.line_info.text)
+                element.end_x = self.draw_figure_true(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_FALSE:
-                end_x = self.draw_figure_false(svg, element.x, element.y, element.line_info.text)
+                element.end_x = self.draw_figure_false(svg, element.x, element.y, element.line_info.text)
             elif element.line_info.category == DiagramElement.TYPE_BRANCH:
-                end_x = self.draw_figure_branch(svg, element.x, element.y, element.line_info.text)
+                element.end_x = self.draw_figure_branch(svg, element.x, element.y, element.line_info.text)
             else:
-                end_x = 0
+                element.end_x = 0
 
             # ステップ間の垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:
@@ -333,8 +333,8 @@ class SVGRenderer:
                 total_height = element.y
 
             # 画像全体の幅を決定する
-            if total_width < end_x:
-                total_width = end_x
+            if total_width < element.end_x:
+                total_width = element.end_x
 
         # データ部の描画
         data_start_x = total_width + 30
@@ -363,6 +363,21 @@ class SVGRenderer:
             # 画像全体の幅を決定する
             if total_width < end_x:
                 total_width = end_x
+
+        # データ同士を線で結ぶ
+        for element in process_elements:
+            if element.line_info.iodata is None:
+                continue
+
+            for in_data in element.line_info.iodata.in_data_list:
+                print(in_data, element.x, element.y)
+                # 水平線の追加
+                self.draw_line_h(svg, element.end_x + 10, element.y - 5, DiagramElement.CIRCLE_R)
+
+            for out_data in element.line_info.iodata.out_data_list:
+                print(out_data, element.x, element.y)
+                # 水平線の追加
+                self.draw_line_h(svg, element.end_x + 10, element.y + 5, DiagramElement.CIRCLE_R)
 
         svg.insert(
             0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #AFC0B1">'

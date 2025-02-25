@@ -1,6 +1,6 @@
 import re
 
-from define import DiagramElement, LineInfo
+from define import DiagramElement, InOutData, LineInfo
 
 
 class SimpleDiagramParser:
@@ -127,6 +127,20 @@ class SimpleDiagramParser:
             print(f"{line_type_str.group()!r} is None")
             return (DiagramElement.TYPE_NORMAL, line)
 
+    def get_line_io(self, line: str) -> InOutData:
+        # \inと\outのパターンを抽出
+        in_matches = re.finditer(r"\\in\s+(\w+)", line)  # マッチした全ての文字列をリストに格納
+        out_matches = re.finditer(r"\\out\s+(\w+)", line)
+
+        # データを対応するリストに格納
+        in_data = [match.group(1) for match in in_matches]  # マッチオブジェクトの2番目の要素を順に取り出したリストを連結
+        out_data = [match.group(1) for match in out_matches]
+
+        # \inと\out要素を取り除いた行を取得
+        cleaned_text = re.sub(r"\\(?:in|out)(?:\s+\w+)?", "", line).strip()
+
+        return InOutData(in_data, out_data), cleaned_text
+
     def __set_pair_line_level(self) -> list[tuple]:
         pair_line_level: list[tuple] = []
         for line in self.lines:
@@ -135,9 +149,9 @@ class SimpleDiagramParser:
                 continue
 
             line_type, line_org = self.get_line_type(line)
-            line = line_org
+            inout_data, cleaned_text = self.get_line_io(line_org)
 
-            pair = (line_level, line, line_type)
+            pair = (line_level, cleaned_text, line_type, inout_data)
             pair_line_level.append(pair)
 
         return pair_line_level
@@ -198,6 +212,7 @@ class SimpleDiagramParser:
             line_info.level = pair_line[0]
             line_info.text = pair_line[1]
             line_info.category = pair_line[2]
+            line_info.iodata = pair_line[3]
 
             # 同じレベルで1つ前の番号を見つける
             for search_no in range(len(line_info_list) - 1, 0, -1):

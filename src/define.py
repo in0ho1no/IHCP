@@ -2,6 +2,12 @@ from dataclasses import dataclass
 
 
 @dataclass
+class InOutData:
+    in_data_list: list[str]
+    out_data_list: list[str]
+
+
+@dataclass
 class LineInfo:
     DEFAULT_VALUE = -1
 
@@ -9,6 +15,7 @@ class LineInfo:
     level: int = DEFAULT_VALUE
     text: str = ""
     category: int = DEFAULT_VALUE
+    iodata: InOutData | None = None
 
     next_no: int = DEFAULT_VALUE
     before_no: int = DEFAULT_VALUE
@@ -41,6 +48,8 @@ class DiagramElement:
 
     x: int = 0
     y: int = 0
+
+    end_x: int = 0
 
 
 def get_string_bytes(string: str) -> int:
