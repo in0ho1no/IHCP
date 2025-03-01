@@ -1,3 +1,5 @@
+import os
+
 from define import LineInfo
 from parse import SimpleDiagramParser
 from render import SVGRenderer
@@ -58,7 +60,7 @@ def main() -> None:
     svg_output = renderer.render(process_info_list, data_info_list)
 
     # SVGファイルとして保存
-    with open("output.svg", "w", encoding="utf-8") as f:
+    with open(r"./src/output/output.svg", "w", encoding="utf-8") as f:
         f.write(svg_output)
 
 
