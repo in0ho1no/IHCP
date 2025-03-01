@@ -371,7 +371,7 @@ class SVGRenderer:
                     in_data.connect_line.exit_from_process.start.y,
                     in_data.connect_line.exit_from_process.line_width(),
                 )
-                offset += 5
+                offset += 10
                 if exit_width < line.end.x:
                     exit_width = line.end.x
                     total_width = exit_width
@@ -393,7 +393,7 @@ class SVGRenderer:
                     out_data.connect_line.exit_from_process.start.y,
                     out_data.connect_line.exit_from_process.line_width(),
                 )
-                offset += 5
+                offset += 10
                 if exit_width < line.end.x:
                     exit_width = line.end.x
                     total_width = exit_width
@@ -420,15 +420,15 @@ class SVGRenderer:
             end_x = self.draw_figure_data(svg, data_element.x, data_element.y, data_name)
 
             for process_element in process_elements:
-                for indata in process_element.line_info.iodata.in_data_list:
+                for in_data in process_element.line_info.iodata.in_data_list:
                     # 同じデータ名をつなぐ
-                    if data_name != indata.name:
+                    if data_name != in_data.name:
                         continue
 
                     # 水平線の追加
                     line = Line()
                     line.start = Coordinate(
-                        indata.connect_line.exit_from_process.end.x,
+                        in_data.connect_line.exit_from_process.end.x,
                         data_element.y - 5,
                     )
                     line.end = Coordinate(
@@ -444,28 +444,28 @@ class SVGRenderer:
                         in_data.connect_line.enter_to_data.line_width(),
                     )
 
-                for outdata in process_element.line_info.iodata.out_data_list:
+                for out_data in process_element.line_info.iodata.out_data_list:
                     # 同じデータ名をつなぐ
-                    if data_name != outdata.name:
+                    if data_name != out_data.name:
                         continue
 
                     # 水平線の追加
                     line = Line()
                     line.start = Coordinate(
-                        outdata.connect_line.exit_from_process.end.x,
+                        out_data.connect_line.exit_from_process.end.x,
                         data_element.y + 5,
                     )
                     line.end = Coordinate(
                         data_element.x - DiagramElement.CIRCLE_R,
                         data_element.y + 5,
                     )
-                    in_data.connect_line.enter_to_data = line
+                    out_data.connect_line.enter_to_data = line
 
                     self.draw_arrow_r(
                         svg,
-                        in_data.connect_line.enter_to_data.start.x,
-                        in_data.connect_line.enter_to_data.start.y,
-                        in_data.connect_line.enter_to_data.line_width(),
+                        out_data.connect_line.enter_to_data.start.x,
+                        out_data.connect_line.enter_to_data.start.y,
+                        out_data.connect_line.enter_to_data.line_width(),
                     )
 
             # 画像全体の高さを決定する
@@ -475,6 +475,52 @@ class SVGRenderer:
             # 画像全体の幅を決定する
             if total_width < end_x:
                 total_width = end_x
+
+        # 入出力の線を結ぶ
+        for process_element in process_elements:
+            for in_data in process_element.line_info.iodata.in_data_list:
+                if in_data.connect_line.enter_to_data is None:
+                    continue
+
+                start_y = in_data.connect_line.enter_to_data.start.y
+                end_y = in_data.connect_line.exit_from_process.end.y
+                if start_y > end_y:
+                    start_y = in_data.connect_line.exit_from_process.end.y
+                    end_y = in_data.connect_line.enter_to_data.start.y
+
+                line = Line()
+                line.start = Coordinate(in_data.connect_line.enter_to_data.start.x, start_y)
+                line.end = Coordinate(in_data.connect_line.enter_to_data.start.x, end_y)
+                in_data.connect_line.between_prcess_data = line
+
+                self.draw_line_v(
+                    svg,
+                    in_data.connect_line.between_prcess_data.start.x,
+                    in_data.connect_line.between_prcess_data.start.y,
+                    in_data.connect_line.between_prcess_data.line_height(),
+                )
+
+            for out_data in process_element.line_info.iodata.out_data_list:
+                if out_data.connect_line.enter_to_data is None:
+                    continue
+
+                start_y = out_data.connect_line.enter_to_data.start.y
+                end_y = out_data.connect_line.exit_from_process.end.y
+                if start_y > end_y:
+                    start_y = out_data.connect_line.exit_from_process.end.y
+                    end_y = out_data.connect_line.enter_to_data.start.y
+
+                line = Line()
+                line.start = Coordinate(out_data.connect_line.enter_to_data.start.x, start_y)
+                line.end = Coordinate(out_data.connect_line.enter_to_data.start.x, end_y)
+                out_data.connect_line.between_prcess_data = line
+
+                self.draw_line_v(
+                    svg,
+                    out_data.connect_line.between_prcess_data.start.x,
+                    out_data.connect_line.between_prcess_data.start.y,
+                    out_data.connect_line.between_prcess_data.line_height(),
+                )
 
         svg.insert(
             0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #AFC0B1">'
