@@ -347,40 +347,13 @@ class SVGRenderer:
                 process_width = element.end_x
                 total_width = process_width
 
-        # データ部の描画
-        data_start_x = process_width + 30
-        data_start_y = start_y
-        data_elements: list[DiagramElement] = []
-        for line_info in data_info_list:
-            element = DiagramElement(line_info)
-
-            element.x = data_start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
-            element.y = data_start_y + len(data_elements) * (DiagramElement.LEVEL_SHIFT)
-
-            data_elements.append(element)
-
-        # 図形要素を描画
-        for element in data_elements:
-            # 種別に応じた図形とテキストを描画
-            if element.line_info.category == DiagramElement.TYPE_DATA:
-                end_x = self.draw_figure_data(svg, element.x, element.y, element.line_info.text)
-            else:
-                end_x = 0
-
-            # 画像全体の高さを決定する
-            if total_height < element.y:
-                total_height = element.y
-
-            # 画像全体の幅を決定する
-            if total_width < end_x:
-                total_width = end_x
-
-        # データ同士を線で結ぶ
+        # 処理の入出力線を描画する
+        offset = 0
+        exit_width = 0
         for element in process_elements:
             if element.line_info.iodata is None:
                 continue
 
-            offset = 0
             for in_data in element.line_info.iodata.in_data_list:
                 print(in_data, element.x, element.y)
                 # 水平線の追加
@@ -399,6 +372,9 @@ class SVGRenderer:
                     in_data.connect_line.exit_from_process.line_width(),
                 )
                 offset += 5
+                if exit_width < line.end.x:
+                    exit_width = line.end.x
+                    total_width = exit_width
 
             for out_data in element.line_info.iodata.out_data_list:
                 print(out_data, element.x, element.y)
@@ -418,6 +394,87 @@ class SVGRenderer:
                     out_data.connect_line.exit_from_process.line_width(),
                 )
                 offset += 5
+                if exit_width < line.end.x:
+                    exit_width = line.end.x
+                    total_width = exit_width
+
+        # データ部の座標決定
+        data_start_x = exit_width + 30
+        data_start_y = start_y
+        data_elements: list[DiagramElement] = []
+        for line_info in data_info_list:
+            if line_info.category != DiagramElement.TYPE_DATA:
+                continue
+
+            element = DiagramElement(line_info)
+
+            element.x = data_start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
+            element.y = data_start_y + len(data_elements) * (DiagramElement.LEVEL_SHIFT)
+
+            data_elements.append(element)
+
+        # データ部の図形要素を描画
+        for data_element in data_elements:
+            # 種別に応じた図形とテキストを描画
+            data_name = data_element.line_info.text
+            end_x = self.draw_figure_data(svg, data_element.x, data_element.y, data_name)
+
+            for process_element in process_elements:
+                for indata in process_element.line_info.iodata.in_data_list:
+                    # 同じデータ名をつなぐ
+                    if data_name != indata.name:
+                        continue
+
+                    # 水平線の追加
+                    line = Line()
+                    line.start = Coordinate(
+                        indata.connect_line.exit_from_process.end.x,
+                        data_element.y - 5,
+                    )
+                    line.end = Coordinate(
+                        data_element.x - DiagramElement.CIRCLE_R,
+                        data_element.y - 5,
+                    )
+                    in_data.connect_line.enter_to_data = line
+
+                    self.draw_line_h(
+                        svg,
+                        in_data.connect_line.enter_to_data.start.x,
+                        in_data.connect_line.enter_to_data.start.y,
+                        in_data.connect_line.enter_to_data.line_width(),
+                    )
+
+                for outdata in process_element.line_info.iodata.out_data_list:
+                    # 同じデータ名をつなぐ
+                    if data_name != outdata.name:
+                        continue
+
+                    # 水平線の追加
+                    line = Line()
+                    line.start = Coordinate(
+                        outdata.connect_line.exit_from_process.end.x,
+                        data_element.y + 5,
+                    )
+                    line.end = Coordinate(
+                        data_element.x - DiagramElement.CIRCLE_R,
+                        data_element.y + 5,
+                    )
+                    in_data.connect_line.enter_to_data = line
+
+                    self.draw_arrow_r(
+                        svg,
+                        in_data.connect_line.enter_to_data.start.x,
+                        in_data.connect_line.enter_to_data.start.y,
+                        in_data.connect_line.enter_to_data.line_width(),
+                    )
+
+            # 画像全体の高さを決定する
+            if total_height < data_element.y:
+                total_height = data_element.y
+
+            # 画像全体の幅を決定する
+            if total_width < end_x:
+                total_width = end_x
 
         svg.insert(
             0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #AFC0B1">'

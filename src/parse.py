@@ -121,6 +121,7 @@ class SimpleDiagramParser:
         elif line_type_str.group() == "\\branch":
             return (DiagramElement.TYPE_BRANCH, line_elem[1])
         elif line_type_str.group() == "\\data":
+            # 重複は弾きたい
             return (DiagramElement.TYPE_DATA, line_elem[1])
         else:
             # 該当しなければエラーとする
