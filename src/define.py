@@ -2,9 +2,39 @@ from dataclasses import dataclass
 
 
 @dataclass
+class Coordinate:
+    x: int
+    y: int
+
+
+class Line:
+    start: Coordinate
+    end: Coordinate
+
+    def line_width(self) -> int:
+        return abs(self.start.x - self.end.x)
+
+    def line_height(self) -> int:
+        return abs(self.start.y - self.end.y)
+
+
+@dataclass
+class Process2Data:
+    exit_from_process: Line | None = None
+    between_prcess_data: Line | None = None
+    enter_to_data: Line | None = None
+
+
+@dataclass
+class DataInfo:
+    name: str
+    connect_line: Process2Data | None = None
+
+
+@dataclass
 class InOutData:
-    in_data_list: list[str]
-    out_data_list: list[str]
+    in_data_list: list[DataInfo]
+    out_data_list: list[DataInfo]
 
 
 @dataclass

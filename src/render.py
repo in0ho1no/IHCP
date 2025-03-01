@@ -1,6 +1,6 @@
 import math
 
-from define import DiagramElement, LineInfo, get_string_bytes
+from define import Coordinate, DiagramElement, Line, LineInfo, Process2Data, get_string_bytes
 
 
 class SVGRenderer:
@@ -35,6 +35,15 @@ class SVGRenderer:
         svg.append(
             f'<path d="M {end_x} {center_y} '
             f'L {end_x - arrow_hed} {center_y - int(arrow_hed / 2)} L {end_x - arrow_hed} {center_y + int(arrow_hed / 2)}"/>'
+        )
+
+    def draw_arrow_l(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
+        end_x = center_x + length
+        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{end_x}" y2="{center_y}" stroke="black"/>')
+        arrow_hed = 8
+        svg.append(
+            f'<path d="M {center_x} {center_y} '
+            f'L {center_x + arrow_hed} {center_y - int(arrow_hed / 2)} L {center_x + arrow_hed} {center_y + int(arrow_hed / 2)}"/>'
         )
 
     def draw_figure_level_start(self, svg: list[str], center_x: int, center_y: int) -> None:
@@ -275,6 +284,7 @@ class SVGRenderer:
         # 図形要素を描画
         total_height = 0
         total_width = 0
+        process_width = 0
         for element in process_elements:
             # 種別に応じた図形とテキストを描画
             if element.line_info.category == DiagramElement.TYPE_NORMAL:
@@ -333,11 +343,12 @@ class SVGRenderer:
                 total_height = element.y
 
             # 画像全体の幅を決定する
-            if total_width < element.end_x:
-                total_width = element.end_x
+            if process_width < element.end_x:
+                process_width = element.end_x
+                total_width = process_width
 
         # データ部の描画
-        data_start_x = total_width + 30
+        data_start_x = process_width + 30
         data_start_y = start_y
         data_elements: list[DiagramElement] = []
         for line_info in data_info_list:
@@ -369,15 +380,44 @@ class SVGRenderer:
             if element.line_info.iodata is None:
                 continue
 
+            offset = 0
             for in_data in element.line_info.iodata.in_data_list:
                 print(in_data, element.x, element.y)
                 # 水平線の追加
-                self.draw_line_h(svg, element.end_x + 10, element.y - 5, DiagramElement.CIRCLE_R)
+                line = Line()
+                line.start = Coordinate(element.end_x + 10, element.y - 5)
+                line.end = Coordinate(process_width + offset, element.y - 5)
+
+                connect_line = Process2Data()
+                connect_line.exit_from_process = line
+                in_data.connect_line = connect_line
+
+                self.draw_arrow_l(
+                    svg,
+                    in_data.connect_line.exit_from_process.start.x,
+                    in_data.connect_line.exit_from_process.start.y,
+                    in_data.connect_line.exit_from_process.line_width(),
+                )
+                offset += 5
 
             for out_data in element.line_info.iodata.out_data_list:
                 print(out_data, element.x, element.y)
                 # 水平線の追加
-                self.draw_line_h(svg, element.end_x + 10, element.y + 5, DiagramElement.CIRCLE_R)
+                line = Line()
+                line.start = Coordinate(element.end_x + 10, element.y + 5)
+                line.end = Coordinate(process_width + offset, element.y + 5)
+
+                connect_line = Process2Data()
+                connect_line.exit_from_process = line
+                out_data.connect_line = connect_line
+
+                self.draw_line_h(
+                    svg,
+                    out_data.connect_line.exit_from_process.start.x,
+                    out_data.connect_line.exit_from_process.start.y,
+                    out_data.connect_line.exit_from_process.line_width(),
+                )
+                offset += 5
 
         svg.insert(
             0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #AFC0B1">'

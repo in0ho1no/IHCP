@@ -1,6 +1,6 @@
 import re
 
-from define import DiagramElement, InOutData, LineInfo
+from define import DataInfo, DiagramElement, InOutData, LineInfo
 
 
 class SimpleDiagramParser:
@@ -133,8 +133,8 @@ class SimpleDiagramParser:
         out_matches = re.finditer(r"\\out\s+(\w+)", line)
 
         # データを対応するリストに格納
-        in_data = [match.group(1) for match in in_matches]  # マッチオブジェクトの2番目の要素を順に取り出したリストを連結
-        out_data = [match.group(1) for match in out_matches]
+        in_data = [DataInfo(name=match.group(1)) for match in in_matches]  # マッチオブジェクトの2番目の要素を順に取り出したリストを連結
+        out_data = [DataInfo(name=match.group(1)) for match in out_matches]
 
         # \inと\out要素を取り除いた行を取得
         cleaned_text = re.sub(r"\\(?:in|out)(?:\s+\w+)?", "", line).strip()
@@ -151,7 +151,7 @@ class SimpleDiagramParser:
             line_type, line_org = self.get_line_type(line)
             inout_data, cleaned_text = self.get_line_io(line_org)
 
-            pair = (line_level, cleaned_text, line_type, inout_data)
+            pair = (line_level, cleaned_text, line_type, inout_data)  # ☆
             pair_line_level.append(pair)
 
         return pair_line_level

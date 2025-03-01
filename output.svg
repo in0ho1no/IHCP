@@ -197,7 +197,9 @@
 <text x="502" y="120" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ3</text>
 <rect x="474" y="141" width="18" height="18" fill="white" stroke="black"/>
 <text x="502" y="150" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ4</text>
-<line x1="199" y1="115" x2="208" y2="115" stroke="black"/>
-<line x1="199" y1="125" x2="208" y2="125" stroke="black"/>
-<line x1="291" y1="355" x2="300" y2="355" stroke="black"/>
+<line x1="199" y1="115" x2="453" y2="115" stroke="black"/>
+<path d="M 199 115 L 207 111 L 207 119"/>
+<line x1="199" y1="125" x2="458" y2="125" stroke="black"/>
+<line x1="291" y1="355" x2="453" y2="355" stroke="black"/>
+<path d="M 291 355 L 299 351 L 299 359"/>
 </svg>
