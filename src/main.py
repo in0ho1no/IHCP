@@ -10,6 +10,9 @@ def main() -> None:
 \data データ2
 \data データ3
 \data データ4
+\data データ5
+\data データ6
+\data データ7
 
 処理開始
     必要な情報を揃える
@@ -24,8 +27,8 @@ def main() -> None:
             機能Aの本処理
                 \fork 条件を満足する  \in データ3 \out データ4
                     \true 条件を満足した
-                        \mod 関数を呼び出す
-                        \fork 呼び出し結果に応じて分岐する
+                        \mod 関数を呼び出す \out データ5
+                        \fork 呼び出し結果に応じて分岐する \in データ5
                             \branch 成功したので出力有り
                                 OK1
                             \branch 成功したが出力無し

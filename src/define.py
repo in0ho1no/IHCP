@@ -57,6 +57,8 @@ class LineInfo:
     next_no: int = DEFAULT_VALUE
     before_no: int = DEFAULT_VALUE
 
+    data_color: str = "black"
+
     def __post_init__(self) -> None:
         if self.level is None:
             self.level = LineLevel()
