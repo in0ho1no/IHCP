@@ -435,7 +435,6 @@ class SVGRenderer:
             data_elements.append(element)
 
         # データ部の図形要素を描画
-        color_cnt = 0
         for data_element in data_elements:
             # 種別に応じた図形とテキストを描画
             data_name = data_element.line_info.text_clean
@@ -501,7 +500,6 @@ class SVGRenderer:
                 total_width = end_x
 
         # 入出力の線を結ぶ
-        color_cnt = 0
         for process_element in process_elements:
             for in_data in process_element.line_info.iodata.in_data_list:
                 if in_data.connect_line.enter_to_data is None:
