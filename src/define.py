@@ -26,6 +26,7 @@ class Process2Data:
     exit_from_process: Line | None = None
     between_prcess_data: Line | None = None
     enter_to_data: Line | None = None
+    color: str = "black"
 
 
 @dataclass
