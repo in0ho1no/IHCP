@@ -378,6 +378,7 @@ class SVGRenderer:
 
                 connect_line = Process2Data()
                 connect_line.exit_from_process = line
+                connect_line.color = self.color_table[color_cnt]
                 in_data.connect_line = connect_line
 
                 self.draw_arrow_l(
@@ -385,7 +386,7 @@ class SVGRenderer:
                     in_data.connect_line.exit_from_process.start.x,
                     in_data.connect_line.exit_from_process.start.y,
                     in_data.connect_line.exit_from_process.line_width(),
-                    self.color_table[color_cnt],
+                    in_data.connect_line.color,
                 )
                 color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
                 offset += 10
@@ -402,6 +403,7 @@ class SVGRenderer:
 
                 connect_line = Process2Data()
                 connect_line.exit_from_process = line
+                connect_line.color = self.color_table[color_cnt]
                 out_data.connect_line = connect_line
 
                 self.draw_line_h(
@@ -409,7 +411,7 @@ class SVGRenderer:
                     out_data.connect_line.exit_from_process.start.x,
                     out_data.connect_line.exit_from_process.start.y,
                     out_data.connect_line.exit_from_process.line_width(),
-                    self.color_table[color_cnt],
+                    out_data.connect_line.color,
                 )
                 color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
                 offset += 10
@@ -462,9 +464,8 @@ class SVGRenderer:
                         in_data.connect_line.enter_to_data.start.x,
                         in_data.connect_line.enter_to_data.start.y,
                         in_data.connect_line.enter_to_data.line_width(),
-                        self.color_table[color_cnt],
+                        in_data.connect_line.color,
                     )
-                    color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
 
                 for out_data in process_element.line_info.iodata.out_data_list:
                     # 同じデータ名をつなぐ
@@ -488,9 +489,8 @@ class SVGRenderer:
                         out_data.connect_line.enter_to_data.start.x,
                         out_data.connect_line.enter_to_data.start.y,
                         out_data.connect_line.enter_to_data.line_width(),
-                        self.color_table[color_cnt],
+                        out_data.connect_line.color,
                     )
-                    color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
 
             # 画像全体の高さを決定する
             if total_height < data_element.y:
@@ -523,9 +523,8 @@ class SVGRenderer:
                     in_data.connect_line.between_prcess_data.start.x,
                     in_data.connect_line.between_prcess_data.start.y,
                     in_data.connect_line.between_prcess_data.line_height(),
-                    self.color_table[color_cnt],
+                    in_data.connect_line.color,
                 )
-                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
 
             for out_data in process_element.line_info.iodata.out_data_list:
                 if out_data.connect_line.enter_to_data is None:
@@ -547,12 +546,11 @@ class SVGRenderer:
                     out_data.connect_line.between_prcess_data.start.x,
                     out_data.connect_line.between_prcess_data.start.y,
                     out_data.connect_line.between_prcess_data.line_height(),
-                    self.color_table[color_cnt],
+                    out_data.connect_line.color,
                 )
-                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
 
         svg.insert(
-            0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #AFC0B1">'
+            0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #808d81">'
         )
         svg.append("</svg>")
         return "\n".join(svg)
