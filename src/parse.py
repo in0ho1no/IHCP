@@ -48,8 +48,8 @@ class SimpleDiagramParser:
     def update_line_io(self) -> None:
         for line_info in self.line_info_list:
             # \inと\outのパターンを抽出
-            in_matches = re.finditer(r"\\in\s+(\w+)", line_info.text_typeless)  # マッチした全ての文字列をリストに格納
-            out_matches = re.finditer(r"\\out\s+(\w+)", line_info.text_typeless)
+            in_matches = re.finditer(r"\\in\s+([\w-]+)", line_info.text_typeless)  # マッチした全ての文字列をリストに格納
+            out_matches = re.finditer(r"\\out\s+([\w-]+)", line_info.text_typeless)
 
             # データを対応するリストに格納
             in_data = [DataInfo(name=match.group(1)) for match in in_matches]  # マッチオブジェクトの2番目の要素を順に取り出したリストを連結
