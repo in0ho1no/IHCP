@@ -77,6 +77,8 @@ class DiagramElement:
 
     LEVEL_SHIFT = 30
 
+    ARROW_HEAD = 8
+
     line_info: LineInfo
 
     x: int = 0

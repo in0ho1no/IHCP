@@ -5,6 +5,17 @@ from line_type import LineTypeDefine, LineTypeEnum
 
 
 class SVGRenderer:
+    color_table = [
+        "black",
+        "red",
+        "green",
+        "blue",
+        "yellow",
+        "purple",
+        "orange",
+        "turquoise",
+    ]
+
     def __init__(self) -> None:
         pass
 
@@ -23,28 +34,33 @@ class SVGRenderer:
         text_width = self.get_text_width(text)
         return text_width
 
-    def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x + length}" y2="{center_y}" stroke="black"/>')
+    def draw_line(self, svg: list[str], x1: int, y1: int, x2: int, y2: int, color: str = "black") -> None:
+        svg.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}"/>')
 
-    def draw_line_v(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x}" y2="{center_y + length}" stroke="black"/>')
+    def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
+        self.draw_line(svg, x1=center_x, y1=center_y, x2=(center_x + length), y2=center_y, color=color)
 
-    def draw_arrow_r(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
+    def draw_line_v(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
+        self.draw_line(svg, x1=center_x, y1=center_y, x2=center_x, y2=(center_y + length), color=color)
+
+    def draw_arrow_r(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
         end_x = center_x + length
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{end_x}" y2="{center_y}" stroke="black"/>')
-        arrow_hed = 8
+        self.draw_line(svg, x1=center_x, y1=center_y, x2=end_x, y2=center_y, color=color)
+        arrow_hed = DiagramElement.ARROW_HEAD
         svg.append(
             f'<path d="M {end_x} {center_y} '
-            f'L {end_x - arrow_hed} {center_y - int(arrow_hed / 2)} L {end_x - arrow_hed} {center_y + int(arrow_hed / 2)}"/>'
+            f'L {end_x - arrow_hed} {center_y - int(arrow_hed / 2)} L {end_x - arrow_hed} {center_y + int(arrow_hed / 2)}" '
+            f'stroke="{color}" fill="{color}" />'
         )
 
-    def draw_arrow_l(self, svg: list[str], center_x: int, center_y: int, length: int) -> None:
+    def draw_arrow_l(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
         end_x = center_x + length
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{end_x}" y2="{center_y}" stroke="black"/>')
-        arrow_hed = 8
+        self.draw_line(svg, x1=center_x, y1=center_y, x2=end_x, y2=center_y, color=color)
+        arrow_hed = DiagramElement.ARROW_HEAD
         svg.append(
             f'<path d="M {center_x} {center_y} '
-            f'L {center_x + arrow_hed} {center_y - int(arrow_hed / 2)} L {center_x + arrow_hed} {center_y + int(arrow_hed / 2)}"/>'
+            f'L {center_x + arrow_hed} {center_y - int(arrow_hed / 2)} L {center_x + arrow_hed} {center_y + int(arrow_hed / 2)}" '
+            f'stroke="{color}" fill="{color}" />'
         )
 
     def draw_figure_level_start(self, svg: list[str], center_x: int, center_y: int) -> None:
@@ -351,6 +367,7 @@ class SVGRenderer:
         # 処理の入出力線を描画する
         offset = 0
         exit_width = 0
+        color_cnt = 0
         for element in process_elements:
             if element.line_info.iodata is None:
                 continue
@@ -364,6 +381,7 @@ class SVGRenderer:
 
                 connect_line = Process2Data()
                 connect_line.exit_from_process = line
+                connect_line.color = self.color_table[color_cnt]
                 in_data.connect_line = connect_line
 
                 self.draw_arrow_l(
@@ -371,7 +389,9 @@ class SVGRenderer:
                     in_data.connect_line.exit_from_process.start.x,
                     in_data.connect_line.exit_from_process.start.y,
                     in_data.connect_line.exit_from_process.line_width(),
+                    in_data.connect_line.color,
                 )
+                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
                 offset += 10
                 if exit_width < line.end.x:
                     exit_width = line.end.x
@@ -386,6 +406,7 @@ class SVGRenderer:
 
                 connect_line = Process2Data()
                 connect_line.exit_from_process = line
+                connect_line.color = self.color_table[color_cnt]
                 out_data.connect_line = connect_line
 
                 self.draw_line_h(
@@ -393,7 +414,9 @@ class SVGRenderer:
                     out_data.connect_line.exit_from_process.start.x,
                     out_data.connect_line.exit_from_process.start.y,
                     out_data.connect_line.exit_from_process.line_width(),
+                    out_data.connect_line.color,
                 )
+                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
                 offset += 10
                 if exit_width < line.end.x:
                     exit_width = line.end.x
@@ -443,6 +466,7 @@ class SVGRenderer:
                         in_data.connect_line.enter_to_data.start.x,
                         in_data.connect_line.enter_to_data.start.y,
                         in_data.connect_line.enter_to_data.line_width(),
+                        in_data.connect_line.color,
                     )
 
                 for out_data in process_element.line_info.iodata.out_data_list:
@@ -467,6 +491,7 @@ class SVGRenderer:
                         out_data.connect_line.enter_to_data.start.x,
                         out_data.connect_line.enter_to_data.start.y,
                         out_data.connect_line.enter_to_data.line_width(),
+                        out_data.connect_line.color,
                     )
 
             # 画像全体の高さを決定する
@@ -499,6 +524,7 @@ class SVGRenderer:
                     in_data.connect_line.between_prcess_data.start.x,
                     in_data.connect_line.between_prcess_data.start.y,
                     in_data.connect_line.between_prcess_data.line_height(),
+                    in_data.connect_line.color,
                 )
 
             for out_data in process_element.line_info.iodata.out_data_list:
@@ -521,10 +547,11 @@ class SVGRenderer:
                     out_data.connect_line.between_prcess_data.start.x,
                     out_data.connect_line.between_prcess_data.start.y,
                     out_data.connect_line.between_prcess_data.line_height(),
+                    out_data.connect_line.color,
                 )
 
         svg.insert(
-            0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #AFC0B1">'
+            0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #808d81">'
         )
         svg.append("</svg>")
         return "\n".join(svg)
