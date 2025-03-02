@@ -1,4 +1,8 @@
 import math
+from typing import Callable
+
+from define import DiagramElement
+from line_type import LineTypeDefine, LineTypeEnum
 
 
 class DrawSvg:
@@ -274,3 +278,48 @@ class DrawSvg:
         # 終端位置を返す
         end_x = center_x + figure_2_text_space + text_width
         return end_x
+
+
+class DrawFigure:
+    """図形描画を管理するクラス"""
+
+    def __init__(self, draw_svg: DrawSvg):
+        """
+        初期化メソッド
+
+        Args:
+            draw_svg: SVG描画オブジェクト
+        """
+        self.draw_svg = draw_svg
+
+        # 種別値と描画メソッドのマッピングテーブルを構築
+        self._figure_method_map: dict[int, Callable] = {
+            LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL).type_value: self.draw_svg.draw_figure_normal,
+            LineTypeDefine.get_format_by_type(LineTypeEnum.FORK).type_value: self.draw_svg.draw_figure_fork,
+            LineTypeDefine.get_format_by_type(LineTypeEnum.REPEAT).type_value: self.draw_svg.draw_figure_repeat,
+            LineTypeDefine.get_format_by_type(LineTypeEnum.MOD).type_value: self.draw_svg.draw_figure_mod,
+            LineTypeDefine.get_format_by_type(LineTypeEnum.RETURN).type_value: self.draw_svg.draw_figure_return,
+            LineTypeDefine.get_format_by_type(LineTypeEnum.TRUE).type_value: self.draw_svg.draw_figure_true,
+            LineTypeDefine.get_format_by_type(LineTypeEnum.FALSE).type_value: self.draw_svg.draw_figure_false,
+            LineTypeDefine.get_format_by_type(LineTypeEnum.BRANCH).type_value: self.draw_svg.draw_figure_branch,
+            LineTypeDefine.get_format_by_type(LineTypeEnum.DATA).type_value: self.draw_svg.draw_figure_data,
+        }
+
+    def draw_figure_method(self, svg: list[str], element: DiagramElement) -> int:
+        """
+        要素の種別に応じた図形を描画する
+
+        Args:
+            svg: SVGオブジェクト
+            element: 描画要素情報
+
+        Returns:
+            int: 描画した図形の終端X座標
+        """
+        # 要素の種別に対応するメソッドを取得
+        draw_method = self._figure_method_map.get(element.line_info.type.type_value)
+
+        # メソッドが見つかれば実行する
+        if draw_method:
+            return int(draw_method(svg, element.x, element.y, element.line_info.text_clean))
+        return 0
