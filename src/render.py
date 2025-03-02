@@ -289,21 +289,21 @@ class SVGRenderer:
         for element in process_elements:
             # 種別に応じた図形とテキストを描画
             if element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL).type_value:
-                element.end_x = self.draw_figure_normal(svg, element.x, element.y, element.line_info.text_org)
+                element.end_x = self.draw_figure_normal(svg, element.x, element.y, element.line_info.text_clean)
             elif element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.FORK).type_value:
-                element.end_x = self.draw_figure_fork(svg, element.x, element.y, element.line_info.text_org)
+                element.end_x = self.draw_figure_fork(svg, element.x, element.y, element.line_info.text_clean)
             elif element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.REPEAT).type_value:
-                element.end_x = self.draw_figure_repeat(svg, element.x, element.y, element.line_info.text_org)
+                element.end_x = self.draw_figure_repeat(svg, element.x, element.y, element.line_info.text_clean)
             elif element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.MOD).type_value:
-                element.end_x = self.draw_figure_mod(svg, element.x, element.y, element.line_info.text_org)
+                element.end_x = self.draw_figure_mod(svg, element.x, element.y, element.line_info.text_clean)
             elif element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.RETURN).type_value:
-                element.end_x = self.draw_figure_return(svg, element.x, element.y, element.line_info.text_org)
+                element.end_x = self.draw_figure_return(svg, element.x, element.y, element.line_info.text_clean)
             elif element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.TRUE).type_value:
-                element.end_x = self.draw_figure_true(svg, element.x, element.y, element.line_info.text_org)
+                element.end_x = self.draw_figure_true(svg, element.x, element.y, element.line_info.text_clean)
             elif element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.FALSE).type_value:
-                element.end_x = self.draw_figure_false(svg, element.x, element.y, element.line_info.text_org)
+                element.end_x = self.draw_figure_false(svg, element.x, element.y, element.line_info.text_clean)
             elif element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.BRANCH).type_value:
-                element.end_x = self.draw_figure_branch(svg, element.x, element.y, element.line_info.text_org)
+                element.end_x = self.draw_figure_branch(svg, element.x, element.y, element.line_info.text_clean)
             else:
                 element.end_x = 0
 
@@ -320,7 +320,7 @@ class SVGRenderer:
                 print(
                     f"{element.x=}, {bef_elem.y=}, {bef_elem.y=} - {element.y=}, "
                     f"{element.line_info.no=}, {element.line_info.before_no=}, {element.line_info.next_no=}"
-                    f"{element.line_info.text_org}, "
+                    f"{element.line_info.text_clean}, "
                 )
 
             # 始点の追加
@@ -417,7 +417,7 @@ class SVGRenderer:
         # データ部の図形要素を描画
         for data_element in data_elements:
             # 種別に応じた図形とテキストを描画
-            data_name = data_element.line_info.text_org
+            data_name = data_element.line_info.text_clean
             end_x = self.draw_figure_data(svg, data_element.x, data_element.y, data_name)
 
             for process_element in process_elements:
