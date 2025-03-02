@@ -7,6 +7,8 @@ def main() -> None:
     input_text = r"""
 \data データ1
     \data データ1-1
+    \data データ(AAA)
+    \data データ(BBB)
 \data データ2
 \data データ3
 \data データ4
@@ -25,7 +27,7 @@ def main() -> None:
                 \fork 条件を満足する  \in データ3 \out データ4
                     \true 条件を満足した
                         \mod 関数を呼び出す
-                        \fork 呼び出し結果に応じて分岐する
+                        \fork 呼び出し結果に応じて分岐する \in データ(BBB)
                             \branch 成功したので出力有り
                                 OK1
                             \branch 成功したが出力無し
