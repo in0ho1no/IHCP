@@ -34,16 +34,19 @@ class SVGRenderer:
         text_width = self.get_text_width(text)
         return text_width
 
+    def draw_line(self, svg: list[str], x1: int, y1: int, x2: int, y2: int, color: str = "black") -> None:
+        svg.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}"/>')
+
     def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x + length}" y2="{center_y}" stroke="{color}"/>')
+        self.draw_line(svg, x1=center_x, y1=center_y, x2=(center_x + length), y2=center_y, color=color)
 
     def draw_line_v(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{center_x}" y2="{center_y + length}" stroke="{color}"/>')
+        self.draw_line(svg, x1=center_x, y1=center_y, x2=center_x, y2=(center_y + length), color=color)
 
     def draw_arrow_r(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
         end_x = center_x + length
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{end_x}" y2="{center_y}" stroke="{color}"/>')
-        arrow_hed = 8
+        self.draw_line(svg, x1=center_x, y1=center_y, x2=end_x, y2=center_y, color=color)
+        arrow_hed = DiagramElement.ARROW_HEAD
         svg.append(
             f'<path d="M {end_x} {center_y} '
             f'L {end_x - arrow_hed} {center_y - int(arrow_hed / 2)} L {end_x - arrow_hed} {center_y + int(arrow_hed / 2)}" '
@@ -52,8 +55,8 @@ class SVGRenderer:
 
     def draw_arrow_l(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
         end_x = center_x + length
-        svg.append(f'<line x1="{center_x}" y1="{center_y}" x2="{end_x}" y2="{center_y}" stroke="{color}"/>')
-        arrow_hed = 8
+        self.draw_line(svg, x1=center_x, y1=center_y, x2=end_x, y2=center_y, color=color)
+        arrow_hed = DiagramElement.ARROW_HEAD
         svg.append(
             f'<path d="M {center_x} {center_y} '
             f'L {center_x + arrow_hed} {center_y - int(arrow_hed / 2)} L {center_x + arrow_hed} {center_y + int(arrow_hed / 2)}" '
