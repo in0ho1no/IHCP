@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from line_level import LineLevel
+
 
 @dataclass
 class Coordinate:
@@ -42,13 +44,17 @@ class LineInfo:
     DEFAULT_VALUE = -1
 
     no: int = DEFAULT_VALUE
-    level: int = DEFAULT_VALUE
+    level: LineLevel | None = None
     text: str = ""
     category: int = DEFAULT_VALUE
     iodata: InOutData | None = None
 
     next_no: int = DEFAULT_VALUE
     before_no: int = DEFAULT_VALUE
+
+    def __post_init__(self) -> None:
+        if self.level is None:
+            self.level = LineLevel()
 
 
 @dataclass
