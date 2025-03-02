@@ -1,6 +1,3 @@
-import os
-
-from define import LineInfo
 from parse import SimpleDiagramParser
 from render import SVGRenderer
 

@@ -12,10 +12,26 @@ class SimpleDiagramParser:
     TAB2SPACE = 4
 
     def __init__(self, text_data: str) -> None:
-        self.lines = text_data.strip().split("\n")
+        self.convert_text2lines(text_data)
         self.pair_line_level: list[tuple] = self.__set_pair_line_level()
         self.data_line: list[tuple] = self.__set_data_line(self.pair_line_level)
         self.process_line: list[tuple] = self.__set_process_line(self.pair_line_level)
+
+    def convert_text2lines(self, text: str) -> None:
+        """テキストデータから空行を除いた文字列リストを保持する
+
+        Args:
+            text (str): 変換元のテキストデータ
+        """
+        lines: list[str] = []
+        for text_line in text.strip().split("\n"):
+            # 空行は無視する
+            strip_line = text_line.strip()
+            if len(strip_line) == 0:
+                continue
+            lines.append(text_line)
+
+        self.lines = lines
 
     @staticmethod
     def create_indent_pattern(tab_count: int) -> str:
