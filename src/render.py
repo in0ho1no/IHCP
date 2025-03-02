@@ -15,13 +15,15 @@ class SVGRenderer:
         "turquoise",
     ]
 
-    def __init__(self) -> None:
+    def __init__(self, process_info_list: list[LineInfo], data_info_list: list[LineInfo]) -> None:
         # svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
         self.svg: list[str] = []
         self.draw_svg = DrawSvg()
         self.draw_fig = DrawFigure(self.draw_svg)
+        self.process_info_list: list[LineInfo] = process_info_list
+        self.data_info_list: list[LineInfo] = data_info_list
 
-    def render(self, process_info_list: list[LineInfo], data_info_list: list[LineInfo]) -> str:
+    def render(self) -> str:
         """パースされた要素をSVGとして描画"""
         # ヘッダは最後に挿入する
 
@@ -30,7 +32,7 @@ class SVGRenderer:
 
         # 処理部の配置計算
         process_elements: list[DiagramElement] = []
-        for line_info in process_info_list:
+        for line_info in self.process_info_list:
             element = DiagramElement(line_info)
             element.x = start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
             element.y = start_y + len(process_elements) * (DiagramElement.LEVEL_SHIFT)
@@ -147,7 +149,7 @@ class SVGRenderer:
         data_start_x = exit_width + 30
         data_start_y = start_y
         data_elements: list[DiagramElement] = []
-        for line_info in data_info_list:
+        for line_info in self.data_info_list:
             if line_info.type.type_value != LineTypeDefine.get_format_by_type(LineTypeEnum.DATA).type_value:
                 continue
 
