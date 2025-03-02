@@ -15,41 +15,41 @@ class SVGRenderer:
         "turquoise",
     ]
 
+    def __init__(self) -> None:
+        # svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
+        self.svg: list[str] = []
+        self.draw_svg = DrawSvg()
+        self.draw_fig = DrawFigure(self.draw_svg)
+
     def render(self, process_info_list: list[LineInfo], data_info_list: list[LineInfo]) -> str:
         """パースされた要素をSVGとして描画"""
         # ヘッダは最後に挿入する
-        # svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
-        svg: list[str] = []
-        draw_svg = DrawSvg()
-        draw_fig = DrawFigure(draw_svg)
 
         start_x = 30
         start_y = 30
 
-        # 要素の配置を計算
+        # 処理部の配置計算
         process_elements: list[DiagramElement] = []
         for line_info in process_info_list:
             element = DiagramElement(line_info)
-
             element.x = start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
             element.y = start_y + len(process_elements) * (DiagramElement.LEVEL_SHIFT)
-
             process_elements.append(element)
 
-        # 図形要素を描画
+        # 処理部を描画
         total_height = 0
         total_width = 0
         process_width = 0
         for element in process_elements:
             # 種別に応じた図形とテキストを描画
-            element.end_x = draw_fig.draw_figure_method(svg, element)
+            element.end_x = self.draw_fig.draw_figure_method(self.svg, element)
 
             # ステップ間の垂直線の追加
             if element.line_info.before_no != LineInfo.DEFAULT_VALUE:
                 bef_elem = process_elements[element.line_info.before_no]
                 # 直前のレベルまで線を引く
-                draw_svg.draw_line_v(
-                    svg,
+                self.draw_svg.draw_line_v(
+                    self.svg,
                     element.x,
                     (bef_elem.y + DrawSvg.CIRCLE_R),
                     (element.y - DrawSvg.CIRCLE_R) - (bef_elem.y + DrawSvg.CIRCLE_R),
@@ -62,7 +62,7 @@ class SVGRenderer:
 
             # 始点の追加
             if element.line_info.level == 0:
-                draw_svg.draw_figure_level_start(svg, element.x, element.y)
+                self.draw_svg.draw_figure_level_start(self.svg, element.x, element.y)
 
             # 終端の追加
             if element.line_info.next_no == LineInfo.DEFAULT_VALUE:
@@ -70,11 +70,11 @@ class SVGRenderer:
                     # \returnは図として終端を描画する
                     pass
                 else:
-                    draw_svg.draw_figure_level_end(svg, element.x, element.y)
+                    self.draw_svg.draw_figure_level_end(self.svg, element.x, element.y)
 
             # レベル下げの追加
             if (element.line_info.level > 0) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
-                draw_svg.draw_figure_level_step(svg, element.x, element.y)
+                self.draw_svg.draw_figure_level_step(self.svg, element.x, element.y)
 
             # 画像全体の高さを決定する
             if total_height < element.y:
@@ -105,8 +105,8 @@ class SVGRenderer:
                 connect_line.color = self.color_table[color_cnt]
                 in_data.connect_line = connect_line
 
-                draw_svg.draw_arrow_l(
-                    svg,
+                self.draw_svg.draw_arrow_l(
+                    self.svg,
                     in_data.connect_line.exit_from_process.start.x,
                     in_data.connect_line.exit_from_process.start.y,
                     in_data.connect_line.exit_from_process.line_width(),
@@ -130,8 +130,8 @@ class SVGRenderer:
                 connect_line.color = self.color_table[color_cnt]
                 out_data.connect_line = connect_line
 
-                draw_svg.draw_line_h(
-                    svg,
+                self.draw_svg.draw_line_h(
+                    self.svg,
                     out_data.connect_line.exit_from_process.start.x,
                     out_data.connect_line.exit_from_process.start.y,
                     out_data.connect_line.exit_from_process.line_width(),
@@ -162,7 +162,7 @@ class SVGRenderer:
         for data_element in data_elements:
             # 種別に応じた図形とテキストを描画
             data_name = data_element.line_info.text_clean
-            end_x = draw_svg.draw_figure_data(svg, data_element.x, data_element.y, data_name)
+            end_x = self.draw_svg.draw_figure_data(self.svg, data_element.x, data_element.y, data_name)
 
             for process_element in process_elements:
                 for in_data in process_element.line_info.iodata.in_data_list:
@@ -182,8 +182,8 @@ class SVGRenderer:
                     )
                     in_data.connect_line.enter_to_data = line
 
-                    draw_svg.draw_line_h(
-                        svg,
+                    self.draw_svg.draw_line_h(
+                        self.svg,
                         in_data.connect_line.enter_to_data.start.x,
                         in_data.connect_line.enter_to_data.start.y,
                         in_data.connect_line.enter_to_data.line_width(),
@@ -207,8 +207,8 @@ class SVGRenderer:
                     )
                     out_data.connect_line.enter_to_data = line
 
-                    draw_svg.draw_arrow_r(
-                        svg,
+                    self.draw_svg.draw_arrow_r(
+                        self.svg,
                         out_data.connect_line.enter_to_data.start.x,
                         out_data.connect_line.enter_to_data.start.y,
                         out_data.connect_line.enter_to_data.line_width(),
@@ -240,8 +240,8 @@ class SVGRenderer:
                 line.end = Coordinate(in_data.connect_line.enter_to_data.start.x, end_y)
                 in_data.connect_line.between_prcess_data = line
 
-                draw_svg.draw_line_v(
-                    svg,
+                self.draw_svg.draw_line_v(
+                    self.svg,
                     in_data.connect_line.between_prcess_data.start.x,
                     in_data.connect_line.between_prcess_data.start.y,
                     in_data.connect_line.between_prcess_data.line_height(),
@@ -263,16 +263,16 @@ class SVGRenderer:
                 line.end = Coordinate(out_data.connect_line.enter_to_data.start.x, end_y)
                 out_data.connect_line.between_prcess_data = line
 
-                draw_svg.draw_line_v(
-                    svg,
+                self.draw_svg.draw_line_v(
+                    self.svg,
                     out_data.connect_line.between_prcess_data.start.x,
                     out_data.connect_line.between_prcess_data.start.y,
                     out_data.connect_line.between_prcess_data.line_height(),
                     out_data.connect_line.color,
                 )
 
-        svg.insert(
+        self.svg.insert(
             0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #808d81">'
         )
-        svg.append("</svg>")
-        return "\n".join(svg)
+        self.svg.append("</svg>")
+        return "\n".join(self.svg)
