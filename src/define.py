@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 
+from line_level import LineLevel
+from line_type import LineTypeFormat
+
 
 @dataclass
 class Coordinate:
@@ -41,29 +44,29 @@ class InOutData:
 class LineInfo:
     DEFAULT_VALUE = -1
 
-    no: int = DEFAULT_VALUE
-    level: int = DEFAULT_VALUE
-    text: str = ""
-    category: int = DEFAULT_VALUE
-    iodata: InOutData | None = None
+    text_org: str = ""
+    level: LineLevel | None = None
 
+    type: LineTypeFormat | None = None
+    text_typeless: str = ""
+
+    iodata: InOutData | None = None
+    text_clean: str = ""
+
+    no: int = DEFAULT_VALUE
     next_no: int = DEFAULT_VALUE
     before_no: int = DEFAULT_VALUE
+
+    def __post_init__(self) -> None:
+        if self.level is None:
+            self.level = LineLevel()
+
+        if self.type is None:
+            self.type = LineTypeFormat()
 
 
 @dataclass
 class DiagramElement:
-    TYPE_NORMAL = 0
-    TYPE_FORK = 1
-    TYPE_REPEAT = 2
-    TYPE_MOD = 3
-    TYPE_RETURN = 4
-    TYPE_TRUE = 5
-    TYPE_FALSE = 6
-    TYPE_BRANCH = 7
-
-    TYPE_DATA = 50
-
     MARGIN = 15
 
     CIRCLE_R = 9
