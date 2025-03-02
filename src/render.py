@@ -4,6 +4,7 @@ from line_type import LineTypeDefine, LineTypeEnum
 
 
 class SVGRenderer:
+    data_offset = 10
     color_table = [
         "black",
         "red",
@@ -39,8 +40,8 @@ class SVGRenderer:
 
     def render_process(self) -> tuple[int, int]:
         # 処理部を描画
-        total_height = 0
-        total_width = 0
+        process_height = 0
+        process_width = 0
         for element in self.process_elements:
             # 種別に応じた図形とテキストを描画
             element.end_x = self.draw_fig.draw_figure_method(self.svg, element)
@@ -55,20 +56,15 @@ class SVGRenderer:
                     (bef_elem.y + DrawSvg.CIRCLE_R),
                     (element.y - DrawSvg.CIRCLE_R) - (bef_elem.y + DrawSvg.CIRCLE_R),
                 )
-                print(
-                    f"{element.x=}, {bef_elem.y=}, {bef_elem.y=} - {element.y=}, "
-                    f"{element.line_info.no=}, {element.line_info.before_no=}, {element.line_info.next_no=}"
-                    f"{element.line_info.text_clean}, "
-                )
 
             # 始点の追加
             if element.line_info.level == 0:
                 self.draw_svg.draw_figure_level_start(self.svg, element.x, element.y)
 
-            # 終端の追加
+            # 終点の追加
             if element.line_info.next_no == LineInfo.DEFAULT_VALUE:
                 if element.line_info.type.type_value == LineTypeDefine.get_format_by_type(LineTypeEnum.RETURN).type_value:
-                    # \returnは図として終端を描画する
+                    # \returnは図として終点を描画する
                     pass
                 else:
                     self.draw_svg.draw_figure_level_end(self.svg, element.x, element.y)
@@ -77,46 +73,42 @@ class SVGRenderer:
             if (element.line_info.level > 0) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
                 self.draw_svg.draw_figure_level_step(self.svg, element.x, element.y)
 
-            # 画像全体の高さを決定する
-            if total_height < element.y:
-                total_height = element.y
+            # 処理部の高さを更新する
+            if process_height < element.y:
+                process_height = element.y
 
-            # 画像全体の幅を決定する
-            if total_width < element.end_x:
-                total_width = element.end_x
+            # 処理部の幅を更新する
+            if process_width < element.end_x:
+                process_width = element.end_x
 
-        return total_height, total_width
+        return process_height, process_width
 
-    def render(self) -> str:
-        """パースされた要素をSVGとして描画"""
-        start_x = 30
-        start_y = 30
-
-        self.set_process_elements(start_x, start_y)
-        process_height, process_width = self.render_process()
-        total_height = process_height
-        total_width = process_width
-
+    def render_line_exit_from_process(self, process_end_x: int) -> int:
         # 処理の入出力線を描画する
         offset = 0
         exit_width = 0
         color_cnt = 0
         for element in self.process_elements:
+            # 入出力がなければ何もしない
             if element.line_info.iodata is None:
                 continue
 
             for in_data in element.line_info.iodata.in_data_list:
-                print(in_data, element.x, element.y)
-                # 水平線の追加
+                # 水平線の始点と終点を決定
                 line = Line()
                 line.start = Coordinate(element.end_x + 10, element.y - 5)
-                line.end = Coordinate(process_width + offset, element.y - 5)
+                line.end = Coordinate(process_end_x + offset, element.y - 5)
 
+                # 水平線を保持
                 connect_line = Process2Data()
                 connect_line.exit_from_process = line
-                connect_line.color = self.color_table[color_cnt]
                 in_data.connect_line = connect_line
 
+                # 線の色を保持
+                in_data.connect_line.color = self.color_table[color_cnt]
+                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
+
+                # 入力線を描画
                 self.draw_svg.draw_arrow_l(
                     self.svg,
                     in_data.connect_line.exit_from_process.start.x,
@@ -124,24 +116,27 @@ class SVGRenderer:
                     in_data.connect_line.exit_from_process.line_width(),
                     in_data.connect_line.color,
                 )
-                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
-                offset += 10
+
+                offset += self.data_offset
                 if exit_width < line.end.x:
                     exit_width = line.end.x
-                    total_width = exit_width
 
             for out_data in element.line_info.iodata.out_data_list:
-                print(out_data, element.x, element.y)
-                # 水平線の追加
+                # 水平線の始点と終点を決定
                 line = Line()
                 line.start = Coordinate(element.end_x + 10, element.y + 5)
-                line.end = Coordinate(process_width + offset, element.y + 5)
+                line.end = Coordinate(process_end_x + offset, element.y + 5)
 
+                # 水平線を保持
                 connect_line = Process2Data()
                 connect_line.exit_from_process = line
-                connect_line.color = self.color_table[color_cnt]
                 out_data.connect_line = connect_line
 
+                # 線の色を保持
+                out_data.connect_line.color = self.color_table[color_cnt]
+                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
+
+                # 出力戦を描画
                 self.draw_svg.draw_line_h(
                     self.svg,
                     out_data.connect_line.exit_from_process.start.x,
@@ -149,11 +144,27 @@ class SVGRenderer:
                     out_data.connect_line.exit_from_process.line_width(),
                     out_data.connect_line.color,
                 )
-                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
-                offset += 10
+
+                offset += self.data_offset
                 if exit_width < line.end.x:
                     exit_width = line.end.x
-                    total_width = exit_width
+
+        return exit_width
+
+    def render(self) -> str:
+        """パースされた要素をSVGとして描画"""
+        start_x = 30
+        start_y = 30
+
+        # 処理部を描画
+        self.set_process_elements(start_x, start_y)
+        process_height, process_width = self.render_process()
+
+        # 処理部からの水平線を描画
+        exit_width = self.render_line_exit_from_process(process_width)
+
+        total_height = process_height
+        total_width = exit_width
 
         # データ部の座標決定
         data_start_x = exit_width + 30
