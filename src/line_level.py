@@ -9,10 +9,8 @@ class LineLevel:
 
     TAB2SPACE = 4
 
-    def __init__(self) -> None:
-        self.lv: int = 0
-
-    def __create_indent_pattern(self, tab_count: int) -> str:
+    @classmethod
+    def __create_indent_pattern(cls, tab_count: int) -> str:
         """インデントパターンを動的に生成する
 
         行頭は タブ*n個 もしくは 半角空白m個 で、任意の文字が続いて行末 となるパターン
@@ -30,7 +28,7 @@ class LineLevel:
             raise ValueError("tab_count must be non-negative")
 
         # タブと半角スペースを変換する
-        space_count = tab_count * self.TAB2SPACE
+        space_count = tab_count * cls.TAB2SPACE
 
         # 正規表現を作成する
         # {}の数、書き方に注意
@@ -40,7 +38,8 @@ class LineLevel:
         pattern = f"^(?:[ ]{{{space_count}}}|\t{{{tab_count}}})\\S.*$"
         return pattern
 
-    def get_line_level(self, line: str) -> int:
+    @classmethod
+    def get_line_level(cls, line: str) -> int:
         """与えられた行のレベルを取得する
 
         インデントの記載に誤りがあればエラーを返す
@@ -54,19 +53,16 @@ class LineLevel:
         # 空行は無視する
         strip_line = line.strip()
         if strip_line is None:
-            return self.LEVEL_NONE
+            return cls.LEVEL_NONE
 
         # レベル0から順にインデントをチェックする
-        for level in range(self.LEVEL_MIN, self.LEVEL_MAX):
+        for level in range(cls.LEVEL_MIN, cls.LEVEL_MAX):
             # レベルに応じたチェックパターンを生成する
             tab_count = level
-            pattern = self.__create_indent_pattern(tab_count)
+            pattern = cls.__create_indent_pattern(tab_count)
 
             # 該当したレベルを返す
             if re.match(pattern, line) is not None:
                 return level
 
         raise ValueError(f"Wrong indent pattern: {line}")
-
-    def set_line_level(self, line: str) -> None:
-        self.lv = self.get_line_level(line)

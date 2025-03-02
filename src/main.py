@@ -50,11 +50,9 @@ def main() -> None:
 
     # パースと描画
     parser = SimpleDiagramParser(input_text)
-    process_info_list = parser.create_process_info_list()
-    data_info_list = parser.create_data_info_list()
 
     renderer = SVGRenderer()
-    svg_output = renderer.render(process_info_list, data_info_list)
+    svg_output = renderer.render(parser.process_line_info_list, parser.data_line_info_list)
 
     # SVGファイルとして保存
     with open(r"./src/output/output.svg", "w", encoding="utf-8") as f:
