@@ -19,7 +19,7 @@ def main() -> None:
 処理開始
     必要な情報を揃える
         排他を取得
-        \repeat DBから取得 \in データ1 \out データ2
+        \repeat DBから取得 \in データ1 \out データ2 \out データ7
         排他を解放
     データ更新
         更新が必要か判定する \in データ2 \out データ3
@@ -56,8 +56,8 @@ def main() -> None:
     # パースと描画
     parser = SimpleDiagramParser(input_text)
 
-    renderer = SVGRenderer()
-    svg_output = renderer.render(parser.process_line_info_list, parser.data_line_info_list)
+    renderer = SVGRenderer(parser.process_line_info_list, parser.data_line_info_list)
+    svg_output = renderer.render()
 
     # SVGファイルとして保存
     with open(r"./src/output/output.svg", "w", encoding="utf-8") as f:
