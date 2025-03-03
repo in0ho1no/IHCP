@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 
+from line_level import LineLevel
+from line_type import LineTypeFormat
+
 
 @dataclass
 class Coordinate:
@@ -23,6 +26,7 @@ class Process2Data:
     exit_from_process: Line | None = None
     between_prcess_data: Line | None = None
     enter_to_data: Line | None = None
+    color: str = "black"
 
 
 @dataclass
@@ -41,37 +45,29 @@ class InOutData:
 class LineInfo:
     DEFAULT_VALUE = -1
 
-    no: int = DEFAULT_VALUE
-    level: int = DEFAULT_VALUE
-    text: str = ""
-    category: int = DEFAULT_VALUE
-    iodata: InOutData | None = None
+    text_org: str = ""
+    level: LineLevel | None = None
 
+    type: LineTypeFormat | None = None
+    text_typeless: str = ""
+
+    iodata: InOutData | None = None
+    text_clean: str = ""
+
+    no: int = DEFAULT_VALUE
     next_no: int = DEFAULT_VALUE
     before_no: int = DEFAULT_VALUE
+
+    def __post_init__(self) -> None:
+        if self.level is None:
+            self.level = LineLevel()
+
+        if self.type is None:
+            self.type = LineTypeFormat()
 
 
 @dataclass
 class DiagramElement:
-    TYPE_NORMAL = 0
-    TYPE_FORK = 1
-    TYPE_REPEAT = 2
-    TYPE_MOD = 3
-    TYPE_RETURN = 4
-    TYPE_TRUE = 5
-    TYPE_FALSE = 6
-    TYPE_BRANCH = 7
-
-    TYPE_DATA = 50
-
-    MARGIN = 15
-
-    CIRCLE_R = 9
-    FIGURE_WIDTH = CIRCLE_R * 2
-    FIGURE_HEIGHT = CIRCLE_R * 4
-
-    SPACE_FIGURE_TO_TEXT = 10
-
     LEVEL_SHIFT = 30
 
     line_info: LineInfo
@@ -80,15 +76,3 @@ class DiagramElement:
     y: int = 0
 
     end_x: int = 0
-
-
-def get_string_bytes(string: str) -> int:
-    count = 0
-    for char in string:
-        # ASCII文字(1バイト文字)
-        if ord(char) < 128:
-            count += 1
-        # それ以外(2バイト文字)
-        else:
-            count += 2
-    return count
