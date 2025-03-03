@@ -127,38 +127,25 @@ class SVGRenderer:
 
         return exit_width
 
-    def render(self) -> str:
-        """パースされた要素をSVGとして描画"""
-        start_x = 30
-        start_y = 30
-
-        # 処理部を描画
-        self.set_process_elements(start_x, start_y)
-        process_height, process_width = self.render_process()
-
-        # 処理部からの水平線を描画
-        exit_width = self.render_line_exit_from_process(process_width)
-
-        total_height = process_height
-        total_width = exit_width
-
-        # データ部の座標決定
-        data_start_x = exit_width + 30
-        data_start_y = start_y
+    def set_data_elements(self, start_x: int, start_y: int) -> None:
+        # データ部の配置を計算して保持する
         data_elements: list[DiagramElement] = []
         for line_info in self.data_info_list:
             if line_info.type.type_value != LineTypeDefine.get_format_by_type(LineTypeEnum.DATA).type_value:
                 continue
 
             element = DiagramElement(line_info)
-
-            element.x = data_start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
-            element.y = data_start_y + len(data_elements) * (DiagramElement.LEVEL_SHIFT)
-
+            element.x = start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
+            element.y = start_y + len(data_elements) * (DiagramElement.LEVEL_SHIFT)
             data_elements.append(element)
 
+        self.data_elements = data_elements
+
+    def render_data(self) -> tuple[int, int]:
         # データ部の図形要素を描画
-        for data_element in data_elements:
+        data_height = 0
+        data_width = 0
+        for data_element in self.data_elements:
             # 種別に応じた図形とテキストを描画
             data_name = data_element.line_info.text_clean
             end_x = self.draw_svg.draw_figure_data(self.svg, data_element.x, data_element.y, data_name)
@@ -214,13 +201,30 @@ class SVGRenderer:
                         out_data.connect_line.color,
                     )
 
-            # 画像全体の高さを決定する
-            if total_height < data_element.y:
-                total_height = data_element.y
+            # データ部の高さと幅を更新する
+            data_height = max(data_height, data_element.y)
+            data_width = max(data_width, end_x)
 
-            # 画像全体の幅を決定する
-            if total_width < end_x:
-                total_width = end_x
+        return data_height, data_width
+
+    def render(self) -> str:
+        """パースされた要素をSVGとして描画"""
+        start_x = 30
+        start_y = 30
+
+        # 処理部を描画
+        self.set_process_elements(start_x, start_y)
+        process_height, process_width = self.render_process()
+
+        # 処理部からの水平線を描画
+        exit_width = self.render_line_exit_from_process(process_width)
+
+        # データ部を描画
+        self.set_data_elements(exit_width + 30, start_y)
+        data_height, data_width = self.render_data()
+
+        total_height = max(process_height, data_height)
+        total_width = data_width
 
         # 入出力の線を結ぶ
         for process_element in self.process_elements:
