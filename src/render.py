@@ -1,4 +1,4 @@
-from define import Coordinate, DiagramElement, Line, LineInfo, Process2Data
+from define import Coordinate, DataInfo, DiagramElement, Line, LineInfo, Process2Data
 from draw_svg import DrawFigure, DrawSvg
 from line_type import LineTypeDefine, LineTypeEnum
 
@@ -73,13 +73,9 @@ class SVGRenderer:
             if (element.line_info.level > 0) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
                 self.draw_svg.draw_figure_level_step(self.svg, element.x, element.y)
 
-            # 処理部の高さを更新する
-            if process_height < element.y:
-                process_height = element.y
-
-            # 処理部の幅を更新する
-            if process_width < element.end_x:
-                process_width = element.end_x
+            # 処理部の高さと幅を更新する
+            process_height = max(process_height, element.y)
+            process_width = max(process_width, element.end_x)
 
         return process_height, process_width
 
@@ -88,66 +84,46 @@ class SVGRenderer:
         offset = 0
         exit_width = 0
         color_cnt = 0
+
+        def process_io_data(data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
+            nonlocal offset, exit_width, color_cnt
+
+            for data in data_list:
+                # 水平線の始点と終点を決定
+                line = Line()
+                line.start = Coordinate(element.end_x + 10, element.y + y_offset)
+                line.end = Coordinate(process_end_x + offset, element.y + y_offset)
+
+                # 水平線を保持
+                connect_line = Process2Data()
+                connect_line.exit_from_process = line
+                data.connect_line = connect_line
+
+                # 線の色を保持
+                data.connect_line.color = self.color_table[color_cnt]
+                color_cnt = (color_cnt + 1) % len(self.color_table)
+
+                # 線を描画（入力の場合は左向き矢印、出力の場合は水平線）
+                draw_method = self.draw_svg.draw_arrow_l if is_input else self.draw_svg.draw_line_h
+                draw_method(
+                    self.svg,
+                    data.connect_line.exit_from_process.start.x,
+                    data.connect_line.exit_from_process.start.y,
+                    data.connect_line.exit_from_process.line_width(),
+                    data.connect_line.color,
+                )
+                offset += self.data_offset
+                exit_width = max(exit_width, line.end.x)
+
         for element in self.process_elements:
             # 入出力がなければ何もしない
             if element.line_info.iodata is None:
                 continue
 
-            for in_data in element.line_info.iodata.in_data_list:
-                # 水平線の始点と終点を決定
-                line = Line()
-                line.start = Coordinate(element.end_x + 10, element.y - 5)
-                line.end = Coordinate(process_end_x + offset, element.y - 5)
-
-                # 水平線を保持
-                connect_line = Process2Data()
-                connect_line.exit_from_process = line
-                in_data.connect_line = connect_line
-
-                # 線の色を保持
-                in_data.connect_line.color = self.color_table[color_cnt]
-                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
-
-                # 入力線を描画
-                self.draw_svg.draw_arrow_l(
-                    self.svg,
-                    in_data.connect_line.exit_from_process.start.x,
-                    in_data.connect_line.exit_from_process.start.y,
-                    in_data.connect_line.exit_from_process.line_width(),
-                    in_data.connect_line.color,
-                )
-
-                offset += self.data_offset
-                if exit_width < line.end.x:
-                    exit_width = line.end.x
-
-            for out_data in element.line_info.iodata.out_data_list:
-                # 水平線の始点と終点を決定
-                line = Line()
-                line.start = Coordinate(element.end_x + 10, element.y + 5)
-                line.end = Coordinate(process_end_x + offset, element.y + 5)
-
-                # 水平線を保持
-                connect_line = Process2Data()
-                connect_line.exit_from_process = line
-                out_data.connect_line = connect_line
-
-                # 線の色を保持
-                out_data.connect_line.color = self.color_table[color_cnt]
-                color_cnt = color_cnt + 1 if color_cnt + 1 < len(self.color_table) else 0
-
-                # 出力戦を描画
-                self.draw_svg.draw_line_h(
-                    self.svg,
-                    out_data.connect_line.exit_from_process.start.x,
-                    out_data.connect_line.exit_from_process.start.y,
-                    out_data.connect_line.exit_from_process.line_width(),
-                    out_data.connect_line.color,
-                )
-
-                offset += self.data_offset
-                if exit_width < line.end.x:
-                    exit_width = line.end.x
+            # 入力データの水平線を描画
+            process_io_data(element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
+            # 出力データの水平線を描画
+            process_io_data(element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
 
         return exit_width
 
