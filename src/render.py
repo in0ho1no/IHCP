@@ -85,7 +85,7 @@ class SVGRenderer:
         exit_width = 0
         color_cnt = 0
 
-        def process_io_data(element: DiagramElement, data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
+        def process_io_line(element: DiagramElement, data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
             nonlocal offset, exit_width, color_cnt
 
             for data in data_list:
@@ -103,7 +103,7 @@ class SVGRenderer:
                 data.connect_line.color = self.color_table[color_cnt]
                 color_cnt = (color_cnt + 1) % len(self.color_table)
 
-                # 線を描画（入力の場合は左向き矢印、出力の場合は水平線）
+                # 線を描画(入力の場合は左矢印, 出力の場合は水平線)
                 draw_method = self.draw_svg.draw_arrow_l if is_input else self.draw_svg.draw_line_h
                 draw_method(
                     self.svg,
@@ -121,9 +121,9 @@ class SVGRenderer:
                 continue
 
             # 入力データの水平線を描画
-            process_io_data(element, element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
+            process_io_line(element, element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
             # 出力データの水平線を描画
-            process_io_data(element, element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
+            process_io_line(element, element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
 
         return exit_width
 
@@ -131,61 +131,36 @@ class SVGRenderer:
         # データ部の図形要素を描画
         data_height = 0
         data_width = 0
+
+        def data_io_line(element: DiagramElement, data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
+            for data in data_list:
+                # 同じデータ名をつなぐ
+                if element.line_info.text_clean != data.name:
+                    continue
+
+                # 水平線の追加
+                line = Line()
+                line.start = Coordinate(data.connect_line.exit_from_process.end.x, element.y + y_offset)
+                line.end = Coordinate(element.x - DrawSvg.CIRCLE_R, element.y + y_offset)
+                data.connect_line.enter_to_data = line
+
+                # 線を描画(入力の場合は水平線, 出力の場合は右矢印)
+                draw_method = self.draw_svg.draw_line_h if is_input else self.draw_svg.draw_arrow_r
+                draw_method(
+                    self.svg,
+                    data.connect_line.enter_to_data.start.x,
+                    data.connect_line.enter_to_data.start.y,
+                    data.connect_line.enter_to_data.line_width(),
+                    data.connect_line.color,
+                )
+
         for data_element in self.data_elements:
             # 種別に応じた図形とテキストを描画
-            data_name = data_element.line_info.text_clean
-            end_x = self.draw_svg.draw_figure_data(self.svg, data_element.x, data_element.y, data_name)
+            end_x = self.draw_fig.draw_figure_method(self.svg, data_element)
 
             for process_element in self.process_elements:
-                for in_data in process_element.line_info.iodata.in_data_list:
-                    # 同じデータ名をつなぐ
-                    if data_name != in_data.name:
-                        continue
-
-                    # 水平線の追加
-                    line = Line()
-                    line.start = Coordinate(
-                        in_data.connect_line.exit_from_process.end.x,
-                        data_element.y - 5,
-                    )
-                    line.end = Coordinate(
-                        data_element.x - DrawSvg.CIRCLE_R,
-                        data_element.y - 5,
-                    )
-                    in_data.connect_line.enter_to_data = line
-
-                    self.draw_svg.draw_line_h(
-                        self.svg,
-                        in_data.connect_line.enter_to_data.start.x,
-                        in_data.connect_line.enter_to_data.start.y,
-                        in_data.connect_line.enter_to_data.line_width(),
-                        in_data.connect_line.color,
-                    )
-
-                for out_data in process_element.line_info.iodata.out_data_list:
-                    # 同じデータ名をつなぐ
-                    if data_name != out_data.name:
-                        continue
-
-                    # 水平線の追加
-                    line = Line()
-                    line.start = Coordinate(
-                        out_data.connect_line.exit_from_process.end.x,
-                        data_element.y + 5,
-                    )
-                    line.end = Coordinate(
-                        data_element.x - DrawSvg.CIRCLE_R,
-                        data_element.y + 5,
-                    )
-                    out_data.connect_line.enter_to_data = line
-
-                    self.draw_svg.draw_arrow_r(
-                        self.svg,
-                        out_data.connect_line.enter_to_data.start.x,
-                        out_data.connect_line.enter_to_data.start.y,
-                        out_data.connect_line.enter_to_data.line_width(),
-                        out_data.connect_line.color,
-                    )
+                data_io_line(data_element, process_element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
+                data_io_line(data_element, process_element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
 
             # データ部の高さと幅を更新する
             data_height = max(data_height, data_element.y)
