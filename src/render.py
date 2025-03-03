@@ -27,16 +27,16 @@ class SVGRenderer:
         self.process_info_list: list[LineInfo] = process_info_list
         self.data_info_list: list[LineInfo] = data_info_list
 
-    def set_process_elements(self, start_x: int, start_y: int) -> None:
-        # 処理部の配置を計算して保持する
-        process_elements: list[DiagramElement] = []
-        for line_info in self.process_info_list:
+    def set_elements(self, start_x: int, start_y: int, line_info_list: list[LineInfo]) -> list[DiagramElement]:
+        # 各要素の配置を計算して保持する
+        element_list: list[DiagramElement] = []
+        for line_info in line_info_list:
             element = DiagramElement(line_info)
             element.x = start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
-            element.y = start_y + len(process_elements) * (DiagramElement.LEVEL_SHIFT)
-            process_elements.append(element)
+            element.y = start_y + len(element_list) * (DiagramElement.LEVEL_SHIFT)
+            element_list.append(element)
 
-        self.process_elements = process_elements
+        return element_list
 
     def render_process(self) -> tuple[int, int]:
         # 処理部を描画
@@ -85,7 +85,7 @@ class SVGRenderer:
         exit_width = 0
         color_cnt = 0
 
-        def process_io_data(data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
+        def process_io_data(element: DiagramElement, data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
             nonlocal offset, exit_width, color_cnt
 
             for data in data_list:
@@ -121,25 +121,11 @@ class SVGRenderer:
                 continue
 
             # 入力データの水平線を描画
-            process_io_data(element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
+            process_io_data(element, element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
             # 出力データの水平線を描画
-            process_io_data(element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
+            process_io_data(element, element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
 
         return exit_width
-
-    def set_data_elements(self, start_x: int, start_y: int) -> None:
-        # データ部の配置を計算して保持する
-        data_elements: list[DiagramElement] = []
-        for line_info in self.data_info_list:
-            if line_info.type.type_value != LineTypeDefine.get_format_by_type(LineTypeEnum.DATA).type_value:
-                continue
-
-            element = DiagramElement(line_info)
-            element.x = start_x + element.line_info.level * (DiagramElement.LEVEL_SHIFT)
-            element.y = start_y + len(data_elements) * (DiagramElement.LEVEL_SHIFT)
-            data_elements.append(element)
-
-        self.data_elements = data_elements
 
     def render_data(self) -> tuple[int, int]:
         # データ部の図形要素を描画
@@ -213,14 +199,14 @@ class SVGRenderer:
         start_y = 30
 
         # 処理部を描画
-        self.set_process_elements(start_x, start_y)
+        self.process_elements = self.set_elements(start_x, start_y, self.process_info_list)
         process_height, process_width = self.render_process()
 
         # 処理部からの水平線を描画
         exit_width = self.render_line_exit_from_process(process_width)
 
         # データ部を描画
-        self.set_data_elements(exit_width + 30, start_y)
+        self.data_elements = self.set_elements(exit_width + 30, start_y, self.data_info_list)
         data_height, data_width = self.render_data()
 
         total_height = max(process_height, data_height)
