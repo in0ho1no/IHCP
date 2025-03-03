@@ -129,9 +129,6 @@ class SVGRenderer:
 
     def render_data(self) -> tuple[int, int]:
         # データ部の図形要素を描画
-        data_height = 0
-        data_width = 0
-
         def data_io_line(element: DiagramElement, data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
             for data in data_list:
                 # 同じデータ名をつなぐ
@@ -154,6 +151,8 @@ class SVGRenderer:
                     data.connect_line.color,
                 )
 
+        data_height = 0
+        data_width = 0
         for data_element in self.data_elements:
             # 種別に応じた図形とテキストを描画
             end_x = self.draw_fig.draw_figure_method(self.svg, data_element)
@@ -167,6 +166,38 @@ class SVGRenderer:
             data_width = max(data_width, end_x)
 
         return data_height, data_width
+
+    def connect_process2data(self) -> None:
+        # 入出力の線を結ぶ
+        def process2data(data_list: list[DataInfo]) -> None:
+            for data in data_list:
+                if data.connect_line.enter_to_data is None:
+                    continue
+
+                start_y = min(data.connect_line.enter_to_data.start.y, data.connect_line.exit_from_process.end.y)
+                end_y = max(data.connect_line.enter_to_data.start.y, data.connect_line.exit_from_process.end.y)
+
+                line = Line()
+                line.start = Coordinate(data.connect_line.enter_to_data.start.x, start_y)
+                line.end = Coordinate(data.connect_line.enter_to_data.start.x, end_y)
+                data.connect_line.between_prcess_data = line
+
+                self.draw_svg.draw_line_v(
+                    self.svg,
+                    data.connect_line.between_prcess_data.start.x,
+                    data.connect_line.between_prcess_data.start.y,
+                    data.connect_line.between_prcess_data.line_height(),
+                    data.connect_line.color,
+                )
+
+        for process_element in self.process_elements:
+            process2data(process_element.line_info.iodata.in_data_list)
+            process2data(process_element.line_info.iodata.out_data_list)
+
+    def finish_svg(self, width: int, height: int) -> str:
+        self.svg.insert(0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height + 50}" style="background-color: #808d81">')
+        self.svg.append("</svg>")
+        return "\n".join(self.svg)
 
     def render(self) -> str:
         """パースされた要素をSVGとして描画"""
@@ -184,59 +215,9 @@ class SVGRenderer:
         self.data_elements = self.set_elements(exit_width + 30, start_y, self.data_info_list)
         data_height, data_width = self.render_data()
 
-        total_height = max(process_height, data_height)
+        # 処理部とデータ部を結ぶ
+        self.connect_process2data()
+
         total_width = data_width
-
-        # 入出力の線を結ぶ
-        for process_element in self.process_elements:
-            for in_data in process_element.line_info.iodata.in_data_list:
-                if in_data.connect_line.enter_to_data is None:
-                    continue
-
-                start_y = in_data.connect_line.enter_to_data.start.y
-                end_y = in_data.connect_line.exit_from_process.end.y
-                if start_y > end_y:
-                    start_y = in_data.connect_line.exit_from_process.end.y
-                    end_y = in_data.connect_line.enter_to_data.start.y
-
-                line = Line()
-                line.start = Coordinate(in_data.connect_line.enter_to_data.start.x, start_y)
-                line.end = Coordinate(in_data.connect_line.enter_to_data.start.x, end_y)
-                in_data.connect_line.between_prcess_data = line
-
-                self.draw_svg.draw_line_v(
-                    self.svg,
-                    in_data.connect_line.between_prcess_data.start.x,
-                    in_data.connect_line.between_prcess_data.start.y,
-                    in_data.connect_line.between_prcess_data.line_height(),
-                    in_data.connect_line.color,
-                )
-
-            for out_data in process_element.line_info.iodata.out_data_list:
-                if out_data.connect_line.enter_to_data is None:
-                    continue
-
-                start_y = out_data.connect_line.enter_to_data.start.y
-                end_y = out_data.connect_line.exit_from_process.end.y
-                if start_y > end_y:
-                    start_y = out_data.connect_line.exit_from_process.end.y
-                    end_y = out_data.connect_line.enter_to_data.start.y
-
-                line = Line()
-                line.start = Coordinate(out_data.connect_line.enter_to_data.start.x, start_y)
-                line.end = Coordinate(out_data.connect_line.enter_to_data.start.x, end_y)
-                out_data.connect_line.between_prcess_data = line
-
-                self.draw_svg.draw_line_v(
-                    self.svg,
-                    out_data.connect_line.between_prcess_data.start.x,
-                    out_data.connect_line.between_prcess_data.start.y,
-                    out_data.connect_line.between_prcess_data.line_height(),
-                    out_data.connect_line.color,
-                )
-
-        self.svg.insert(
-            0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="{total_height + 50}" style="background-color: #808d81">'
-        )
-        self.svg.append("</svg>")
-        return "\n".join(self.svg)
+        total_height = max(process_height, data_height)
+        return self.finish_svg(total_width, total_height)
