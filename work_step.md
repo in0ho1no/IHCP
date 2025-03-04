@@ -14,11 +14,11 @@ README.mdのタイトルを変更する
 
 仮想環境を作成する
 
-    pipenv --python 3.10
+    uv venv --python 3.13
 
 単体テスト環境を用意する
 
-    pipenv install pytest
+    uv pip install pytest
 
 ## 単体テスト
 
