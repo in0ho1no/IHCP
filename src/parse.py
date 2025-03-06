@@ -7,7 +7,8 @@ from line_type import LineType, LineTypeDefine, LineTypeEnum
 
 class SimpleDiagramParser:
     def __init__(self, text_data: str) -> None:
-        self.line_info_list: list[LineInfo] = self.convert_text2lines(text_data)
+        text_lines = self.convert_text2lines(text_data)
+        self.line_info_list: list[LineInfo] = self.convert_lines2lineinfo(text_lines)
         self.update_line_level()
         self.update_line_type()
         self.update_line_io()
@@ -15,24 +16,47 @@ class SimpleDiagramParser:
         self.data_line_info_list = self.create_data_info_list_no()
         self.process_line_info_list = self.create_process_info_list_no()
 
-    def convert_text2lines(self, text: str) -> list[LineInfo]:
-        """テキストデータから空行を除いた文字列リストを保持する
+    def convert_text2lines(self, text: str) -> list[str]:
+        """テキストデータを不要な情報を除去した文字列リストに変換する
+
+        以下取り除く
+        - コメント("#"に続く文字列)
+        - 空行
 
         Args:
             text (str): 変換元のテキストデータ
 
         Returns:
-            list[str]: 空行を除いた文字列リスト
+            list[str]: 不要な情報を除いた文字列リスト
         """
-        line_info_list: list[LineInfo] = []
+
+        output_lines: list[str] = []
         for text_line in text.strip().split("\n"):
+            # コメントは削除する
+            line_deleted_comment = text_line.split("#")[0]
+
             # 空行は無視する
-            strip_line = text_line.strip()
-            if len(strip_line) == 0:
+            if len(line_deleted_comment.strip()) == 0:
                 continue
 
+            # 残った文字列をリストに追加する
+            output_lines.append(line_deleted_comment)
+
+        return output_lines
+
+    def convert_lines2lineinfo(self, lines: list[str]) -> list[LineInfo]:
+        """文字列リストを文字列情報リストに変換する
+
+        Args:
+            lines (list[str]): 文字列リスト
+
+        Returns:
+            list[LineInfo]: 文字列情報リスト
+        """
+        line_info_list: list[LineInfo] = []
+        for line in lines:
             line_info = LineInfo()
-            line_info.text_org = text_line
+            line_info.text_org = line
             line_info_list.append(line_info)
 
         return line_info_list
