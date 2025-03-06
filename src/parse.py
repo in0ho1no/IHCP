@@ -17,11 +17,11 @@ class SimpleDiagramParser:
         self.process_line_info_list = self.create_process_info_list_no()
 
     def convert_text2lines(self, text: str) -> list[str]:
-        """テキストデータから不要な情報を除いた文字列リストを返す
+        """テキストデータを不要な情報を除去した文字列リストに変換する
 
         以下取り除く
-        ・コメント("#"に続く文字列)
-        ・空行
+        - コメント("#"に続く文字列)
+        - 空行
 
         Args:
             text (str): 変換元のテキストデータ
@@ -30,43 +30,28 @@ class SimpleDiagramParser:
             list[str]: 不要な情報を除いた文字列リスト
         """
 
-        def delete_comment(line: str) -> str:
-            """コメントを削除する
-
-            Args:
-                line (str): 任意文字列
-
-            Returns:
-                str: "#"以降の文字を削除した文字列
-            """
-            delete_pos = line.find("#")
-            if 0 > delete_pos:
-                delete_pos = len(line)
-
-            return line[:delete_pos]
-
         output_lines: list[str] = []
         for text_line in text.strip().split("\n"):
             # コメントは削除する
-            line_deleted_comment = delete_comment(text_line)
+            line_deleted_comment = text_line.split("#")[0]
 
             # 空行は無視する
-            line_strip = line_deleted_comment.strip()
-            if len(line_strip) == 0:
+            if len(line_deleted_comment.strip()) == 0:
                 continue
 
+            # 残った文字列をリストに追加する
             output_lines.append(line_deleted_comment)
 
         return output_lines
 
     def convert_lines2lineinfo(self, lines: list[str]) -> list[LineInfo]:
-        """テキストデータから空行を除いた文字列リストを保持する
+        """文字列リストを文字列情報リストに変換する
 
         Args:
-            text (str): 変換元のテキストデータ
+            lines (list[str]): 文字列リスト
 
         Returns:
-            list[str]: 空行を除いた文字列リスト
+            list[LineInfo]: 文字列情報リスト
         """
         line_info_list: list[LineInfo] = []
         for line in lines:
