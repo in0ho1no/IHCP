@@ -7,7 +7,8 @@ from line_type import LineType, LineTypeDefine, LineTypeEnum
 
 class SimpleDiagramParser:
     def __init__(self, text_data: str) -> None:
-        self.line_info_list: list[LineInfo] = self.convert_text2lines(text_data)
+        text_lines = self.convert_text2lines(text_data)
+        self.line_info_list: list[LineInfo] = self.convert_lines2lineinfo(text_lines)
         self.update_line_level()
         self.update_line_type()
         self.update_line_io()
@@ -15,7 +16,50 @@ class SimpleDiagramParser:
         self.data_line_info_list = self.create_data_info_list_no()
         self.process_line_info_list = self.create_process_info_list_no()
 
-    def convert_text2lines(self, text: str) -> list[LineInfo]:
+    def convert_text2lines(self, text: str) -> list[str]:
+        """テキストデータから不要な情報を除いた文字列リストを返す
+
+        以下取り除く
+        ・コメント("#"に続く文字列)
+        ・空行
+
+        Args:
+            text (str): 変換元のテキストデータ
+
+        Returns:
+            list[str]: 不要な情報を除いた文字列リスト
+        """
+
+        def delete_comment(line: str) -> str:
+            """コメントを削除する
+
+            Args:
+                line (str): 任意文字列
+
+            Returns:
+                str: "#"以降の文字を削除した文字列
+            """
+            delete_pos = line.find("#")
+            if 0 > delete_pos:
+                delete_pos = len(line)
+
+            return line[:delete_pos]
+
+        output_lines: list[str] = []
+        for text_line in text.strip().split("\n"):
+            # コメントは削除する
+            line_deleted_comment = delete_comment(text_line)
+
+            # 空行は無視する
+            line_strip = line_deleted_comment.strip()
+            if len(line_strip) == 0:
+                continue
+
+            output_lines.append(line_deleted_comment)
+
+        return output_lines
+
+    def convert_lines2lineinfo(self, lines: list[str]) -> list[LineInfo]:
         """テキストデータから空行を除いた文字列リストを保持する
 
         Args:
@@ -25,14 +69,9 @@ class SimpleDiagramParser:
             list[str]: 空行を除いた文字列リスト
         """
         line_info_list: list[LineInfo] = []
-        for text_line in text.strip().split("\n"):
-            # 空行は無視する
-            strip_line = text_line.strip()
-            if len(strip_line) == 0:
-                continue
-
+        for line in lines:
             line_info = LineInfo()
-            line_info.text_org = text_line
+            line_info.text_org = line
             line_info_list.append(line_info)
 
         return line_info_list
