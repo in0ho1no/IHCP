@@ -91,14 +91,23 @@ def read_file(file_path: str) -> str:
         str: ファイルの内容
 
     Raises:
-        UnicodeDecodeError: UTF-8とShift-JISどちらでも読み込めない場合
-        IOError: ファイル読み込みに失敗した場合
+        OSError: ファイル読み込みに失敗した場合
+        ValueError: ファイルが空の場合
     """
     try:
-        # UTF-8で開く
-        with open(file_path, encoding="utf-8") as f:
-            return f.read()
-    except UnicodeDecodeError:
-        # Shift-JISで開く
-        with open(file_path, encoding="shift_jis") as f:
-            return f.read()
+        with open(file_path, "rb") as f:
+            file_content = f.read()
+
+        if not file_content:
+            raise ValueError("ファイルが空です")
+
+        try:
+            return file_content.decode("utf-8")
+        except UnicodeDecodeError as e_utf8:
+            try:
+                return file_content.decode("shift_jis")
+            except UnicodeDecodeError as e_shift_jis:
+                raise OSError(f"ファイルをUTF-8/Shift-JISのどちらでもデコードできません: {e_utf8!r}, {e_shift_jis!r}") from e_shift_jis
+
+    except OSError as e:
+        raise OSError(f"ファイルの読み込みに失敗しました: {e!r}") from e
