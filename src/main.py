@@ -7,7 +7,8 @@ from render import SVGRenderer
 
 
 def main() -> None:
-    hcp_file_list = glob.glob(r"./src/input/*.hcp")
+    input_folder = ".\\src\\input\\"
+    hcp_file_list = glob.glob(input_folder + "**\\*.hcp", recursive=True)
     for hcp_file in hcp_file_list:
         # ファイル読み込み
         input_text = read_file(hcp_file)
@@ -20,7 +21,9 @@ def main() -> None:
         svg_output = renderer.render()
 
         # SVGファイルとして保存
-        basename = os.path.basename(hcp_file).split(".")[0]
+        file_path = hcp_file.replace(input_folder, "")
+        rename_path = "_".join(file_path.split("\\"))
+        basename = os.path.basename(rename_path).split(".")[0]
         with open(f"./src/output/{basename}.svg", "w", encoding="utf-8") as f:
             f.write(svg_output)
 
