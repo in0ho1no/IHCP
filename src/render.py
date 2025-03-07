@@ -58,7 +58,7 @@ class SVGRenderer:
                 )
 
             # 始点の追加
-            if element.line_info.level == 0:
+            if (element.line_info.before_no == LineInfo.DEFAULT_VALUE) and (element.line_info.level == 0):
                 self.draw_svg.draw_figure_level_start(self.svg, element.x, element.y)
 
             # 終点の追加
