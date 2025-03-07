@@ -3,22 +3,15 @@
 <text x="49" y="30" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">処理開始</text>
 <line x1="30" y1="12" x2="30" y2="21" stroke="black"/>
 <line x1="21" y1="12" x2="39" y2="12" stroke="black"/>
-<line x1="30" y1="39" x2="30" y2="48" stroke="black"/>
-<line x1="21" y1="48" x2="39" y2="48" stroke="black"/>
 <circle cx="30" cy="60" r="9" fill="white" stroke="black"/>
 <text x="49" y="60" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">処理レベル0-1</text>
-<line x1="30" y1="42" x2="30" y2="51" stroke="black"/>
-<line x1="21" y1="42" x2="39" y2="42" stroke="black"/>
+<line x1="30" y1="39" x2="30" y2="51" stroke="black"/>
 <circle cx="30" cy="90" r="9" fill="white" stroke="black"/>
 <text x="49" y="90" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">処理レベル0-2</text>
 <line x1="30" y1="69" x2="30" y2="81" stroke="black"/>
-<line x1="30" y1="72" x2="30" y2="81" stroke="black"/>
-<line x1="21" y1="72" x2="39" y2="72" stroke="black"/>
 <circle cx="30" cy="120" r="9" fill="white" stroke="black"/>
 <text x="49" y="120" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">処理レベル0-3</text>
 <line x1="30" y1="99" x2="30" y2="111" stroke="black"/>
-<line x1="30" y1="102" x2="30" y2="111" stroke="black"/>
-<line x1="21" y1="102" x2="39" y2="102" stroke="black"/>
 <line x1="30" y1="129" x2="30" y2="138" stroke="black"/>
 <line x1="21" y1="138" x2="39" y2="138" stroke="black"/>
 <circle cx="60" cy="150" r="9" fill="white" stroke="black"/>

@@ -117,7 +117,7 @@ class SimpleDiagramParser:
             line_info.no = count
 
             # 同じレベルで1つ前の番号を見つける
-            for search_idx in range(count - 1, 0, -1):
+            for search_idx in range(count - 1, -1, -1):
                 search_line = line_info_list[search_idx]
 
                 if search_line.level == line_info.level:
