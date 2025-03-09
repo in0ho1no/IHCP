@@ -7,6 +7,8 @@ from line_type import LineType, LineTypeDefine, LineTypeEnum
 
 class DiagramParser:
     def __init__(self, text_lines: list[str]) -> None:
+        module_start_num_list = self.separate_module(text_lines)
+
         self.line_info_list: list[LineInfo] = self.convert_lines2lineinfo(text_lines)
         self.update_line_level()
         self.update_line_type()
@@ -14,6 +16,43 @@ class DiagramParser:
 
         self.process_line_info_list = self.create_process_info_list_no()
         self.data_line_info_list = self.create_data_info_list_no()
+
+    def separate_module(self, text_lines: list[str]) -> list[tuple[str, list[str]]]:
+        """
+        モジュールごとのセクションを取得する
+
+        Args:
+            text_lines (list): 取得対象のテキスト行
+
+        Returns:
+            list: (モジュール名, セクション行のリスト) のタプルのリスト
+        """
+
+        # モジュール名と開始行を保持
+        module_start_idx = []
+        module_names = []
+        for line_num, text_line in enumerate(text_lines):
+            if not text_line.strip().startswith(LineTypeDefine.get_format_by_type(LineTypeEnum.MODULE).type_format):
+                # モジュール以外の行は無視
+                continue
+
+            # 開始位置を保持
+            module_start_idx.append(line_num + 1)
+
+            # モジュール名を取得
+            split_texts = text_line.strip().split(maxsplit=1)
+            module_name = split_texts[1] if len(split_texts) > 1 else "モジュール名無し"
+            module_names.append(module_name)
+
+        # モジュールセクションを抽出
+        module_sections = []
+        for i, start_idx in enumerate(module_start_idx):
+            # 次のモジュールの開始位置、またはファイルの終わりまでを取得
+            end_idx = module_start_idx[i + 1] if i + 1 < len(module_start_idx) else len(text_lines)
+            section_lines = text_lines[start_idx:end_idx]
+            module_sections.append((module_names[i], section_lines))
+
+        return module_sections
 
     def convert_lines2lineinfo(self, lines: list[str]) -> list[LineInfo]:
         """文字列リストを文字列情報リストに変換する
