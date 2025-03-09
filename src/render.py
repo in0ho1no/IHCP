@@ -156,6 +156,10 @@ class SVGRenderer:
             if process_element.line_info.iodata is None:
                 continue
 
+            # 関数への入出力は接続線で表現しない
+            if process_element.line_info.level == 0:
+                continue
+
             process_io_line(process_element, process_element.line_info.iodata.in_data_list, io=True)
             process_io_line(process_element, process_element.line_info.iodata.out_data_list, io=False)
 
@@ -222,6 +226,10 @@ class SVGRenderer:
         for data_element in self.data_elements:
             # 処理部へ存在する入出力を基準に描画する
             for process_element in self.process_elements:
+                # 関数への入出力は接続線で表現しない
+                if process_element.line_info.level == 0:
+                    continue
+
                 data_io_line(data_element, process_element.line_info.iodata.in_data_list, io=True)
                 data_io_line(data_element, process_element.line_info.iodata.out_data_list, io=False)
 
@@ -255,6 +263,10 @@ class SVGRenderer:
                 )
 
         for process_element in self.process_elements:
+            # 関数への入出力は接続線で表現しない
+            if process_element.line_info.level == 0:
+                continue
+
             process2data(process_element.line_info.iodata.in_data_list)
             process2data(process_element.line_info.iodata.out_data_list)
 
