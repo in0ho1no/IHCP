@@ -1,71 +1,82 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="592" height="230" style="background-color: #808d81">
-<circle cx="60" cy="30" r="9" fill="white" stroke="black"/>
-<text x="79" y="30" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">処理開始</text>
-<line x1="60" y1="12" x2="60" y2="21" stroke="black"/>
-<line x1="51" y1="12" x2="69" y2="12" stroke="black"/>
-<line x1="60" y1="39" x2="60" y2="48" stroke="black"/>
-<line x1="51" y1="48" x2="69" y2="48" stroke="black"/>
-<circle cx="90" cy="60" r="9" fill="white" stroke="black"/>
-<text x="109" y="60" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">入力に応じた処理を行う</text>
-<line x1="90" y1="69" x2="90" y2="78" stroke="black"/>
-<line x1="81" y1="78" x2="99" y2="78" stroke="black"/>
-<line x1="90" y1="42" x2="90" y2="51" stroke="black"/>
-<line x1="72" y1="42" x2="90" y2="42" stroke="black"/>
-<line x1="72" y1="24" x2="72" y2="42" stroke="black"/>
-<circle cx="120" cy="90" r="9" fill="white" stroke="black"/>
-<polygon points="127 90 116 96 116 83" fill="white" stroke="black"/>
-<text x="139" y="90" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">フラグが有効</text>
-<line x1="120" y1="99" x2="120" y2="108" stroke="black"/>
-<line x1="111" y1="108" x2="129" y2="108" stroke="black"/>
-<line x1="120" y1="72" x2="120" y2="81" stroke="black"/>
-<line x1="102" y1="72" x2="120" y2="72" stroke="black"/>
-<line x1="102" y1="54" x2="102" y2="72" stroke="black"/>
-<line x1="150" y1="111" x2="150" y2="129" stroke="black"/>
-<line x1="150" y1="111" x2="165" y2="111" stroke="black"/>
-<path d="M 165 111 L 157 107 L 157 115" stroke="black" fill="black" />
-<text x="169" y="120" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">(true) フラグが有効である</text>
-<line x1="150" y1="102" x2="150" y2="111" stroke="black"/>
-<line x1="132" y1="102" x2="150" y2="102" stroke="black"/>
-<line x1="132" y1="84" x2="132" y2="102" stroke="black"/>
-<circle cx="180" cy="150" r="9" fill="white" stroke="black"/>
-<text x="199" y="150" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">成功を返す</text>
-<line x1="180" y1="159" x2="180" y2="168" stroke="black"/>
-<line x1="171" y1="168" x2="189" y2="168" stroke="black"/>
-<line x1="180" y1="132" x2="180" y2="141" stroke="black"/>
-<line x1="162" y1="132" x2="180" y2="132" stroke="black"/>
-<line x1="162" y1="114" x2="162" y2="132" stroke="black"/>
-<line x1="150" y1="171" x2="150" y2="189" stroke="black"/>
-<line x1="150" y1="171" x2="165" y2="171" stroke="black"/>
-<path d="M 165 171 L 157 167 L 157 175" stroke="black" fill="black" />
-<text x="169" y="180" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">(false) フラグが無効である</text>
-<line x1="150" y1="129" x2="150" y2="171" stroke="black"/>
-<line x1="150" y1="189" x2="150" y2="198" stroke="black"/>
-<line x1="141" y1="198" x2="159" y2="198" stroke="black"/>
-<line x1="245" y1="85" x2="377" y2="85" stroke="black"/>
-<path d="M 245 85 L 253 81 L 253 89" stroke="black" fill="black" />
-<line x1="289" y1="155" x2="387" y2="155" stroke="red"/>
-<rect x="438" y="21" width="18" height="18" fill="white" stroke="black"/>
-<text x="466" y="30" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-1</text>
-<rect x="468" y="51" width="18" height="18" fill="white" stroke="black"/>
-<text x="496" y="60" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-1-1</text>
-<line x1="477" y1="42" x2="477" y2="51" stroke="black"/>
-<line x1="459" y1="42" x2="477" y2="42" stroke="black"/>
-<line x1="459" y1="24" x2="459" y2="42" stroke="black"/>
-<rect x="468" y="81" width="18" height="18" fill="white" stroke="black"/>
-<text x="496" y="90" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-1-2</text>
-<line x1="477" y1="69" x2="477" y2="81" stroke="black"/>
-<rect x="438" y="111" width="18" height="18" fill="white" stroke="black"/>
-<text x="466" y="120" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-2</text>
-<rect x="468" y="141" width="18" height="18" fill="white" stroke="black"/>
-<text x="496" y="150" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-2-1</text>
-<line x1="477" y1="132" x2="477" y2="141" stroke="black"/>
-<line x1="459" y1="132" x2="477" y2="132" stroke="black"/>
-<line x1="459" y1="114" x2="459" y2="132" stroke="black"/>
-<path d="M 438 30 L 447 21 L 447 39 Z" stroke="black" fill="fuchsia" />
-<line x1="377" y1="25" x2="438" y2="25" stroke="black"/>
-<path d="M 456 120 L 447 111 L 447 129 Z" stroke="black" fill="aqua" />
-<line x1="387" y1="125" x2="438" y2="125" stroke="red"/>
-<path d="M 438 125 L 430 121 L 430 129" stroke="red" fill="red" />
-<line x1="377" y1="25" x2="377" y2="85" stroke="black"/>
-<line x1="387" y1="125" x2="387" y2="155" stroke="red"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="542" height="260" style="background-color: #808d81">
+<circle cx="30" cy="30" r="9" fill="white" stroke="black"/>
+<text x="49" y="30" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">処理開始</text>
+<line x1="30" y1="12" x2="30" y2="21" stroke="black"/>
+<line x1="21" y1="12" x2="39" y2="12" stroke="black"/>
+<line x1="30" y1="39" x2="30" y2="48" stroke="black"/>
+<line x1="21" y1="48" x2="39" y2="48" stroke="black"/>
+<circle cx="60" cy="60" r="9" fill="white" stroke="black"/>
+<text x="79" y="60" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">入力に応じた処理を行う</text>
+<line x1="60" y1="69" x2="60" y2="78" stroke="black"/>
+<line x1="51" y1="78" x2="69" y2="78" stroke="black"/>
+<line x1="60" y1="42" x2="60" y2="51" stroke="black"/>
+<line x1="42" y1="42" x2="60" y2="42" stroke="black"/>
+<line x1="42" y1="24" x2="42" y2="42" stroke="black"/>
+<circle cx="90" cy="90" r="9" fill="white" stroke="black"/>
+<polygon points="97 90 86 96 86 83" fill="white" stroke="black"/>
+<text x="109" y="90" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">フラグが有効</text>
+<line x1="90" y1="99" x2="90" y2="108" stroke="black"/>
+<line x1="81" y1="108" x2="99" y2="108" stroke="black"/>
+<line x1="90" y1="72" x2="90" y2="81" stroke="black"/>
+<line x1="72" y1="72" x2="90" y2="72" stroke="black"/>
+<line x1="72" y1="54" x2="72" y2="72" stroke="black"/>
+<line x1="120" y1="111" x2="120" y2="129" stroke="black"/>
+<line x1="120" y1="111" x2="135" y2="111" stroke="black"/>
+<path d="M 135 111 L 127 107 L 127 115" stroke="black" fill="black" />
+<text x="139" y="120" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">(true) フラグが有効である</text>
+<line x1="120" y1="102" x2="120" y2="111" stroke="black"/>
+<line x1="102" y1="102" x2="120" y2="102" stroke="black"/>
+<line x1="102" y1="84" x2="102" y2="102" stroke="black"/>
+<circle cx="150" cy="150" r="9" fill="white" stroke="black"/>
+<text x="169" y="150" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">成功を返す</text>
+<line x1="150" y1="159" x2="150" y2="168" stroke="black"/>
+<line x1="141" y1="168" x2="159" y2="168" stroke="black"/>
+<line x1="150" y1="132" x2="150" y2="141" stroke="black"/>
+<line x1="132" y1="132" x2="150" y2="132" stroke="black"/>
+<line x1="132" y1="114" x2="132" y2="132" stroke="black"/>
+<line x1="120" y1="171" x2="120" y2="189" stroke="black"/>
+<line x1="120" y1="171" x2="135" y2="171" stroke="black"/>
+<path d="M 135 171 L 127 167 L 127 175" stroke="black" fill="black" />
+<text x="139" y="180" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">(false) フラグが無効である</text>
+<line x1="120" y1="129" x2="120" y2="171" stroke="black"/>
+<line x1="120" y1="189" x2="120" y2="198" stroke="black"/>
+<line x1="111" y1="198" x2="129" y2="198" stroke="black"/>
+<circle cx="150" cy="210" r="9" fill="white" stroke="black"/>
+<text x="169" y="210" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">失敗を返す</text>
+<line x1="150" y1="219" x2="150" y2="228" stroke="black"/>
+<line x1="141" y1="228" x2="159" y2="228" stroke="black"/>
+<line x1="150" y1="192" x2="150" y2="201" stroke="black"/>
+<line x1="132" y1="192" x2="150" y2="192" stroke="black"/>
+<line x1="132" y1="174" x2="132" y2="192" stroke="black"/>
+<line x1="215" y1="85" x2="347" y2="85" stroke="black"/>
+<path d="M 215 85 L 223 81 L 223 89" stroke="black" fill="black" />
+<line x1="259" y1="155" x2="357" y2="155" stroke="red"/>
+<line x1="259" y1="215" x2="367" y2="215" stroke="green"/>
+<rect x="388" y="21" width="18" height="18" fill="white" stroke="black"/>
+<text x="416" y="30" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-1</text>
+<rect x="418" y="51" width="18" height="18" fill="white" stroke="black"/>
+<text x="446" y="60" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-1-1</text>
+<line x1="427" y1="42" x2="427" y2="51" stroke="black"/>
+<line x1="409" y1="42" x2="427" y2="42" stroke="black"/>
+<line x1="409" y1="24" x2="409" y2="42" stroke="black"/>
+<rect x="418" y="81" width="18" height="18" fill="white" stroke="black"/>
+<text x="446" y="90" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-1-2</text>
+<line x1="427" y1="69" x2="427" y2="81" stroke="black"/>
+<rect x="388" y="111" width="18" height="18" fill="white" stroke="black"/>
+<text x="416" y="120" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-2</text>
+<rect x="418" y="141" width="18" height="18" fill="white" stroke="black"/>
+<text x="446" y="150" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2-2-1</text>
+<line x1="427" y1="132" x2="427" y2="141" stroke="black"/>
+<line x1="409" y1="132" x2="427" y2="132" stroke="black"/>
+<line x1="409" y1="114" x2="409" y2="132" stroke="black"/>
+<path d="M 388 30 L 397 21 L 397 39 Z" stroke="black" fill="fuchsia" />
+<line x1="347" y1="25" x2="388" y2="25" stroke="black"/>
+<path d="M 406 120 L 397 111 L 397 129 Z" stroke="black" fill="aqua" />
+<line x1="357" y1="125" x2="388" y2="125" stroke="red"/>
+<path d="M 388 125 L 380 121 L 380 129" stroke="red" fill="red" />
+<line x1="367" y1="125" x2="388" y2="125" stroke="green"/>
+<path d="M 388 125 L 380 121 L 380 129" stroke="green" fill="green" />
+<line x1="347" y1="25" x2="347" y2="85" stroke="black"/>
+<line x1="357" y1="125" x2="357" y2="155" stroke="red"/>
+<line x1="367" y1="125" x2="367" y2="215" stroke="green"/>
 </svg>

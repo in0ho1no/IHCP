@@ -305,7 +305,7 @@ class SVGRenderer:
 
     def render(self) -> str:
         """パースされた要素をSVGとして描画"""
-        start_x = 30
+        start_x = 0
         start_y = 30
 
         # 処理部を描画
@@ -316,7 +316,7 @@ class SVGRenderer:
         exit_width = self.render_line_exit_from_process(process_width)
 
         # データ部を描画
-        self.data_elements = self.set_elements(exit_width + 30, start_y, self.data_info_list)
+        self.data_elements = self.set_elements(exit_width, start_y, self.data_info_list)
         data_height, data_width = self.render_data()
 
         # データ部への水平線を描画
