@@ -285,7 +285,7 @@ class DrawSvg:
             f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
             f"L {center_x} {center_y + int(DrawSvg.CIRCLE_R)} "  # 縦線描画
             f'Z" '  # パスを閉じる
-            f'stroke="black" fill="White" />'
+            f'stroke="black" fill="fuchsia" />'
         )
 
     def draw_figure_data_func_out(self, svg: list[str], center_x: int, center_y: int) -> None:
@@ -294,7 +294,7 @@ class DrawSvg:
             f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
             f"L {center_x} {center_y + int(DrawSvg.CIRCLE_R)} "  # 縦線描画
             f'Z" '  # パスを閉じる
-            f'stroke="black" fill="White" />'
+            f'stroke="black" fill="aqua" />'
         )
 
 

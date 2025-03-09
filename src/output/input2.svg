@@ -114,13 +114,13 @@
 <text x="330" y="390" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ6</text>
 <rect x="302" y="411" width="18" height="18" fill="white" stroke="black"/>
 <text x="330" y="420" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ7</text>
-<path d="M 302 30 L 311 21 L 311 39 Z" stroke="black" fill="White" />
-<path d="M 320 30 L 311 21 L 311 39 Z" stroke="black" fill="White" />
+<path d="M 302 30 L 311 21 L 311 39 Z" stroke="black" fill="fuchsia" />
+<path d="M 320 30 L 311 21 L 311 39 Z" stroke="black" fill="aqua" />
 <line x1="261" y1="25" x2="302" y2="25" stroke="red"/>
-<path d="M 320 240 L 311 231 L 311 249 Z" stroke="black" fill="White" />
+<path d="M 320 240 L 311 231 L 311 249 Z" stroke="black" fill="aqua" />
 <line x1="271" y1="245" x2="302" y2="245" stroke="green"/>
 <path d="M 302 245 L 294 241 L 294 249" stroke="green" fill="green" />
-<path d="M 302 300 L 311 291 L 311 309 Z" stroke="black" fill="White" />
+<path d="M 302 300 L 311 291 L 311 309 Z" stroke="black" fill="fuchsia" />
 <line x1="251" y1="325" x2="302" y2="325" stroke="black"/>
 <line x1="281" y1="425" x2="302" y2="425" stroke="blue"/>
 <path d="M 302 425 L 294 421 L 294 429" stroke="blue" fill="blue" />
