@@ -77,38 +77,3 @@ class DiagramElement:
     y: int = 0
 
     end_x: int = 0
-
-
-def read_file(file_path: str) -> str:
-    """
-    ファイルを読み込む
-
-    UTF-8の読み込みに失敗した場合はShift-JISで読み込む
-
-    Args:
-        file_path: 読み込むファイルのパス
-
-    Returns:
-        str: ファイルの内容
-
-    Raises:
-        OSError: ファイル読み込みに失敗した場合
-        ValueError: ファイルが空の場合
-    """
-    try:
-        with open(file_path, "rb") as f:
-            file_content = f.read()
-
-        if not file_content:
-            raise ValueError("ファイルが空です")
-
-        try:
-            return file_content.decode("utf-8")
-        except UnicodeDecodeError as e_utf8:
-            try:
-                return file_content.decode("shift_jis")
-            except UnicodeDecodeError as e_shift_jis:
-                raise OSError(f"ファイルをUTF-8/Shift-JISのどちらでもデコードできません: {e_utf8!r}, {e_shift_jis!r}") from e_shift_jis
-
-    except OSError as e:
-        raise OSError(f"ファイルの読み込みに失敗しました: {e!r}") from e

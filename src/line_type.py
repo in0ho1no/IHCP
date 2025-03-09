@@ -22,6 +22,7 @@ class LineTypeEnum(Enum):
     FALSE = auto()
     BRANCH = auto()
     DATA = auto()
+    MODULE = auto()
 
 
 @dataclass
@@ -39,6 +40,7 @@ class LineTypeDefine:
         LineTypeEnum.FALSE: LineTypeFormat(6, "\\false"),
         LineTypeEnum.BRANCH: LineTypeFormat(7, "\\branch"),
         LineTypeEnum.DATA: LineTypeFormat(8, "\\data"),
+        LineTypeEnum.MODULE: LineTypeFormat(9, "\\module"),
     }
 
     # 形式から種別へのマッピングを構築
