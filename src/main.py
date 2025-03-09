@@ -15,19 +15,25 @@ def main() -> None:
         file_text = file_parser.read_file(hcp_file)
         file_lines = file_parser.convert_text2lines(file_text)
 
-        # パース
-        parser = DiagramParser(file_lines)
+        # モジュールごとに処理する
+        module_sections = file_parser.get_module_sections(file_lines)
+        for module_section in module_sections:
+            name = module_section[0]
+            section_lines = module_section[1]
 
-        # 描画
-        renderer = SVGRenderer(parser.process_line_info_list, parser.data_line_info_list)
-        svg_output = renderer.render()
+            # パース
+            parser = DiagramParser(section_lines)
 
-        # SVGファイルとして保存
-        file_path = hcp_file.replace(input_folder, "")
-        rename_path = "_".join(file_path.split("\\"))
-        basename = os.path.basename(rename_path).split(".")[0]
-        with open(f"./src/output/{basename}.svg", "w", encoding="utf-8") as f:
-            f.write(svg_output)
+            # 描画
+            renderer = SVGRenderer(parser.process_line_info_list, parser.data_line_info_list)
+            svg_output = renderer.render()
+
+            # SVGファイルとして保存
+            file_path = hcp_file.replace(input_folder, "")
+            rename_path = "_".join(file_path.split("\\"))
+            basename = os.path.basename(rename_path).split(".")[0]
+            with open(f"./src/output/{basename}_{name}.svg", "w", encoding="utf-8") as f:
+                f.write(svg_output)
 
 
 if __name__ == "__main__":
