@@ -223,8 +223,8 @@ class DrawSvg:
 
         # 脱出する階層数の指定
         if text != "":
-            if text.isdecimal() is True:
-                self.draw_text(svg, center_x - (len(text) * 2), center_y + 1, text, font_size=50)
+            figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
+            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
 
         # 終端位置を返す
         figure_2_text_space = int(self.CIRCLE_R)
