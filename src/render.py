@@ -177,6 +177,22 @@ class SVGRenderer:
             # 種別に応じた図形とテキストを描画
             end_x = self.draw_fig.draw_figure_method(self.svg, data_element)
 
+            # ステップ間の垂直線の追加
+            if data_element.line_info.level > 0:
+                if data_element.line_info.before_no != LineInfo.DEFAULT_VALUE:
+                    bef_elem = self.process_elements[data_element.line_info.before_no]
+                    # 直前のレベルまで線を引く
+                    self.draw_svg.draw_line_v(
+                        self.svg,
+                        data_element.x,
+                        (bef_elem.y + DrawSvg.CIRCLE_R),
+                        (data_element.y - DrawSvg.CIRCLE_R) - (bef_elem.y + DrawSvg.CIRCLE_R),
+                    )
+
+            # レベル下げの追加
+            if (data_element.line_info.level > 0) and (data_element.line_info.before_no == LineInfo.DEFAULT_VALUE):
+                self.draw_svg.draw_figure_level_step(self.svg, data_element.x, data_element.y)
+
             # データ部の高さと幅を更新する
             data_height = max(data_height, data_element.y)
             data_width = max(data_width, end_x)

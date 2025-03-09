@@ -2,7 +2,11 @@
     \data データ1-1
     \data データ(AAA)
     \data データ(種類)
+        \data データ(CCC)
+        \data データ(DDD)
+    \data データ(EEE)
 \data データ2
+    \data データ(BBB)
 \data データ3
 \data データ4
 \data データ5
