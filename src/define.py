@@ -39,6 +39,7 @@ class DataInfo:
 class InOutData:
     in_data_list: list[DataInfo]
     out_data_list: list[DataInfo]
+    process_level: int
 
 
 @dataclass

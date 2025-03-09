@@ -85,7 +85,7 @@ class SimpleDiagramParser:
             # \inと\out要素を取り除いた行を取得
             cleaned_text = re.sub(r"\\(?:in|out)(?:\s+[\w\-()]+)?", "", line_info.text_typeless).strip()
 
-            line_info.iodata = InOutData(in_data, out_data)
+            line_info.iodata = InOutData(in_data, out_data, line_info.level)
             line_info.text_clean = cleaned_text
 
     def __categorize_line_info_process(self) -> list[LineInfo]:

@@ -186,7 +186,7 @@ class SVGRenderer:
     def render_line_enter_to_data(self) -> None:
         """データ部に対する入出力線を描画する"""
 
-        def data_io_line(element: DiagramElement, data_list: list[DataInfo], io: bool) -> None:
+        def data_io_line(data_element: DiagramElement, process_info: LineInfo, data_list: list[DataInfo], io: bool) -> None:
             """種別(入力・出力)に応じた線の描画
 
             Args:
@@ -199,39 +199,41 @@ class SVGRenderer:
                 # 種別に応じた情報の更新
                 if io is True:
                     y_offset = -5
-                    draw_method = self.draw_svg.draw_line_h
+                    draw_line_method = self.draw_svg.draw_line_h
+                    draw_dataio_method = self.draw_svg.draw_figure_data_func_in
                 else:
                     y_offset = 5
-                    draw_method = self.draw_svg.draw_arrow_r
+                    draw_line_method = self.draw_svg.draw_arrow_r
+                    draw_dataio_method = self.draw_svg.draw_figure_data_func_out
 
                 # 同じデータ名をつなぐ
-                if element.line_info.text_clean != data.name:
+                if data_element.line_info.text_clean != data.name:
                     continue
 
-                # 水平線の始点と終点を決定
-                line = Line()
-                line.start = Coordinate(data.connect_line.exit_from_process.end.x, element.y + y_offset)
-                line.end = Coordinate(element.x - DrawSvg.CIRCLE_R, element.y + y_offset)
-                data.connect_line.enter_to_data = line
+                if process_info.level == 0:
+                    # 関数への入出力は接続線で表現しない
+                    draw_dataio_method(self.svg, data_element.x, data_element.y)
+                else:
+                    # 水平線の始点と終点を決定
+                    line = Line()
+                    line.start = Coordinate(data.connect_line.exit_from_process.end.x, data_element.y + y_offset)
+                    line.end = Coordinate(data_element.x - DrawSvg.CIRCLE_R, data_element.y + y_offset)
+                    data.connect_line.enter_to_data = line
 
-                # 線を描画
-                draw_method(
-                    self.svg,
-                    data.connect_line.enter_to_data.start.x,
-                    data.connect_line.enter_to_data.start.y,
-                    data.connect_line.enter_to_data.line_width(),
-                    data.connect_line.color,
-                )
+                    # 線を描画
+                    draw_line_method(
+                        self.svg,
+                        data.connect_line.enter_to_data.start.x,
+                        data.connect_line.enter_to_data.start.y,
+                        data.connect_line.enter_to_data.line_width(),
+                        data.connect_line.color,
+                    )
 
         for data_element in self.data_elements:
             # 処理部へ存在する入出力を基準に描画する
             for process_element in self.process_elements:
-                # 関数への入出力は接続線で表現しない
-                if process_element.line_info.level == 0:
-                    continue
-
-                data_io_line(data_element, process_element.line_info.iodata.in_data_list, io=True)
-                data_io_line(data_element, process_element.line_info.iodata.out_data_list, io=False)
+                data_io_line(data_element, process_element.line_info, process_element.line_info.iodata.in_data_list, io=True)
+                data_io_line(data_element, process_element.line_info, process_element.line_info.iodata.out_data_list, io=False)
 
     def connect_process2data(self) -> None:
         """処理部とデータ部の入出力線を結ぶ"""
