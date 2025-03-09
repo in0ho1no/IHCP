@@ -136,48 +136,48 @@
 <line x1="199" y1="605" x2="301" y2="605" stroke="purple"/>
 <rect x="322" y="21" width="18" height="18" fill="white" stroke="black"/>
 <text x="350" y="30" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ1</text>
-<line x1="251" y1="25" x2="322" y2="25" stroke="black"/>
-<line x1="281" y1="25" x2="322" y2="25" stroke="blue"/>
 <rect x="352" y="51" width="18" height="18" fill="white" stroke="black"/>
 <text x="380" y="60" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ1-1</text>
 <rect x="352" y="81" width="18" height="18" fill="white" stroke="black"/>
 <text x="380" y="90" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ(AAA)</text>
-<line x1="271" y1="95" x2="352" y2="95" stroke="green"/>
-<path d="M 352 95 L 344 91 L 344 99" stroke="green" fill="green" />
-<line x1="301" y1="95" x2="352" y2="95" stroke="purple"/>
-<path d="M 352 95 L 344 91 L 344 99" stroke="purple" fill="purple" />
 <rect x="352" y="111" width="18" height="18" fill="white" stroke="black"/>
 <text x="380" y="120" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ(種類)</text>
 <rect x="322" y="141" width="18" height="18" fill="white" stroke="black"/>
 <text x="350" y="150" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2</text>
-<line x1="261" y1="155" x2="322" y2="155" stroke="red"/>
-<path d="M 322 155 L 314 151 L 314 159" stroke="red" fill="red" />
-<line x1="291" y1="155" x2="322" y2="155" stroke="yellow"/>
-<path d="M 322 155 L 314 151 L 314 159" stroke="yellow" fill="yellow" />
 <rect x="322" y="171" width="18" height="18" fill="white" stroke="black"/>
 <text x="350" y="180" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ3</text>
 <rect x="322" y="201" width="18" height="18" fill="white" stroke="black"/>
 <text x="350" y="210" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ1</text>
-<line x1="251" y1="205" x2="322" y2="205" stroke="black"/>
-<line x1="281" y1="205" x2="322" y2="205" stroke="blue"/>
 <rect x="352" y="231" width="18" height="18" fill="white" stroke="black"/>
 <text x="380" y="240" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ1-1</text>
 <rect x="352" y="261" width="18" height="18" fill="white" stroke="black"/>
 <text x="380" y="270" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ(AAA)</text>
-<line x1="271" y1="275" x2="352" y2="275" stroke="green"/>
-<path d="M 352 275 L 344 271 L 344 279" stroke="green" fill="green" />
-<line x1="301" y1="275" x2="352" y2="275" stroke="purple"/>
-<path d="M 352 275 L 344 271 L 344 279" stroke="purple" fill="purple" />
 <rect x="352" y="291" width="18" height="18" fill="white" stroke="black"/>
 <text x="380" y="300" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ(種類)</text>
 <rect x="322" y="321" width="18" height="18" fill="white" stroke="black"/>
 <text x="350" y="330" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2</text>
+<rect x="322" y="351" width="18" height="18" fill="white" stroke="black"/>
+<text x="350" y="360" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ3</text>
+<line x1="251" y1="25" x2="322" y2="25" stroke="black"/>
+<line x1="281" y1="25" x2="322" y2="25" stroke="blue"/>
+<line x1="271" y1="95" x2="352" y2="95" stroke="green"/>
+<path d="M 352 95 L 344 91 L 344 99" stroke="green" fill="green" />
+<line x1="301" y1="95" x2="352" y2="95" stroke="purple"/>
+<path d="M 352 95 L 344 91 L 344 99" stroke="purple" fill="purple" />
+<line x1="261" y1="155" x2="322" y2="155" stroke="red"/>
+<path d="M 322 155 L 314 151 L 314 159" stroke="red" fill="red" />
+<line x1="291" y1="155" x2="322" y2="155" stroke="yellow"/>
+<path d="M 322 155 L 314 151 L 314 159" stroke="yellow" fill="yellow" />
+<line x1="251" y1="205" x2="322" y2="205" stroke="black"/>
+<line x1="281" y1="205" x2="322" y2="205" stroke="blue"/>
+<line x1="271" y1="275" x2="352" y2="275" stroke="green"/>
+<path d="M 352 275 L 344 271 L 344 279" stroke="green" fill="green" />
+<line x1="301" y1="275" x2="352" y2="275" stroke="purple"/>
+<path d="M 352 275 L 344 271 L 344 279" stroke="purple" fill="purple" />
 <line x1="261" y1="335" x2="322" y2="335" stroke="red"/>
 <path d="M 322 335 L 314 331 L 314 339" stroke="red" fill="red" />
 <line x1="291" y1="335" x2="322" y2="335" stroke="yellow"/>
 <path d="M 322 335 L 314 331 L 314 339" stroke="yellow" fill="yellow" />
-<rect x="322" y="351" width="18" height="18" fill="white" stroke="black"/>
-<text x="350" y="360" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ3</text>
 <line x1="251" y1="175" x2="251" y2="205" stroke="black"/>
 <line x1="261" y1="185" x2="261" y2="335" stroke="red"/>
 <line x1="271" y1="185" x2="271" y2="275" stroke="green"/>

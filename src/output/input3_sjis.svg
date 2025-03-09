@@ -64,7 +64,6 @@
 <line x1="199" y1="125" x2="271" y2="125" stroke="green"/>
 <rect x="292" y="21" width="18" height="18" fill="white" stroke="black"/>
 <text x="320" y="30" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ1</text>
-<line x1="251" y1="25" x2="292" y2="25" stroke="black"/>
 <rect x="322" y="51" width="18" height="18" fill="white" stroke="black"/>
 <text x="350" y="60" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ1-1</text>
 <rect x="322" y="81" width="18" height="18" fill="white" stroke="black"/>
@@ -73,8 +72,6 @@
 <text x="350" y="120" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ(種類)</text>
 <rect x="292" y="141" width="18" height="18" fill="white" stroke="black"/>
 <text x="320" y="150" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ2</text>
-<line x1="261" y1="155" x2="292" y2="155" stroke="red"/>
-<path d="M 292 155 L 284 151 L 284 159" stroke="red" fill="red" />
 <rect x="292" y="171" width="18" height="18" fill="white" stroke="black"/>
 <text x="320" y="180" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ3</text>
 <rect x="292" y="201" width="18" height="18" fill="white" stroke="black"/>
@@ -85,6 +82,9 @@
 <text x="320" y="270" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">SJIS</text>
 <rect x="292" y="291" width="18" height="18" fill="white" stroke="black"/>
 <text x="320" y="300" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">データ7</text>
+<line x1="251" y1="25" x2="292" y2="25" stroke="black"/>
+<line x1="261" y1="155" x2="292" y2="155" stroke="red"/>
+<path d="M 292 155 L 284 151 L 284 159" stroke="red" fill="red" />
 <line x1="271" y1="305" x2="292" y2="305" stroke="green"/>
 <path d="M 292 305 L 284 301 L 284 309" stroke="green" fill="green" />
 <line x1="251" y1="25" x2="251" y2="115" stroke="black"/>

@@ -128,6 +128,19 @@ class SVGRenderer:
         return exit_width
 
     def render_data(self) -> tuple[int, int]:
+        data_height = 0
+        data_width = 0
+        for data_element in self.data_elements:
+            # 種別に応じた図形とテキストを描画
+            end_x = self.draw_fig.draw_figure_method(self.svg, data_element)
+
+            # データ部の高さと幅を更新する
+            data_height = max(data_height, data_element.y)
+            data_width = max(data_width, end_x)
+
+        return data_height, data_width
+
+    def render_line_enter_to_data(self) -> None:
         # データ部の図形要素を描画
         def data_io_line(element: DiagramElement, data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
             for data in data_list:
@@ -151,21 +164,10 @@ class SVGRenderer:
                     data.connect_line.color,
                 )
 
-        data_height = 0
-        data_width = 0
         for data_element in self.data_elements:
-            # 種別に応じた図形とテキストを描画
-            end_x = self.draw_fig.draw_figure_method(self.svg, data_element)
-
             for process_element in self.process_elements:
                 data_io_line(data_element, process_element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
                 data_io_line(data_element, process_element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
-
-            # データ部の高さと幅を更新する
-            data_height = max(data_height, data_element.y)
-            data_width = max(data_width, end_x)
-
-        return data_height, data_width
 
     def connect_process2data(self) -> None:
         # 入出力の線を結ぶ
@@ -214,6 +216,9 @@ class SVGRenderer:
         # データ部を描画
         self.data_elements = self.set_elements(exit_width + 30, start_y, self.data_info_list)
         data_height, data_width = self.render_data()
+
+        # データ部への水平線を描画
+        self.render_line_enter_to_data()
 
         # 処理部とデータ部を結ぶ
         self.connect_process2data()
