@@ -1,8 +1,8 @@
 import glob
 import os
 
-from define import read_file
-from parse import SimpleDiagramParser
+from parse import DiagramParser
+from parse_file import FileParse
 from render import SVGRenderer
 
 
@@ -11,10 +11,12 @@ def main() -> None:
     hcp_file_list = glob.glob(input_folder + "**\\*.hcp", recursive=True)
     for hcp_file in hcp_file_list:
         # ファイル読み込み
-        input_text = read_file(hcp_file)
+        file_parser = FileParse()
+        file_text = file_parser.read_file(hcp_file)
+        file_lines = file_parser.convert_text2lines(file_text)
 
         # パース
-        parser = SimpleDiagramParser(input_text)
+        parser = DiagramParser(file_lines)
 
         # 描画
         renderer = SVGRenderer(parser.process_line_info_list, parser.data_line_info_list)

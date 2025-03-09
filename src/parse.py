@@ -5,9 +5,8 @@ from line_level import LineLevel
 from line_type import LineType, LineTypeDefine, LineTypeEnum
 
 
-class SimpleDiagramParser:
-    def __init__(self, text_data: str) -> None:
-        text_lines = self.convert_text2lines(text_data)
+class DiagramParser:
+    def __init__(self, text_lines: list[str]) -> None:
         self.line_info_list: list[LineInfo] = self.convert_lines2lineinfo(text_lines)
         self.update_line_level()
         self.update_line_type()
@@ -15,34 +14,6 @@ class SimpleDiagramParser:
 
         self.process_line_info_list = self.create_process_info_list_no()
         self.data_line_info_list = self.create_data_info_list_no()
-
-    def convert_text2lines(self, text: str) -> list[str]:
-        """テキストデータを不要な情報を除去した文字列リストに変換する
-
-        以下取り除く
-        - コメント("#"に続く文字列)
-        - 空行
-
-        Args:
-            text (str): 変換元のテキストデータ
-
-        Returns:
-            list[str]: 不要な情報を除いた文字列リスト
-        """
-
-        output_lines: list[str] = []
-        for text_line in text.strip().split("\n"):
-            # コメントは削除する
-            line_deleted_comment = text_line.split("#")[0]
-
-            # 空行は無視する
-            if len(line_deleted_comment.strip()) == 0:
-                continue
-
-            # 残った文字列をリストに追加する
-            output_lines.append(line_deleted_comment)
-
-        return output_lines
 
     def convert_lines2lineinfo(self, lines: list[str]) -> list[LineInfo]:
         """文字列リストを文字列情報リストに変換する
