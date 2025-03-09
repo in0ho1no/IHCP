@@ -279,6 +279,24 @@ class DrawSvg:
         end_x = center_x + figure_2_text_space + text_width
         return end_x
 
+    def draw_figure_data_func_in(self, svg: list[str], center_x: int, center_y: int) -> None:
+        svg.append(
+            f'<path d="M {center_x - DrawSvg.CIRCLE_R} {center_y} '  # 描画開始位置指定
+            f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
+            f"L {center_x} {center_y + int(DrawSvg.CIRCLE_R)} "  # 縦線描画
+            f'Z" '  # パスを閉じる
+            f'stroke="black" fill="White" />'
+        )
+
+    def draw_figure_data_func_out(self, svg: list[str], center_x: int, center_y: int) -> None:
+        svg.append(
+            f'<path d="M {center_x + DrawSvg.CIRCLE_R} {center_y} '  # 描画開始位置指定
+            f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
+            f"L {center_x} {center_y + int(DrawSvg.CIRCLE_R)} "  # 縦線描画
+            f'Z" '  # パスを閉じる
+            f'stroke="black" fill="White" />'
+        )
+
 
 class DrawFigure:
     """図形描画を管理するクラス"""

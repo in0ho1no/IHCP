@@ -4,7 +4,7 @@ from line_type import LineTypeDefine, LineTypeEnum
 
 
 class SVGRenderer:
-    data_offset = 10
+    LINE_OFFSET = 10
     color_table = [
         "black",
         "red",
@@ -28,7 +28,16 @@ class SVGRenderer:
         self.data_info_list: list[LineInfo] = data_info_list
 
     def set_elements(self, start_x: int, start_y: int, line_info_list: list[LineInfo]) -> list[DiagramElement]:
-        # 各要素の配置を計算して保持する
+        """各要素の配置を計算して保持する
+
+        Args:
+            start_x (int): 描画開始位置(X座標)
+            start_y (int): 描画開始位置(Y座標)
+            line_info_list (list[LineInfo]): 配置情報を更新したいリスト
+
+        Returns:
+            list[DiagramElement]: 配置情報を更新したリスト
+        """
         element_list: list[DiagramElement] = []
         for line_info in line_info_list:
             element = DiagramElement(line_info)
@@ -39,7 +48,11 @@ class SVGRenderer:
         return element_list
 
     def render_process(self) -> tuple[int, int]:
-        # 処理部を描画
+        """処理部を描画する
+
+        Returns:
+            tuple[int, int]: 処理部を描画した状態の画像サイズ(高さ, 幅)
+        """
         process_height = 0
         process_width = 0
         for element in self.process_elements:
@@ -80,15 +93,37 @@ class SVGRenderer:
         return process_height, process_width
 
     def render_line_exit_from_process(self, process_end_x: int) -> int:
-        # 処理の入出力線を描画する
+        """処理部に対する入出力線を描画する
+
+        Args:
+            process_end_x (int): 入出力線の描画開始位置(X座標)
+
+        Returns:
+            int: 処理部の入出力線を描画した状態の画像幅
+        """
         offset = 0
         exit_width = 0
         color_cnt = 0
 
-        def process_io_line(element: DiagramElement, data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
+        def process_io_line(element: DiagramElement, data_list: list[DataInfo], io: bool) -> None:
+            """種別(入力・出力)に応じた線の描画
+
+            Args:
+                element (DiagramElement): 線を描画したい処理部
+                data_list (list[DataInfo]): 描画したい種別のリスト
+                is_input (bool): 種別の指定(入力: true, 出力: false)
+            """
             nonlocal offset, exit_width, color_cnt
 
             for data in data_list:
+                # 種別に応じた情報の更新
+                if io is True:
+                    y_offset = -5
+                    draw_method = self.draw_svg.draw_arrow_l
+                else:
+                    y_offset = 5
+                    draw_method = self.draw_svg.draw_line_h
+
                 # 水平線の始点と終点を決定
                 line = Line()
                 line.start = Coordinate(element.end_x + 10, element.y + y_offset)
@@ -103,8 +138,7 @@ class SVGRenderer:
                 data.connect_line.color = self.color_table[color_cnt]
                 color_cnt = (color_cnt + 1) % len(self.color_table)
 
-                # 線を描画(入力の場合は左矢印, 出力の場合は水平線)
-                draw_method = self.draw_svg.draw_arrow_l if is_input else self.draw_svg.draw_line_h
+                # 線を描画
                 draw_method(
                     self.svg,
                     data.connect_line.exit_from_process.start.x,
@@ -112,54 +146,36 @@ class SVGRenderer:
                     data.connect_line.exit_from_process.line_width(),
                     data.connect_line.color,
                 )
-                offset += self.data_offset
+
+                # 描画情報を更新
+                offset += self.LINE_OFFSET
                 exit_width = max(exit_width, line.end.x)
 
-        for element in self.process_elements:
+        for process_element in self.process_elements:
             # 入出力がなければ何もしない
-            if element.line_info.iodata is None:
+            if process_element.line_info.iodata is None:
                 continue
 
-            # 入力データの水平線を描画
-            process_io_line(element, element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
-            # 出力データの水平線を描画
-            process_io_line(element, element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
+            # 関数への入出力は接続線で表現しない
+            if process_element.line_info.level == 0:
+                continue
+
+            process_io_line(process_element, process_element.line_info.iodata.in_data_list, io=True)
+            process_io_line(process_element, process_element.line_info.iodata.out_data_list, io=False)
 
         return exit_width
 
     def render_data(self) -> tuple[int, int]:
-        # データ部の図形要素を描画
-        def data_io_line(element: DiagramElement, data_list: list[DataInfo], y_offset: int, is_input: bool) -> None:
-            for data in data_list:
-                # 同じデータ名をつなぐ
-                if element.line_info.text_clean != data.name:
-                    continue
+        """データ部を描画する
 
-                # 水平線の追加
-                line = Line()
-                line.start = Coordinate(data.connect_line.exit_from_process.end.x, element.y + y_offset)
-                line.end = Coordinate(element.x - DrawSvg.CIRCLE_R, element.y + y_offset)
-                data.connect_line.enter_to_data = line
-
-                # 線を描画(入力の場合は水平線, 出力の場合は右矢印)
-                draw_method = self.draw_svg.draw_line_h if is_input else self.draw_svg.draw_arrow_r
-                draw_method(
-                    self.svg,
-                    data.connect_line.enter_to_data.start.x,
-                    data.connect_line.enter_to_data.start.y,
-                    data.connect_line.enter_to_data.line_width(),
-                    data.connect_line.color,
-                )
-
+        Returns:
+            tuple[int, int]: データ部を描画した状態の画像サイズ(高さ, 幅)
+        """
         data_height = 0
         data_width = 0
         for data_element in self.data_elements:
             # 種別に応じた図形とテキストを描画
             end_x = self.draw_fig.draw_figure_method(self.svg, data_element)
-
-            for process_element in self.process_elements:
-                data_io_line(data_element, process_element.line_info.iodata.in_data_list, y_offset=-5, is_input=True)
-                data_io_line(data_element, process_element.line_info.iodata.out_data_list, y_offset=5, is_input=False)
 
             # データ部の高さと幅を更新する
             data_height = max(data_height, data_element.y)
@@ -167,21 +183,79 @@ class SVGRenderer:
 
         return data_height, data_width
 
-    def connect_process2data(self) -> None:
-        # 入出力の線を結ぶ
-        def process2data(data_list: list[DataInfo]) -> None:
+    def render_line_enter_to_data(self) -> None:
+        """データ部に対する入出力線を描画する"""
+
+        def data_io_line(data_element: DiagramElement, process_info: LineInfo, data_list: list[DataInfo], io: bool) -> None:
+            """種別(入力・出力)に応じた線の描画
+
+            Args:
+                element (DiagramElement): 線を描画したいデータ部
+                data_list (list[DataInfo]): 描画したい種別のリスト
+                y_offset (int): _description_
+                is_input (bool): 種別の指定(入力: true, 出力: false)
+            """
             for data in data_list:
-                if data.connect_line.enter_to_data is None:
+                # 種別に応じた情報の更新
+                if io is True:
+                    y_offset = -5
+                    draw_line_method = self.draw_svg.draw_line_h
+                    draw_dataio_method = self.draw_svg.draw_figure_data_func_in
+                else:
+                    y_offset = 5
+                    draw_line_method = self.draw_svg.draw_arrow_r
+                    draw_dataio_method = self.draw_svg.draw_figure_data_func_out
+
+                # 同じデータ名をつなぐ
+                if data_element.line_info.text_clean != data.name:
                     continue
 
+                if process_info.level == 0:
+                    # 関数への入出力は接続線で表現しない
+                    draw_dataio_method(self.svg, data_element.x, data_element.y)
+                else:
+                    # 水平線の始点と終点を決定
+                    line = Line()
+                    line.start = Coordinate(data.connect_line.exit_from_process.end.x, data_element.y + y_offset)
+                    line.end = Coordinate(data_element.x - DrawSvg.CIRCLE_R, data_element.y + y_offset)
+                    data.connect_line.enter_to_data = line
+
+                    # 線を描画
+                    draw_line_method(
+                        self.svg,
+                        data.connect_line.enter_to_data.start.x,
+                        data.connect_line.enter_to_data.start.y,
+                        data.connect_line.enter_to_data.line_width(),
+                        data.connect_line.color,
+                    )
+
+        for data_element in self.data_elements:
+            # 処理部へ存在する入出力を基準に描画する
+            for process_element in self.process_elements:
+                data_io_line(data_element, process_element.line_info, process_element.line_info.iodata.in_data_list, io=True)
+                data_io_line(data_element, process_element.line_info, process_element.line_info.iodata.out_data_list, io=False)
+
+    def connect_process2data(self) -> None:
+        """処理部とデータ部の入出力線を結ぶ"""
+
+        def process2data(data_list: list[DataInfo]) -> None:
+            """_summary_
+
+            Args:
+                data_list (list[DataInfo]): _description_
+            """
+            for data in data_list:
+                # 画像の上部から下部に向かって描画するように更新
                 start_y = min(data.connect_line.enter_to_data.start.y, data.connect_line.exit_from_process.end.y)
                 end_y = max(data.connect_line.enter_to_data.start.y, data.connect_line.exit_from_process.end.y)
 
+                # 垂直線の始点と終点を決定
                 line = Line()
                 line.start = Coordinate(data.connect_line.enter_to_data.start.x, start_y)
                 line.end = Coordinate(data.connect_line.enter_to_data.start.x, end_y)
                 data.connect_line.between_prcess_data = line
 
+                # 線を描画
                 self.draw_svg.draw_line_v(
                     self.svg,
                     data.connect_line.between_prcess_data.start.x,
@@ -191,6 +265,10 @@ class SVGRenderer:
                 )
 
         for process_element in self.process_elements:
+            # 関数への入出力は接続線で表現しない
+            if process_element.line_info.level == 0:
+                continue
+
             process2data(process_element.line_info.iodata.in_data_list)
             process2data(process_element.line_info.iodata.out_data_list)
 
@@ -215,9 +293,13 @@ class SVGRenderer:
         self.data_elements = self.set_elements(exit_width + 30, start_y, self.data_info_list)
         data_height, data_width = self.render_data()
 
+        # データ部への水平線を描画
+        self.render_line_enter_to_data()
+
         # 処理部とデータ部を結ぶ
         self.connect_process2data()
 
+        # 描画終了
         total_width = data_width
         total_height = max(process_height, data_height)
         return self.finish_svg(total_width, total_height)
