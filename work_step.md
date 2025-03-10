@@ -20,6 +20,31 @@ README.mdのタイトルを変更する
 
     uv pip install pytest
 
+## 設計図のリバース
+
+pyreverseを利用する  
+https://pylint.readthedocs.io/en/latest/additional_tools/pyreverse/index.html
+
+pyreverse は pylint に含まれるので以下で導入する
+
+    uv pip install pylint
+
+以下コマンドでsrcフォルダ以下のスクリプトファイルに基づいてクラス図・パッケージ図を生成する
+
+    pyreverse -o svg ./src/
+
+20250310時点でのバージョンは以下
+
+    PS D:\work\Py\21IHCP\IHCP> pylint --version
+    pylint 3.3.5
+    astroid 3.3.9
+    Python 3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]
+
+このバージョンにて、出力先フォルダの指定は上手くいっていないので、出力ファイルを手動でい動作させる。
+
+    pyreverse -o svg -d=./src/docs/img_reverse/ ./src/
+    pyreverse -o svg --output-directory=./src/docs/img_reverse/ ./src/
+
 ## 単体テスト
 
 setup.pyファイルを用意して、以下記載する。
