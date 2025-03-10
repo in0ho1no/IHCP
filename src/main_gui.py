@@ -2,7 +2,7 @@ import os
 
 import streamlit as st
 
-from main import convert_txt2svg
+from main import convert_file2svg_tuple_list
 
 
 def get_folder_path() -> str:
@@ -47,6 +47,22 @@ def set_file_button(path_folder: str) -> None:
         st.session_state.selected_file = ""
 
 
+def set_module_button(svg_tuple_list: list[tuple[str, str]]) -> None:
+    st.subheader("モジュール一覧")
+    flag_set = False
+
+    for svg_tuple in svg_tuple_list:
+        # ボタン配置
+        if st.button(f"📄 {svg_tuple[0]}"):
+            st.session_state.selected_module_svg = svg_tuple[1]
+        flag_set = True
+
+    # 更新がない場合のみ、状態を初期化する
+    if flag_set is False:
+        st.error("ファイル内にモジュールは存在しません。")
+        st.session_state.selected_module_svg = ""
+
+
 def main() -> None:
     st.title("HCPLens")
 
@@ -68,16 +84,16 @@ def main() -> None:
         # 選択されたファイルの内容を表示
         if selected_file:
             try:
-                with open(file_path, encoding="utf-8") as f:
-                    content = f.read()
-                st.subheader(f"ファイル内容: {selected_file}")
-                st.code(content)
-
-                svg_code = convert_txt2svg(content)
-                st.markdown(svg_code, unsafe_allow_html=True)
-
+                svg_tuple_list = convert_file2svg_tuple_list(file_path)
             except Exception as e:
                 st.error(f"ファイルの読み込み中にエラーが発生しました: {e}")
+
+            # モジュールごとにボタンを表示
+            set_module_button(svg_tuple_list)
+
+            if "selected_module_svg" in st.session_state:
+                st.subheader(f"ファイル内容: {selected_file}")
+                st.markdown(st.session_state.selected_module_svg, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
