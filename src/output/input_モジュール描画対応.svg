@@ -144,7 +144,7 @@
 <line x1="150" y1="771" x2="150" y2="780" stroke="black"/>
 <polygon points="150 789 142 775 157 775" fill="white" stroke="black"/>
 <line x1="141" y1="789" x2="159" y2="789" stroke="black"/>
-<text x="148" y="781" text-anchor="left" dominant-baseline="middle" font-size="50%" rotate="0">9</text>
+<text x="169" y="780" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">9</text>
 <line x1="150" y1="369" x2="150" y2="771" stroke="black"/>
 <circle cx="120" cy="810" r="9" fill="white" stroke="black"/>
 <text x="139" y="810" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">機能Aの後処理</text>
@@ -167,7 +167,7 @@
 <line x1="120" y1="921" x2="120" y2="930" stroke="black"/>
 <polygon points="120 939 112 925 127 925" fill="white" stroke="black"/>
 <line x1="111" y1="939" x2="129" y2="939" stroke="black"/>
-<text x="118" y="931" text-anchor="left" dominant-baseline="middle" font-size="50%" rotate="0">2</text>
+<text x="139" y="930" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">2</text>
 <line x1="120" y1="909" x2="120" y2="921" stroke="black"/>
 <circle cx="60" cy="960" r="9" fill="white" stroke="black"/>
 <text x="79" y="960" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">処理終了</text>
@@ -184,6 +184,7 @@
 <line x1="120" y1="1011" x2="120" y2="1020" stroke="black"/>
 <polygon points="120 1029 112 1015 127 1015" fill="white" stroke="black"/>
 <line x1="111" y1="1029" x2="129" y2="1029" stroke="black"/>
+<text x="139" y="1020" text-anchor="left" dominant-baseline="middle" font-size="100%" rotate="0">TRUE(成功値) 固定</text>
 <line x1="120" y1="1002" x2="120" y2="1011" stroke="black"/>
 <line x1="102" y1="1002" x2="120" y2="1002" stroke="black"/>
 <line x1="102" y1="984" x2="102" y2="1002" stroke="black"/>
