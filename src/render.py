@@ -95,6 +95,8 @@ class SVGRenderer:
             process_height = max(process_height, element.y)
             process_width = max(process_width, element.end_x)
 
+        # マージンを設ける
+        process_width += 30
         return process_height, process_width
 
     def render_line_exit_from_process(self, process_end_x: int) -> int:
@@ -330,6 +332,6 @@ class SVGRenderer:
         self.connect_process2data()
 
         # 描画終了
-        total_width = data_width
+        total_width = max(process_width, data_width)
         total_height = max(process_height, data_height)
         return self.finish_svg(total_width, total_height)

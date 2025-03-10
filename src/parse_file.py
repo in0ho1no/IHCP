@@ -101,7 +101,7 @@ class FileParse:
         module_sections = []
         for i, start_idx in enumerate(module_start_idx):
             # 次のモジュールの開始位置、またはファイルの終わりまでを取得
-            end_idx = module_start_idx[i + 1] if i + 1 < len(module_start_idx) else len(text_lines) + 1
+            end_idx = module_start_idx[i + 1] - 1 if i + 1 < len(module_start_idx) else len(text_lines) + 1
             section_lines = text_lines[start_idx:end_idx]
             module_sections.append((module_names[i], section_lines))
 
