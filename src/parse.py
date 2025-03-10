@@ -66,7 +66,7 @@ class DiagramParser:
         Returns:
             list[LineInfo]: 処理のみのリスト
         """
-        process_line_info_list: list[tuple] = []
+        process_line_info_list: list[LineInfo] = []
         for line_info in self.line_info_list:
             if line_info.type.type_value != LineTypeDefine.get_format_by_type(LineTypeEnum.DATA).type_value:
                 process_line_info_list.append(line_info)

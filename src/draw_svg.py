@@ -40,7 +40,7 @@ class DrawSvg:
 
     def draw_string(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
         if text != "":
-            figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
+            figure_2_text_space = self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT
             text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text, font_size, rotate)
         else:
             figure_2_text_space = self.CIRCLE_R
@@ -224,7 +224,7 @@ class DrawSvg:
         self.draw_arrow_r(svg, center_x, center_y - self.CIRCLE_R, 15)
 
         # テキストの描画
-        figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
+        figure_2_text_space = self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT
         text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
 
         # 終端位置を返す
@@ -262,8 +262,8 @@ class DrawSvg:
     def draw_figure_data_func_in(svg: list[str], center_x: int, center_y: int) -> None:
         svg.append(
             f'<path d="M {center_x - DrawSvg.CIRCLE_R} {center_y} '  # 描画開始位置指定
-            f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
-            f"L {center_x} {center_y + int(DrawSvg.CIRCLE_R)} "  # 縦線描画
+            f"L {center_x} {center_y - DrawSvg.CIRCLE_R} "  # 上弦描画
+            f"L {center_x} {center_y + DrawSvg.CIRCLE_R} "  # 縦線描画
             f'Z" '  # パスを閉じる
             f'stroke="black" fill="fuchsia" />'
         )
@@ -272,8 +272,8 @@ class DrawSvg:
     def draw_figure_data_func_out(svg: list[str], center_x: int, center_y: int) -> None:
         svg.append(
             f'<path d="M {center_x + DrawSvg.CIRCLE_R} {center_y} '  # 描画開始位置指定
-            f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
-            f"L {center_x} {center_y + int(DrawSvg.CIRCLE_R)} "  # 縦線描画
+            f"L {center_x} {center_y - DrawSvg.CIRCLE_R} "  # 上弦描画
+            f"L {center_x} {center_y + DrawSvg.CIRCLE_R} "  # 縦線描画
             f'Z" '  # パスを閉じる
             f'stroke="black" fill="aqua" />'
         )
