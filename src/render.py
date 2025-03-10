@@ -270,14 +270,14 @@ class SVGRenderer:
                 line = Line()
                 line.start = Coordinate(data.connect_line.enter_to_data.start.x, start_y)
                 line.end = Coordinate(data.connect_line.enter_to_data.start.x, end_y)
-                data.connect_line.between_prcess_data = line
+                data.connect_line.between_process_data = line
 
                 # 線を描画
                 self.draw_svg.draw_line_v(
                     self.svg,
-                    data.connect_line.between_prcess_data.start.x,
-                    data.connect_line.between_prcess_data.start.y,
-                    data.connect_line.between_prcess_data.line_height(),
+                    data.connect_line.between_process_data.start.x,
+                    data.connect_line.between_process_data.start.y,
+                    data.connect_line.between_process_data.line_height(),
                     data.connect_line.color,
                 )
 
