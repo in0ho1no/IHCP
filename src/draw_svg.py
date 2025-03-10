@@ -143,7 +143,7 @@ class DrawSvg:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{self.CIRCLE_R}" fill="white" stroke="black"/>')
 
         # 正三角形の描画
-        vertices = self.__get_vertices_polygon(3, center_x, center_y, self.CIRCLE_R - 2, 0)
+        vertices = self.__get_vertices_polygon(3, center_x, center_y, self.CIRCLE_R - 2, rotation)
         svg.append(
             f'<polygon points="{vertices[0][0]} {vertices[0][1]} {vertices[1][0]} {vertices[1][1]} {vertices[2][0]} {vertices[2][1]}" '
             f'fill="white" stroke="black"/>'
@@ -225,10 +225,11 @@ class DrawSvg:
         if text != "":
             figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
             text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
+        else:
+            figure_2_text_space = self.CIRCLE_R
+            text_width = 0
 
         # 終端位置を返す
-        figure_2_text_space = int(self.CIRCLE_R)
-        text_width = 0
         end_x = center_x + figure_2_text_space + text_width
         return end_x
 
