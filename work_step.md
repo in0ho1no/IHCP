@@ -8,8 +8,6 @@ workspace名の変更
 
     git mv wsXXX.code-workspace wsDST.code-workspace
 
-README.mdのタイトルを変更する
-
 ### 環境準備
 
 仮想環境を作成する
@@ -19,6 +17,10 @@ README.mdのタイトルを変更する
 単体テスト環境を用意する
 
     uv pip install pytest
+
+GUI環境を用意する
+
+    uv pip install streamlit
 
 ## 単体テスト
 
@@ -75,3 +77,9 @@ HCPの記法に基づいてインデント(空白4つ∪タブ)でレベルを�
 ---| --- | ---
 \in | 処理・関数への入力 | レベル1へ記載した場合、関数への入力として扱う。レベル2以上へ記載した場合、単なる処理の入力として扱う。
 \out | 処理・関数からの出力 | レベル1へ記載した場合、関数からの出力として扱う。レベル2以上へ記載した場合、単なる処理の出力として扱う。
+
+## GUI起動
+
+仮想環境のターミナルにて以下コマンド実行する
+
+    streamlit run <file-name>
