@@ -1,3 +1,4 @@
+import glob
 import os
 
 import streamlit as st
@@ -23,7 +24,7 @@ def get_folder_path() -> str:
 def set_file_button(path_folder: str) -> None:
     st.subheader("ファイル一覧")
     flag_set = False
-    files = sorted(os.listdir(path_folder))
+    files = glob.glob(path_folder + "\\**\\*.hcp", recursive=True)
     for file in files:
         # 存在しないファイルは無視
         file_path = os.path.join(path_folder, file)
