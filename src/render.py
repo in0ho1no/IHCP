@@ -46,7 +46,7 @@ class SVGRenderer:
         element_list: list[DiagramElement] = []
         for line_info in line_info_list:
             element = DiagramElement(line_info)
-            element.x = start_x + int(element.line_info.level) * DiagramElement.LEVEL_SHIFT
+            element.x = start_x + element.line_info.level.value * DiagramElement.LEVEL_SHIFT
             element.y = start_y + len(element_list) * DiagramElement.LEVEL_SHIFT
             element_list.append(element)
 
@@ -76,7 +76,7 @@ class SVGRenderer:
                 )
 
             # 始点の追加
-            if (element.line_info.before_no == LineInfo.DEFAULT_VALUE) and (element.line_info.level == LineLevel.LEVEL_MIN + 1):
+            if (element.line_info.before_no == LineInfo.DEFAULT_VALUE) and (element.line_info.level.value == LineLevel.LEVEL_MIN + 1):
                 self.draw_svg.draw_figure_level_start(self.svg, element.x, element.y)
 
             # 終点の追加
@@ -88,7 +88,7 @@ class SVGRenderer:
                     self.draw_svg.draw_figure_level_end(self.svg, element.x, element.y)
 
             # レベル下げの追加
-            if (element.line_info.level > LineLevel.LEVEL_MIN + 1) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
+            if (element.line_info.level.value > LineLevel.LEVEL_MIN + 1) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
                 self.draw_svg.draw_figure_level_step(self.svg, element.x, element.y)
 
             # 処理部の高さと幅を更新する
@@ -162,7 +162,7 @@ class SVGRenderer:
                 continue
 
             # 関数への入出力は接続線で表現しない
-            if process_element.line_info.level == LineLevel.LEVEL_MIN + 1:
+            if process_element.line_info.level.value == LineLevel.LEVEL_MIN + 1:
                 continue
 
             process_io_line(process_element, process_element.line_info.iodata.in_data_list, io=True)
@@ -183,7 +183,7 @@ class SVGRenderer:
             end_x = self.draw_fig.draw_figure_method(self.svg, data_element)
 
             # ステップ間の垂直線の追加
-            if data_element.line_info.level > LineLevel.LEVEL_MIN + 1:
+            if data_element.line_info.level.value > LineLevel.LEVEL_MIN + 1:
                 if data_element.line_info.before_no != LineInfo.DEFAULT_VALUE:
                     bef_elem = self.process_elements[data_element.line_info.before_no]
                     # 直前のレベルまで線を引く
@@ -195,7 +195,7 @@ class SVGRenderer:
                     )
 
             # レベル下げの追加
-            if (data_element.line_info.level > LineLevel.LEVEL_MIN + 1) and (data_element.line_info.before_no == LineInfo.DEFAULT_VALUE):
+            if (data_element.line_info.level.value > LineLevel.LEVEL_MIN + 1) and (data_element.line_info.before_no == LineInfo.DEFAULT_VALUE):
                 self.draw_svg.draw_figure_level_step(self.svg, data_element.x, data_element.y)
 
             # データ部の高さと幅を更新する
@@ -231,7 +231,7 @@ class SVGRenderer:
                 if data_elem.line_info.text_clean != data.name:
                     continue
 
-                if process_info.level == LineLevel.LEVEL_MIN + 1:
+                if process_info.level.value == LineLevel.LEVEL_MIN + 1:
                     # 関数への入出力は接続線で表現しない
                     draw_dataio_method(self.svg, data_elem.x, data_elem.y)
                 else:
@@ -287,7 +287,7 @@ class SVGRenderer:
 
         for process_element in self.process_elements:
             # 関数への入出力は接続線で表現しない
-            if process_element.line_info.level == LineLevel.LEVEL_MIN + 1:
+            if process_element.line_info.level.value == LineLevel.LEVEL_MIN + 1:
                 continue
 
             process2data(process_element.line_info.iodata.in_data_list)

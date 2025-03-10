@@ -9,6 +9,9 @@ class LineLevel:
 
     TAB2SPACE = 4
 
+    def __init__(self) -> None:
+        self.value = self.LEVEL_MIN
+
     @classmethod
     def __create_indent_pattern(cls, tab_count: int) -> str:
         """インデントパターンを動的に生成する

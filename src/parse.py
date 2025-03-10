@@ -36,7 +36,7 @@ class DiagramParser:
     def update_line_level(self) -> None:
         """処理部のレベルをインデントに応じて決定する"""
         for line_info in self.line_info_list:
-            line_info.level = LineLevel.get_line_level(line_info.text_org)
+            line_info.level.value = LineLevel.get_line_level(line_info.text_org)
 
     def update_line_type(self) -> None:
         """処理部の種別を決定する"""
@@ -57,7 +57,7 @@ class DiagramParser:
             # \inと\out要素を取り除いた行を取得
             cleaned_text = re.sub(r"\\(?:in|out)(?:\s+[\w\-()]+)?", "", line_info.text_typeless).strip()
 
-            line_info.iodata = InOutData(in_data, out_data, line_info.level)
+            line_info.iodata = InOutData(in_data, out_data, line_info.level.value)
             line_info.text_clean = cleaned_text
 
     def __categorize_line_info_process(self) -> list[LineInfo]:
@@ -101,13 +101,13 @@ class DiagramParser:
             for search_idx in range(count - 1, -1, -1):
                 search_line = line_info_list[search_idx]
 
-                if search_line.level == line_info.level:
+                if search_line.level.value == line_info.level.value:
                     # 1つ前の番号を保持する
                     line_info.before_no = search_line.no
                     # 同時に次の番号として保存する
                     search_line.next_no = line_info.no
                     break
-                elif search_line.level < line_info.level:
+                elif search_line.level.value < line_info.level.value:
                     # 自身よりレベルが小さいなら階層が変わる
                     break
 
