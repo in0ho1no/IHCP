@@ -38,7 +38,8 @@ class DrawSvg:
         text_width = self.get_text_width(text)
         return text_width
 
-    def draw_line(self, svg: list[str], x1: int, y1: int, x2: int, y2: int, color: str = "black") -> None:
+    @staticmethod
+    def draw_line(svg: list[str], x1: int, y1: int, x2: int, y2: int, color: str = "black") -> None:
         svg.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}"/>')
 
     def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
@@ -102,8 +103,8 @@ class DrawSvg:
         end_x = center_x + figure_2_text_space + text_width
         return end_x
 
+    @staticmethod
     def __get_vertices_polygon(
-        self,
         num_of_vertex: int,
         center_x: int,
         center_y: int,
@@ -280,7 +281,8 @@ class DrawSvg:
         end_x = center_x + figure_2_text_space + text_width
         return end_x
 
-    def draw_figure_data_func_in(self, svg: list[str], center_x: int, center_y: int) -> None:
+    @staticmethod
+    def draw_figure_data_func_in(svg: list[str], center_x: int, center_y: int) -> None:
         svg.append(
             f'<path d="M {center_x - DrawSvg.CIRCLE_R} {center_y} '  # 描画開始位置指定
             f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
@@ -289,7 +291,8 @@ class DrawSvg:
             f'stroke="black" fill="fuchsia" />'
         )
 
-    def draw_figure_data_func_out(self, svg: list[str], center_x: int, center_y: int) -> None:
+    @staticmethod
+    def draw_figure_data_func_out(svg: list[str], center_x: int, center_y: int) -> None:
         svg.append(
             f'<path d="M {center_x + DrawSvg.CIRCLE_R} {center_y} '  # 描画開始位置指定
             f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画

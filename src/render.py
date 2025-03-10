@@ -28,7 +28,11 @@ class SVGRenderer:
         self.process_info_list: list[LineInfo] = process_info_list
         self.data_info_list: list[LineInfo] = data_info_list
 
-    def set_elements(self, start_x: int, start_y: int, line_info_list: list[LineInfo]) -> list[DiagramElement]:
+        self.process_elements: list[DiagramElement] = []
+        self.data_elements: list[DiagramElement] = []
+
+    @staticmethod
+    def set_elements(start_x: int, start_y: int, line_info_list: list[LineInfo]) -> list[DiagramElement]:
         """各要素の配置を計算して保持する
 
         Args:

@@ -15,7 +15,8 @@ class DiagramParser:
         self.process_line_info_list = self.create_process_info_list_no()
         self.data_line_info_list = self.create_data_info_list_no()
 
-    def convert_lines2lineinfo(self, lines: list[str]) -> list[LineInfo]:
+    @staticmethod
+    def convert_lines2lineinfo(lines: list[str]) -> list[LineInfo]:
         """文字列リストを文字列情報リストに変換する
 
         Args:
@@ -86,7 +87,8 @@ class DiagramParser:
 
         return data_line_info_list
 
-    def __assign_line_relationships(self, line_info_list: list[LineInfo]) -> None:
+    @staticmethod
+    def __assign_line_relationships(line_info_list: list[LineInfo]) -> None:
         """各行のレベルに応じた前後関係を決定する
 
         Args:
