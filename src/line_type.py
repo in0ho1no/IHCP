@@ -83,11 +83,11 @@ class LineType:
         # 空行は無視する
         strip_line = line.strip()
         if strip_line is None:
-            return (LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line)
+            return LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line
 
         # 種別指定が区切られていない行は無視する
         if " " not in strip_line:
-            return (LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line)
+            return LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line
 
         # 行の先頭要素と残りの文字列を保持する
         first_elem, *rest = strip_line.split(" ", maxsplit=1)
@@ -95,7 +95,7 @@ class LineType:
 
         # 種別指定のない行は無視する
         if not first_elem.startswith("\\"):
-            return (LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line)
+            return LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line
 
         # 先頭要素と一致した種別を返す
         line_type_enum = LineTypeDefine.get_type_by_format(first_elem)
@@ -103,4 +103,4 @@ class LineType:
             return LineTypeDefine.get_format_by_type(line_type_enum), remainder
 
         # 一致する種別無し
-        return (LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line)
+        return LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line

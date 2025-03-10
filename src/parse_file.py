@@ -5,7 +5,8 @@ class FileParse:
     def __init__(self) -> None:
         pass
 
-    def read_file(self, file_path: str) -> str:
+    @staticmethod
+    def read_file(file_path: str) -> str:
         """
         ファイルを読み込む
 
@@ -39,7 +40,8 @@ class FileParse:
         except OSError as e:
             raise OSError(f"ファイルの読み込みに失敗しました: {e!r}") from e
 
-    def convert_text2lines(self, text: str) -> list[str]:
+    @staticmethod
+    def convert_text2lines(text: str) -> list[str]:
         """テキストデータを不要な情報を除去した文字列リストに変換する
 
         以下取り除く
@@ -67,7 +69,8 @@ class FileParse:
 
         return output_lines
 
-    def get_module_sections(self, text_lines: list[str]) -> list[tuple[str, list[str]]]:
+    @staticmethod
+    def get_module_sections(text_lines: list[str]) -> list[tuple[str, list[str]]]:
         """
         モジュールごとのセクションを取得する
 

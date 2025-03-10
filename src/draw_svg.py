@@ -32,13 +32,26 @@ class DrawSvg:
     def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
         svg.append(
             f'<text x="{center_x}" y="{center_y}" '
-            f'text-anchor="left" dominant-baseline="middle" '
+            f'text-anchor="start" dominant-baseline="middle" '
             f'font-size="{font_size}%" rotate="{rotate}">{text}</text>'
         )
         text_width = self.get_text_width(text)
         return text_width
 
-    def draw_line(self, svg: list[str], x1: int, y1: int, x2: int, y2: int, color: str = "black") -> None:
+    def draw_string(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
+        if text != "":
+            figure_2_text_space = self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT
+            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text, font_size, rotate)
+        else:
+            figure_2_text_space = self.CIRCLE_R
+            text_width = 0
+
+        # 終端位置を返す
+        end_x = center_x + figure_2_text_space + text_width
+        return end_x
+
+    @staticmethod
+    def draw_line(svg: list[str], x1: int, y1: int, x2: int, y2: int, color: str = "black") -> None:
         svg.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}"/>')
 
     def draw_line_h(self, svg: list[str], center_x: int, center_y: int, length: int, color: str = "black") -> None:
@@ -90,20 +103,14 @@ class DrawSvg:
     def draw_figure_normal(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{self.CIRCLE_R}" fill="white" stroke="black"/>')
 
-        # テキストの描画
-        if text != "":
-            figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
-            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
-        else:
-            figure_2_text_space = self.CIRCLE_R
-            text_width = 0
+        # 文字列の描画
+        end_x = self.draw_string(svg, center_x, center_y, text)
 
         # 終端位置を返す
-        end_x = center_x + figure_2_text_space + text_width
         return end_x
 
+    @staticmethod
     def __get_vertices_polygon(
-        self,
         num_of_vertex: int,
         center_x: int,
         center_y: int,
@@ -143,22 +150,16 @@ class DrawSvg:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{self.CIRCLE_R}" fill="white" stroke="black"/>')
 
         # 正三角形の描画
-        vertices = self.__get_vertices_polygon(3, center_x, center_y, self.CIRCLE_R - 2, 0)
+        vertices = self.__get_vertices_polygon(3, center_x, center_y, self.CIRCLE_R - 2, rotation)
         svg.append(
             f'<polygon points="{vertices[0][0]} {vertices[0][1]} {vertices[1][0]} {vertices[1][1]} {vertices[2][0]} {vertices[2][1]}" '
             f'fill="white" stroke="black"/>'
         )
 
-        # テキストの描画
-        if text != "":
-            figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
-            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
-        else:
-            figure_2_text_space = self.CIRCLE_R
-            text_width = 0
+        # 文字列の描画
+        end_x = self.draw_string(svg, center_x, center_y, text)
 
         # 終端位置を返す
-        end_x = center_x + figure_2_text_space + text_width
         return end_x
 
     def draw_figure_repeat(
@@ -171,34 +172,23 @@ class DrawSvg:
         # 円の描画
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{self.CIRCLE_R}" fill="white" stroke="black"/>')
 
+        # 記号の描画
         self.draw_text(svg, center_x + 8, center_y - 1, "↻", rotate=240)
 
-        # テキストの描画
-        if text != "":
-            figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
-            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
-        else:
-            figure_2_text_space = self.CIRCLE_R
-            text_width = 0
+        # 文字列の描画
+        end_x = self.draw_string(svg, center_x, center_y, text)
 
         # 終端位置を返す
-        end_x = center_x + figure_2_text_space + text_width
         return end_x
 
     def draw_figure_mod(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{self.CIRCLE_R}" fill="white" stroke="black"/>')
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{int(self.CIRCLE_R / 2)}" fill="white" stroke="black"/>')
 
-        # テキストの描画
-        if text != "":
-            figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
-            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
-        else:
-            figure_2_text_space = self.CIRCLE_R
-            text_width = 0
+        # 文字列の描画
+        end_x = self.draw_string(svg, center_x, center_y, text)
 
         # 終端位置を返す
-        end_x = center_x + figure_2_text_space + text_width
         return end_x
 
     def draw_figure_return(
@@ -221,15 +211,10 @@ class DrawSvg:
         # 水平線の追加 下
         self.draw_line_h(svg, (center_x - self.CIRCLE_R), center_y + self.CIRCLE_R, (self.CIRCLE_R * 2))
 
-        # 脱出する階層数の指定
-        if text != "":
-            figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
-            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
+        # 文字列の描画
+        end_x = self.draw_string(svg, center_x, center_y, text)
 
         # 終端位置を返す
-        figure_2_text_space = int(self.CIRCLE_R)
-        text_width = 0
-        end_x = center_x + figure_2_text_space + text_width
         return end_x
 
     def __draw_figure_cond(self, svg: list[str], center_x: int, center_y: int, text: str = "") -> int:
@@ -239,7 +224,7 @@ class DrawSvg:
         self.draw_arrow_r(svg, center_x, center_y - self.CIRCLE_R, 15)
 
         # テキストの描画
-        figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
+        figure_2_text_space = self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT
         text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
 
         # 終端位置を返す
@@ -267,32 +252,28 @@ class DrawSvg:
             f'width="{self.CIRCLE_R * 2}" height="{self.CIRCLE_R * 2}" fill="white" stroke="black"/>'
         )
 
-        # テキストの描画
-        if text != "":
-            figure_2_text_space = int(self.CIRCLE_R + self.SPACE_FIGURE_TO_TEXT)
-            text_width = self.draw_text(svg, center_x + figure_2_text_space, center_y, text)
-        else:
-            figure_2_text_space = self.CIRCLE_R
-            text_width = 0
+        # 文字列の描画
+        end_x = self.draw_string(svg, center_x, center_y, text)
 
         # 終端位置を返す
-        end_x = center_x + figure_2_text_space + text_width
         return end_x
 
-    def draw_figure_data_func_in(self, svg: list[str], center_x: int, center_y: int) -> None:
+    @staticmethod
+    def draw_figure_data_func_in(svg: list[str], center_x: int, center_y: int) -> None:
         svg.append(
             f'<path d="M {center_x - DrawSvg.CIRCLE_R} {center_y} '  # 描画開始位置指定
-            f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
-            f"L {center_x} {center_y + int(DrawSvg.CIRCLE_R)} "  # 縦線描画
+            f"L {center_x} {center_y - DrawSvg.CIRCLE_R} "  # 上弦描画
+            f"L {center_x} {center_y + DrawSvg.CIRCLE_R} "  # 縦線描画
             f'Z" '  # パスを閉じる
             f'stroke="black" fill="fuchsia" />'
         )
 
-    def draw_figure_data_func_out(self, svg: list[str], center_x: int, center_y: int) -> None:
+    @staticmethod
+    def draw_figure_data_func_out(svg: list[str], center_x: int, center_y: int) -> None:
         svg.append(
             f'<path d="M {center_x + DrawSvg.CIRCLE_R} {center_y} '  # 描画開始位置指定
-            f"L {center_x} {center_y - int(DrawSvg.CIRCLE_R)} "  # 上弦描画
-            f"L {center_x} {center_y + int(DrawSvg.CIRCLE_R)} "  # 縦線描画
+            f"L {center_x} {center_y - DrawSvg.CIRCLE_R} "  # 上弦描画
+            f"L {center_x} {center_y + DrawSvg.CIRCLE_R} "  # 縦線描画
             f'Z" '  # パスを閉じる
             f'stroke="black" fill="aqua" />'
         )
