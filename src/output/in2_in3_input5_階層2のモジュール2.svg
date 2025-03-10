@@ -106,7 +106,6 @@
 <line x1="150" y1="531" x2="150" y2="540" stroke="black"/>
 <polygon points="150 549 142 535 157 535" fill="white" stroke="black"/>
 <line x1="141" y1="549" x2="159" y2="549" stroke="black"/>
-<text x="169" y="540" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">a</text>
 <line x1="150" y1="522" x2="150" y2="531" stroke="black"/>
 <line x1="132" y1="522" x2="150" y2="522" stroke="black"/>
 <line x1="132" y1="504" x2="132" y2="522" stroke="black"/>

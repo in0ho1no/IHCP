@@ -85,9 +85,9 @@ class LineType:
         if strip_line is None:
             return LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line
 
-        # 種別指定が区切られていない行は無視する
-        if " " not in strip_line:
-            return LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line
+        # # 種別指定が区切られていない行は無視する
+        # if " " not in strip_line:
+        #     return LineTypeDefine.get_format_by_type(LineTypeEnum.NORMAL), line
 
         # 行の先頭要素と残りの文字列を保持する
         first_elem, *rest = strip_line.split(" ", maxsplit=1)
