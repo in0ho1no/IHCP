@@ -32,7 +32,7 @@ class DrawSvg:
     def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
         svg.append(
             f'<text x="{center_x}" y="{center_y}" '
-            f'text-anchor="left" dominant-baseline="middle" '
+            f'text-anchor="start" dominant-baseline="middle" '
             f'font-size="{font_size}%" rotate="{rotate}">{text}</text>'
         )
         text_width = self.get_text_width(text)
