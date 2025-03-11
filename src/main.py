@@ -31,7 +31,7 @@ def convert_file2svg_tuple_list(file_path: str) -> list[tuple[str, str]]:
         parser = DiagramParser(section_lines)
 
         # 描画
-        renderer = SVGRenderer(parser.process_line_info_list, parser.data_line_info_list)
+        renderer = SVGRenderer(section_name, parser.process_line_info_list, parser.data_line_info_list)
         svg_output = renderer.render()
         svg_tuple_list.append((section_name, svg_output))
 

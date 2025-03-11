@@ -35,7 +35,7 @@ class DrawSvg:
             f'text-anchor="start" dominant-baseline="middle" '
             f'font-size="{font_size}%" rotate="{rotate}">{text}</text>'
         )
-        text_width = self.get_text_width(text)
+        text_width = int(self.get_text_width(text) * (font_size / 100))
         return text_width
 
     def draw_string(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
