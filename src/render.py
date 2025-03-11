@@ -6,6 +6,7 @@ from line_type import LineTypeDefine, LineTypeEnum
 
 class SVGRenderer:
     LINE_OFFSET = 10
+    IMG_MARGIN = 30
     color_table = [
         "black",
         "red",
@@ -17,7 +18,7 @@ class SVGRenderer:
         "turquoise",
     ]
 
-    def __init__(self, process_info_list: list[LineInfo], data_info_list: list[LineInfo]) -> None:
+    def __init__(self, name: str, process_info_list: list[LineInfo], data_info_list: list[LineInfo]) -> None:
         # ヘッダは最後に挿入する
         # svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
         self.svg: list[str] = []
@@ -25,11 +26,30 @@ class SVGRenderer:
         self.draw_svg = DrawSvg()
         self.draw_fig = DrawFigure(self.draw_svg)
 
+        self.name: str = name
         self.process_info_list: list[LineInfo] = process_info_list
         self.data_info_list: list[LineInfo] = data_info_list
 
         self.process_elements: list[DiagramElement] = []
         self.data_elements: list[DiagramElement] = []
+
+    def set_title(self, start_x: int, start_y: int) -> tuple[int, int]:
+        """タイトル部を描画する
+
+        Args:
+            start_x (int): 描画開始位置(X座標)
+            start_y (int): 描画開始位置(Y座標)
+
+        Returns:
+            tuple[int, int]: 描画後のサイズ(高さ, 幅)
+        """
+        end_x = self.draw_svg.draw_string(self.svg, start_x, start_y, "モジュール名: " + self.name, font_size=120)
+        end_y = start_y + DiagramElement.LEVEL_SHIFT
+
+        # マージンを設けておく
+        end_x += SVGRenderer.IMG_MARGIN
+        end_y += SVGRenderer.IMG_MARGIN
+        return end_y, end_x
 
     @staticmethod
     def set_elements(start_x: int, start_y: int, line_info_list: list[LineInfo]) -> list[DiagramElement]:
@@ -96,7 +116,7 @@ class SVGRenderer:
             process_width = max(process_width, element.end_x)
 
         # マージンを設ける
-        process_width += 30
+        process_width += SVGRenderer.IMG_MARGIN
         return process_height, process_width
 
     def render_line_exit_from_process(self, process_end_x: int) -> int:
@@ -314,15 +334,18 @@ class SVGRenderer:
         start_x = 0
         start_y = 30
 
+        # モジュール名を描画
+        title_height, title_width = self.set_title(start_x, start_y)
+
         # 処理部を描画
-        self.process_elements = self.set_elements(start_x, start_y, self.process_info_list)
+        self.process_elements = self.set_elements(start_x, title_height, self.process_info_list)
         process_height, process_width = self.render_process()
 
         # 処理部からの水平線を描画
         exit_width = self.render_line_exit_from_process(process_width)
 
         # データ部を描画
-        self.data_elements = self.set_elements(exit_width, start_y, self.data_info_list)
+        self.data_elements = self.set_elements(exit_width, title_height, self.data_info_list)
         data_height, data_width = self.render_data()
 
         # データ部への水平線を描画
@@ -332,6 +355,6 @@ class SVGRenderer:
         self.connect_process2data()
 
         # 描画終了
-        total_width = max(process_width, data_width)
-        total_height = max(process_height, data_height)
+        total_width = max(title_width, process_width, data_width)
+        total_height = max(title_height, process_height, data_height)
         return self.finish_svg(total_width, total_height)
