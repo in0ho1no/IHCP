@@ -1,5 +1,7 @@
 \module OOOOO
 \data ssss
+    \data ggggggg
+    \data JJJJJJJ
 \data fff
 
 シンプルな処理 \in ssss \out fff

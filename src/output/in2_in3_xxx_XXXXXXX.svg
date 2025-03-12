@@ -2,12 +2,15 @@
 <text x="19" y="30" text-anchor="start" dominant-baseline="middle" font-size="120%" rotate="0">モジュール名: XXXXXXX</text>
 <circle cx="30" cy="90" r="9" fill="white" stroke="black"/>
 <text x="49" y="90" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">/* テスト的なモジュール */</text>
+<line x1="30" y1="72" x2="30" y2="81" stroke="black"/>
+<line x1="21" y1="72" x2="39" y2="72" stroke="black"/>
 <line x1="30" y1="99" x2="30" y2="108" stroke="black"/>
 <line x1="21" y1="108" x2="39" y2="108" stroke="black"/>
 <circle cx="60" cy="120" r="9" fill="white" stroke="black"/>
 <text x="79" y="120" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">取得</text>
 <line x1="60" y1="102" x2="60" y2="111" stroke="black"/>
-<line x1="51" y1="102" x2="69" y2="102" stroke="black"/>
+<line x1="42" y1="102" x2="60" y2="102" stroke="black"/>
+<line x1="42" y1="84" x2="42" y2="102" stroke="black"/>
 <circle cx="90" cy="150" r="9" fill="white" stroke="black"/>
 <text x="109" y="150" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">/* なにもしない */</text>
 <line x1="90" y1="159" x2="90" y2="168" stroke="black"/>
