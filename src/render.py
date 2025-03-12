@@ -1,4 +1,4 @@
-from define import Coordinate, DataInfo, DiagramElement, Line, LineInfo, ParseInfo4Render, Process2Data
+from define import Coordinate, DataInfo, DiagramElement, Line, LineInfo, ParseInfo, ParseInfo4Render, Process2Data
 from draw_svg import DrawFigure, DrawSvg
 from line_level import LineLevel
 from line_type import LineTypeDefine, LineTypeEnum
@@ -27,11 +27,41 @@ class SVGRenderer:
         self.draw_fig = DrawFigure(self.draw_svg)
 
         self.name: str = name
-        self.process_info_list: list[LineInfo] = prase_info_4_render.process_parse_info.line_info_list
-        self.data_info_list: list[LineInfo] = prase_info_4_render.data_parse_info.line_info_list
+        self.process_parse_info = prase_info_4_render.process_parse_info
+        self.data_parse_info = prase_info_4_render.data_parse_info
 
         self.process_elements: list[DiagramElement] = []
         self.data_elements: list[DiagramElement] = []
+
+    def render(self) -> str:
+        """パースされた要素をSVGとして描画"""
+        start_x = 0
+        start_y = 30
+
+        # タイトル部を描画
+        title_height, title_width = self.set_title(start_x, start_y)
+
+        # 処理部を描画
+        self.process_elements = self.set_elements(start_x, title_height, self.process_parse_info)
+        process_height, process_width = self.render_process()
+
+        # 処理部からの水平線を描画
+        exit_width = self.render_line_exit_from_process(process_width)
+
+        # データ部を描画
+        self.data_elements = self.set_elements(exit_width, title_height, self.data_parse_info)
+        data_height, data_width = self.render_data()
+
+        # データ部への水平線を描画
+        self.render_line_enter_to_data()
+
+        # 処理部とデータ部を結ぶ
+        self.connect_process2data()
+
+        # 描画終了
+        total_width = max(title_width, process_width, data_width)
+        total_height = max(title_height, process_height, data_height)
+        return self.finish_svg(total_width, total_height)
 
     def set_title(self, start_x: int, start_y: int) -> tuple[int, int]:
         """タイトル部を描画する
@@ -52,7 +82,7 @@ class SVGRenderer:
         return end_y, end_x
 
     @staticmethod
-    def set_elements(start_x: int, start_y: int, line_info_list: list[LineInfo]) -> list[DiagramElement]:
+    def set_elements(start_x: int, start_y: int, parse_info: ParseInfo) -> list[DiagramElement]:
         """各要素の配置を計算して保持する
 
         Args:
@@ -64,9 +94,9 @@ class SVGRenderer:
             list[DiagramElement]: 配置情報を更新したリスト
         """
         element_list: list[DiagramElement] = []
-        for line_info in line_info_list:
+        for line_info in parse_info.line_info_list:
             element = DiagramElement(line_info)
-            element.x = start_x + element.line_info.level.value * DiagramElement.LEVEL_SHIFT
+            element.x = start_x + (element.line_info.level.value - parse_info.level_min + 1) * DiagramElement.LEVEL_SHIFT
             element.y = start_y + len(element_list) * DiagramElement.LEVEL_SHIFT
             element_list.append(element)
 
@@ -328,33 +358,3 @@ class SVGRenderer:
         self.svg.insert(0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height + 50}" style="background-color: #808d81">')
         self.svg.append("</svg>")
         return "\n".join(self.svg)
-
-    def render(self) -> str:
-        """パースされた要素をSVGとして描画"""
-        start_x = 0
-        start_y = 30
-
-        # モジュール名を描画
-        title_height, title_width = self.set_title(start_x, start_y)
-
-        # 処理部を描画
-        self.process_elements = self.set_elements(start_x, title_height, self.process_info_list)
-        process_height, process_width = self.render_process()
-
-        # 処理部からの水平線を描画
-        exit_width = self.render_line_exit_from_process(process_width)
-
-        # データ部を描画
-        self.data_elements = self.set_elements(exit_width, title_height, self.data_info_list)
-        data_height, data_width = self.render_data()
-
-        # データ部への水平線を描画
-        self.render_line_enter_to_data()
-
-        # 処理部とデータ部を結ぶ
-        self.connect_process2data()
-
-        # 描画終了
-        total_width = max(title_width, process_width, data_width)
-        total_height = max(title_height, process_height, data_height)
-        return self.finish_svg(total_width, total_height)

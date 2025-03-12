@@ -138,7 +138,7 @@ class DiagramParser:
 
     @staticmethod
     def get_level_min(info_list: list[LineInfo]) -> int:
-        level_min: int = LineLevel.LEVEL_MIN
+        level_min: int = LineLevel.LEVEL_MAX
         for info in info_list:
             level_min = min(level_min, info.level.value)
 
