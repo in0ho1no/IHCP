@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import NamedTuple
 
 from line_level import LineLevel
 from line_type import LineTypeFormat
@@ -65,6 +66,16 @@ class LineInfo:
 
         if self.type is None:
             self.type = LineTypeFormat()
+
+
+class ParseInfo(NamedTuple):
+    line_info_list: list[LineInfo]
+    level_min: int
+
+
+class ParseInfo4Render(NamedTuple):
+    process_parse_info: ParseInfo
+    data_parse_info: ParseInfo
 
 
 @dataclass

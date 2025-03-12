@@ -1,4 +1,4 @@
-from define import Coordinate, DataInfo, DiagramElement, Line, LineInfo, Process2Data
+from define import Coordinate, DataInfo, DiagramElement, Line, LineInfo, ParseInfo, ParseInfo4Render, Process2Data
 from draw_svg import DrawFigure, DrawSvg
 from line_level import LineLevel
 from line_type import LineTypeDefine, LineTypeEnum
@@ -18,7 +18,7 @@ class SVGRenderer:
         "turquoise",
     ]
 
-    def __init__(self, name: str, process_info_list: list[LineInfo], data_info_list: list[LineInfo]) -> None:
+    def __init__(self, name: str, prase_info_4_render: ParseInfo4Render) -> None:
         # ヘッダは最後に挿入する
         # svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
         self.svg: list[str] = []
@@ -27,11 +27,41 @@ class SVGRenderer:
         self.draw_fig = DrawFigure(self.draw_svg)
 
         self.name: str = name
-        self.process_info_list: list[LineInfo] = process_info_list
-        self.data_info_list: list[LineInfo] = data_info_list
+        self.process_parse_info = prase_info_4_render.process_parse_info
+        self.data_parse_info = prase_info_4_render.data_parse_info
 
         self.process_elements: list[DiagramElement] = []
         self.data_elements: list[DiagramElement] = []
+
+    def render(self) -> str:
+        """パースされた要素をSVGとして描画"""
+        start_x = 0
+        start_y = 30
+
+        # タイトル部を描画
+        title_height, title_width = self.set_title(start_x, start_y)
+
+        # 処理部を描画
+        self.process_elements = self.set_elements(start_x, title_height, self.process_parse_info)
+        process_height, process_width = self.render_process()
+
+        # 処理部からの水平線を描画
+        exit_width = self.render_line_exit_from_process(process_width)
+
+        # データ部を描画
+        self.data_elements = self.set_elements(exit_width, title_height, self.data_parse_info)
+        data_height, data_width = self.render_data()
+
+        # データ部への水平線を描画
+        self.render_line_enter_to_data()
+
+        # 処理部とデータ部を結ぶ
+        self.connect_process2data()
+
+        # 描画終了
+        total_width = max(title_width, process_width, data_width)
+        total_height = max(title_height, process_height, data_height)
+        return self.finish_svg(total_width, total_height)
 
     def set_title(self, start_x: int, start_y: int) -> tuple[int, int]:
         """タイトル部を描画する
@@ -52,7 +82,7 @@ class SVGRenderer:
         return end_y, end_x
 
     @staticmethod
-    def set_elements(start_x: int, start_y: int, line_info_list: list[LineInfo]) -> list[DiagramElement]:
+    def set_elements(start_x: int, start_y: int, parse_info: ParseInfo) -> list[DiagramElement]:
         """各要素の配置を計算して保持する
 
         Args:
@@ -64,9 +94,9 @@ class SVGRenderer:
             list[DiagramElement]: 配置情報を更新したリスト
         """
         element_list: list[DiagramElement] = []
-        for line_info in line_info_list:
+        for line_info in parse_info.line_info_list:
             element = DiagramElement(line_info)
-            element.x = start_x + element.line_info.level.value * DiagramElement.LEVEL_SHIFT
+            element.x = start_x + (element.line_info.level.value - parse_info.level_min + 1) * DiagramElement.LEVEL_SHIFT
             element.y = start_y + len(element_list) * DiagramElement.LEVEL_SHIFT
             element_list.append(element)
 
@@ -96,7 +126,9 @@ class SVGRenderer:
                 )
 
             # 始点の追加
-            if (element.line_info.before_no == LineInfo.DEFAULT_VALUE) and (element.line_info.level.value == LineLevel.LEVEL_MIN + 1):
+            if (element.line_info.before_no == LineInfo.DEFAULT_VALUE) and (
+                (element.line_info.level.value - self.process_parse_info.level_min) == LineLevel.LEVEL_MIN
+            ):
                 self.draw_svg.draw_figure_level_start(self.svg, element.x, element.y)
 
             # 終点の追加
@@ -108,7 +140,9 @@ class SVGRenderer:
                     self.draw_svg.draw_figure_level_end(self.svg, element.x, element.y)
 
             # レベル下げの追加
-            if (element.line_info.level.value > LineLevel.LEVEL_MIN + 1) and (element.line_info.before_no == LineInfo.DEFAULT_VALUE):
+            if ((element.line_info.level.value - self.process_parse_info.level_min) > LineLevel.LEVEL_MIN) and (
+                element.line_info.before_no == LineInfo.DEFAULT_VALUE
+            ):
                 self.draw_svg.draw_figure_level_step(self.svg, element.x, element.y)
 
             # 処理部の高さと幅を更新する
@@ -184,7 +218,7 @@ class SVGRenderer:
                 continue
 
             # 関数への入出力は接続線で表現しない
-            if process_element.line_info.level.value == LineLevel.LEVEL_MIN + 1:
+            if (process_element.line_info.level.value - self.process_parse_info.level_min) == LineLevel.LEVEL_MIN:
                 continue
 
             process_io_line(process_element, process_element.line_info.iodata.in_data_list, io=True)
@@ -205,7 +239,7 @@ class SVGRenderer:
             end_x = self.draw_fig.draw_figure_method(self.svg, data_element)
 
             # ステップ間の垂直線の追加
-            if data_element.line_info.level.value > LineLevel.LEVEL_MIN + 1:
+            if (data_element.line_info.level.value - self.data_parse_info.level_min) > LineLevel.LEVEL_MIN:
                 if data_element.line_info.before_no != LineInfo.DEFAULT_VALUE:
                     bef_elem = self.process_elements[data_element.line_info.before_no]
                     # 直前のレベルまで線を引く
@@ -217,13 +251,17 @@ class SVGRenderer:
                     )
 
             # レベル下げの追加
-            if (data_element.line_info.level.value > LineLevel.LEVEL_MIN + 1) and (data_element.line_info.before_no == LineInfo.DEFAULT_VALUE):
+            if ((data_element.line_info.level.value - self.data_parse_info.level_min) > LineLevel.LEVEL_MIN) and (
+                data_element.line_info.before_no == LineInfo.DEFAULT_VALUE
+            ):
                 self.draw_svg.draw_figure_level_step(self.svg, data_element.x, data_element.y)
 
             # データ部の高さと幅を更新する
             data_height = max(data_height, data_element.y)
             data_width = max(data_width, end_x)
 
+        # マージンを設ける
+        data_width += SVGRenderer.IMG_MARGIN
         return data_height, data_width
 
     def render_line_enter_to_data(self) -> None:
@@ -253,7 +291,7 @@ class SVGRenderer:
                 if data_elem.line_info.text_clean != data.name:
                     continue
 
-                if process_info.level.value == LineLevel.LEVEL_MIN + 1:
+                if (process_info.level.value - self.process_parse_info.level_min) == LineLevel.LEVEL_MIN:
                     # 関数への入出力は接続線で表現しない
                     draw_dataio_method(self.svg, data_elem.x, data_elem.y)
                 else:
@@ -309,7 +347,7 @@ class SVGRenderer:
 
         for process_element in self.process_elements:
             # 関数への入出力は接続線で表現しない
-            if process_element.line_info.level.value == LineLevel.LEVEL_MIN + 1:
+            if (process_element.line_info.level.value - self.process_parse_info.level_min) == LineLevel.LEVEL_MIN:
                 continue
 
             process2data(process_element.line_info.iodata.in_data_list)
@@ -328,33 +366,3 @@ class SVGRenderer:
         self.svg.insert(0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height + 50}" style="background-color: #808d81">')
         self.svg.append("</svg>")
         return "\n".join(self.svg)
-
-    def render(self) -> str:
-        """パースされた要素をSVGとして描画"""
-        start_x = 0
-        start_y = 30
-
-        # モジュール名を描画
-        title_height, title_width = self.set_title(start_x, start_y)
-
-        # 処理部を描画
-        self.process_elements = self.set_elements(start_x, title_height, self.process_info_list)
-        process_height, process_width = self.render_process()
-
-        # 処理部からの水平線を描画
-        exit_width = self.render_line_exit_from_process(process_width)
-
-        # データ部を描画
-        self.data_elements = self.set_elements(exit_width, title_height, self.data_info_list)
-        data_height, data_width = self.render_data()
-
-        # データ部への水平線を描画
-        self.render_line_enter_to_data()
-
-        # 処理部とデータ部を結ぶ
-        self.connect_process2data()
-
-        # 描画終了
-        total_width = max(title_width, process_width, data_width)
-        total_height = max(title_height, process_height, data_height)
-        return self.finish_svg(total_width, total_height)

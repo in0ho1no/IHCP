@@ -1,6 +1,7 @@
 import glob
 import os
 
+from define import ParseInfo, ParseInfo4Render
 from parse import DiagramParser
 from parse_file import FileParse
 from render import SVGRenderer
@@ -29,9 +30,13 @@ def convert_file2svg_tuple_list(file_path: str) -> list[tuple[str, str]]:
 
         # パース
         parser = DiagramParser(section_lines)
+        parse_info_4_render = ParseInfo4Render(
+            ParseInfo(parser.process_line_info_list, parser.process_level_min),
+            ParseInfo(parser.data_line_info_list, parser.data_level_min),
+        )
 
         # 描画
-        renderer = SVGRenderer(section_name, parser.process_line_info_list, parser.data_line_info_list)
+        renderer = SVGRenderer(section_name, parse_info_4_render)
         svg_output = renderer.render()
         svg_tuple_list.append((section_name, svg_output))
 

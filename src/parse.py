@@ -15,6 +15,9 @@ class DiagramParser:
         self.process_line_info_list = self.create_process_info_list_no()
         self.data_line_info_list = self.create_data_info_list_no()
 
+        self.process_level_min = self.get_level_min(self.process_line_info_list)
+        self.data_level_min = self.get_level_min(self.data_line_info_list)
+
     @staticmethod
     def convert_lines2lineinfo(lines: list[str]) -> list[LineInfo]:
         """文字列リストを文字列情報リストに変換する
@@ -132,3 +135,11 @@ class DiagramParser:
         data_lines = data_line_info_list.copy()
         self.__assign_line_relationships(data_lines)
         return data_lines
+
+    @staticmethod
+    def get_level_min(info_list: list[LineInfo]) -> int:
+        level_min: int = LineLevel.LEVEL_MAX
+        for info in info_list:
+            level_min = min(level_min, info.level.value)
+
+        return level_min
