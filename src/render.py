@@ -260,6 +260,8 @@ class SVGRenderer:
             data_height = max(data_height, data_element.y)
             data_width = max(data_width, end_x)
 
+        # マージンを設ける
+        data_width += SVGRenderer.IMG_MARGIN
         return data_height, data_width
 
     def render_line_enter_to_data(self) -> None:
