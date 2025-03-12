@@ -1,4 +1,4 @@
-from define import Coordinate, DataInfo, DiagramElement, Line, LineInfo, Process2Data
+from define import Coordinate, DataInfo, DiagramElement, Line, LineInfo, ParseInfo4Render, Process2Data
 from draw_svg import DrawFigure, DrawSvg
 from line_level import LineLevel
 from line_type import LineTypeDefine, LineTypeEnum
@@ -18,7 +18,7 @@ class SVGRenderer:
         "turquoise",
     ]
 
-    def __init__(self, name: str, process_info_list: list[LineInfo], data_info_list: list[LineInfo]) -> None:
+    def __init__(self, name: str, prase_info_4_render: ParseInfo4Render) -> None:
         # ヘッダは最後に挿入する
         # svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" style="background-color: #AFC0B1">']
         self.svg: list[str] = []
@@ -27,8 +27,8 @@ class SVGRenderer:
         self.draw_fig = DrawFigure(self.draw_svg)
 
         self.name: str = name
-        self.process_info_list: list[LineInfo] = process_info_list
-        self.data_info_list: list[LineInfo] = data_info_list
+        self.process_info_list: list[LineInfo] = prase_info_4_render.process_parse_info.line_info_list
+        self.data_info_list: list[LineInfo] = prase_info_4_render.data_parse_info.line_info_list
 
         self.process_elements: list[DiagramElement] = []
         self.data_elements: list[DiagramElement] = []
