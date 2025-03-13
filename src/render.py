@@ -214,7 +214,9 @@ class SVGRenderer:
 
         for process_element in self.process_elements:
             # 入出力がなければ何もしない
-            if process_element.line_info.iodata is None:
+            if (process_element.line_info.iodata.in_data_list is None) or (
+                (len(process_element.line_info.iodata.in_data_list) == 0) and (len(process_element.line_info.iodata.out_data_list) == 0)
+            ):
                 continue
 
             # 関数への入出力は接続線で表現しない
