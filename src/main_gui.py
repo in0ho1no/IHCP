@@ -22,12 +22,15 @@ def get_folder_path() -> str:
 
 
 def set_file_button(path_folder: str) -> None:
+    if not os.path.isabs(path_folder):
+        st.error("相対パスの指定はできません。")
+        return
+
     st.subheader("ファイル一覧")
     flag_set = False
-    files = glob.glob(path_folder + "\\**\\*.hcp", recursive=True)
-    for file in files:
+    file_path_list = glob.glob(path_folder + "\\**\\*.hcp", recursive=True)
+    for file_path in file_path_list:
         # 存在しないファイルは無視
-        file_path = os.path.join(path_folder, file)
         if not os.path.isfile(file_path):
             continue
 
@@ -37,8 +40,9 @@ def set_file_button(path_folder: str) -> None:
             continue
 
         # ボタン配置
-        if st.button(f"📄 {file}"):
-            st.session_state.selected_file = file
+        file_name = file_path.replace(path_folder, "")
+        if st.button(f"📄 {file_name}"):
+            st.session_state.selected_file = file_path
 
         flag_set = True
 
