@@ -18,6 +18,37 @@ class DiagramParser:
         self.process_level_min = self.get_level_min(self.process_line_info_list)
         self.data_level_min = self.get_level_min(self.data_line_info_list)
 
+        # 処理部に記載されたin/outをdata部として追加しておく
+        user_data_list: list[LineInfo] = []
+        for process_line_info in self.process_line_info_list:
+            for in_data in process_line_info.iodata.in_data_list:
+                user_data = LineInfo()
+                user_data.text_org = in_data.name
+                user_data.level.value = self.data_level_min
+                user_data.type = LineTypeDefine.get_format_by_type(LineTypeEnum.DATA)
+                user_data.text_typeless = in_data.name
+                user_data.text_clean = in_data.name
+                user_data_list.append(user_data)
+
+            for out_data in process_line_info.iodata.out_data_list:
+                user_data = LineInfo()
+                user_data.text_org = out_data.name
+                user_data.level.value = self.data_level_min
+                user_data.type = LineTypeDefine.get_format_by_type(LineTypeEnum.DATA)
+                user_data.text_typeless = out_data.name
+                user_data.text_clean = out_data.name
+                user_data_list.append(user_data)
+
+        for user_data in user_data_list:
+            append_flg = True
+            for line_info in self.data_line_info_list:
+                if user_data.text_typeless == line_info.text_typeless:
+                    append_flg = False
+                    break
+
+            if append_flg is True:
+                self.data_line_info_list.append(user_data)
+
     @staticmethod
     def convert_lines2lineinfo(lines: list[str]) -> list[LineInfo]:
         """文字列リストを文字列情報リストに変換する
