@@ -189,73 +189,73 @@
 <line x1="120" y1="1062" x2="120" y2="1071" stroke="black"/>
 <line x1="102" y1="1062" x2="120" y2="1062" stroke="black"/>
 <line x1="102" y1="1044" x2="102" y2="1062" stroke="black"/>
-<line x1="199" y1="175" x2="483" y2="175" stroke="black"/>
-<path d="M 199 175 L 207 171 L 207 179" stroke="black" fill="black" />
-<line x1="199" y1="185" x2="493" y2="185" stroke="red"/>
-<line x1="199" y1="185" x2="503" y2="185" stroke="green"/>
-<line x1="279" y1="265" x2="513" y2="265" stroke="blue"/>
-<path d="M 279 265 L 287 261 L 287 269" stroke="blue" fill="blue" />
-<line x1="279" y1="275" x2="523" y2="275" stroke="yellow"/>
-<line x1="261" y1="355" x2="533" y2="355" stroke="purple"/>
-<path d="M 261 355 L 269 351 L 269 359" stroke="purple" fill="purple" />
-<line x1="291" y1="415" x2="543" y2="415" stroke="orange"/>
-<path d="M 291 415 L 299 411 L 299 419" stroke="orange" fill="orange" />
-<line x1="291" y1="425" x2="553" y2="425" stroke="turquoise"/>
-<line x1="463" y1="505" x2="563" y2="505" stroke="black"/>
-<path d="M 463 505 L 471 501 L 471 509" stroke="black" fill="black" />
-<line x1="331" y1="575" x2="573" y2="575" stroke="red"/>
-<line x1="331" y1="635" x2="583" y2="635" stroke="green"/>
-<rect x="604" y="81" width="18" height="18" fill="white" stroke="black"/>
-<text x="632" y="90" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ1</text>
-<rect x="634" y="111" width="18" height="18" fill="white" stroke="black"/>
-<text x="662" y="120" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ1-1</text>
-<line x1="643" y1="102" x2="643" y2="111" stroke="black"/>
-<line x1="625" y1="102" x2="643" y2="102" stroke="black"/>
-<line x1="625" y1="84" x2="625" y2="102" stroke="black"/>
-<rect x="634" y="141" width="18" height="18" fill="white" stroke="black"/>
-<text x="662" y="150" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ(AAA)</text>
-<line x1="643" y1="129" x2="643" y2="141" stroke="black"/>
-<rect x="634" y="171" width="18" height="18" fill="white" stroke="black"/>
-<text x="662" y="180" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ(種類)</text>
-<line x1="643" y1="159" x2="643" y2="171" stroke="black"/>
-<rect x="604" y="201" width="18" height="18" fill="white" stroke="black"/>
-<text x="632" y="210" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ2</text>
-<rect x="604" y="231" width="18" height="18" fill="white" stroke="black"/>
-<text x="632" y="240" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ3</text>
-<rect x="604" y="261" width="18" height="18" fill="white" stroke="black"/>
-<text x="632" y="270" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ4</text>
-<rect x="604" y="291" width="18" height="18" fill="white" stroke="black"/>
-<text x="632" y="300" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ5</text>
-<rect x="604" y="321" width="18" height="18" fill="white" stroke="black"/>
-<text x="632" y="330" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ6</text>
-<rect x="604" y="351" width="18" height="18" fill="white" stroke="black"/>
-<text x="632" y="360" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ7</text>
-<line x1="483" y1="85" x2="604" y2="85" stroke="black"/>
-<line x1="533" y1="115" x2="634" y2="115" stroke="purple"/>
-<line x1="573" y1="125" x2="634" y2="125" stroke="red"/>
-<path d="M 634 125 L 626 121 L 626 129" stroke="red" fill="red" />
-<line x1="583" y1="155" x2="634" y2="155" stroke="green"/>
-<path d="M 634 155 L 626 151 L 626 159" stroke="green" fill="green" />
-<line x1="563" y1="175" x2="634" y2="175" stroke="black"/>
-<line x1="493" y1="215" x2="604" y2="215" stroke="red"/>
-<path d="M 604 215 L 596 211 L 596 219" stroke="red" fill="red" />
-<line x1="513" y1="205" x2="604" y2="205" stroke="blue"/>
-<line x1="523" y1="245" x2="604" y2="245" stroke="yellow"/>
-<path d="M 604 245 L 596 241 L 596 249" stroke="yellow" fill="yellow" />
-<line x1="543" y1="235" x2="604" y2="235" stroke="orange"/>
-<line x1="553" y1="275" x2="604" y2="275" stroke="turquoise"/>
-<path d="M 604 275 L 596 271 L 596 279" stroke="turquoise" fill="turquoise" />
-<line x1="503" y1="365" x2="604" y2="365" stroke="green"/>
-<path d="M 604 365 L 596 361 L 596 369" stroke="green" fill="green" />
-<line x1="483" y1="85" x2="483" y2="175" stroke="black"/>
-<line x1="493" y1="185" x2="493" y2="215" stroke="red"/>
-<line x1="503" y1="185" x2="503" y2="365" stroke="green"/>
-<line x1="513" y1="205" x2="513" y2="265" stroke="blue"/>
-<line x1="523" y1="245" x2="523" y2="275" stroke="yellow"/>
-<line x1="533" y1="115" x2="533" y2="355" stroke="purple"/>
-<line x1="543" y1="235" x2="543" y2="415" stroke="orange"/>
-<line x1="553" y1="275" x2="553" y2="425" stroke="turquoise"/>
-<line x1="563" y1="175" x2="563" y2="505" stroke="black"/>
-<line x1="573" y1="125" x2="573" y2="575" stroke="red"/>
-<line x1="583" y1="155" x2="583" y2="635" stroke="green"/>
+<line x1="204" y1="175" x2="498" y2="175" stroke="black"/>
+<path d="M 204 175 L 212 171 L 212 179" stroke="black" fill="black" />
+<line x1="204" y1="185" x2="508" y2="185" stroke="red"/>
+<line x1="204" y1="185" x2="518" y2="185" stroke="green"/>
+<line x1="284" y1="265" x2="528" y2="265" stroke="blue"/>
+<path d="M 284 265 L 292 261 L 292 269" stroke="blue" fill="blue" />
+<line x1="284" y1="275" x2="538" y2="275" stroke="yellow"/>
+<line x1="266" y1="355" x2="548" y2="355" stroke="purple"/>
+<path d="M 266 355 L 274 351 L 274 359" stroke="purple" fill="purple" />
+<line x1="296" y1="415" x2="558" y2="415" stroke="orange"/>
+<path d="M 296 415 L 304 411 L 304 419" stroke="orange" fill="orange" />
+<line x1="296" y1="425" x2="568" y2="425" stroke="turquoise"/>
+<line x1="468" y1="505" x2="578" y2="505" stroke="black"/>
+<path d="M 468 505 L 476 501 L 476 509" stroke="black" fill="black" />
+<line x1="336" y1="575" x2="588" y2="575" stroke="red"/>
+<line x1="336" y1="635" x2="598" y2="635" stroke="green"/>
+<rect x="619" y="81" width="18" height="18" fill="white" stroke="black"/>
+<text x="647" y="90" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ1</text>
+<rect x="649" y="111" width="18" height="18" fill="white" stroke="black"/>
+<text x="677" y="120" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ1-1</text>
+<line x1="658" y1="102" x2="658" y2="111" stroke="black"/>
+<line x1="640" y1="102" x2="658" y2="102" stroke="black"/>
+<line x1="640" y1="84" x2="640" y2="102" stroke="black"/>
+<rect x="649" y="141" width="18" height="18" fill="white" stroke="black"/>
+<text x="677" y="150" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ(AAA)</text>
+<line x1="658" y1="129" x2="658" y2="141" stroke="black"/>
+<rect x="649" y="171" width="18" height="18" fill="white" stroke="black"/>
+<text x="677" y="180" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ(種類)</text>
+<line x1="658" y1="159" x2="658" y2="171" stroke="black"/>
+<rect x="619" y="201" width="18" height="18" fill="white" stroke="black"/>
+<text x="647" y="210" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ2</text>
+<rect x="619" y="231" width="18" height="18" fill="white" stroke="black"/>
+<text x="647" y="240" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ3</text>
+<rect x="619" y="261" width="18" height="18" fill="white" stroke="black"/>
+<text x="647" y="270" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ4</text>
+<rect x="619" y="291" width="18" height="18" fill="white" stroke="black"/>
+<text x="647" y="300" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ5</text>
+<rect x="619" y="321" width="18" height="18" fill="white" stroke="black"/>
+<text x="647" y="330" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ6</text>
+<rect x="619" y="351" width="18" height="18" fill="white" stroke="black"/>
+<text x="647" y="360" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">データ7</text>
+<line x1="498" y1="85" x2="619" y2="85" stroke="black"/>
+<line x1="548" y1="115" x2="649" y2="115" stroke="purple"/>
+<line x1="588" y1="125" x2="649" y2="125" stroke="red"/>
+<path d="M 649 125 L 641 121 L 641 129" stroke="red" fill="red" />
+<line x1="598" y1="155" x2="649" y2="155" stroke="green"/>
+<path d="M 649 155 L 641 151 L 641 159" stroke="green" fill="green" />
+<line x1="578" y1="175" x2="649" y2="175" stroke="black"/>
+<line x1="508" y1="215" x2="619" y2="215" stroke="red"/>
+<path d="M 619 215 L 611 211 L 611 219" stroke="red" fill="red" />
+<line x1="528" y1="205" x2="619" y2="205" stroke="blue"/>
+<line x1="538" y1="245" x2="619" y2="245" stroke="yellow"/>
+<path d="M 619 245 L 611 241 L 611 249" stroke="yellow" fill="yellow" />
+<line x1="558" y1="235" x2="619" y2="235" stroke="orange"/>
+<line x1="568" y1="275" x2="619" y2="275" stroke="turquoise"/>
+<path d="M 619 275 L 611 271 L 611 279" stroke="turquoise" fill="turquoise" />
+<line x1="518" y1="365" x2="619" y2="365" stroke="green"/>
+<path d="M 619 365 L 611 361 L 611 369" stroke="green" fill="green" />
+<line x1="498" y1="85" x2="498" y2="175" stroke="black"/>
+<line x1="508" y1="185" x2="508" y2="215" stroke="red"/>
+<line x1="518" y1="185" x2="518" y2="365" stroke="green"/>
+<line x1="528" y1="205" x2="528" y2="265" stroke="blue"/>
+<line x1="538" y1="245" x2="538" y2="275" stroke="yellow"/>
+<line x1="548" y1="115" x2="548" y2="355" stroke="purple"/>
+<line x1="558" y1="235" x2="558" y2="415" stroke="orange"/>
+<line x1="568" y1="275" x2="568" y2="425" stroke="turquoise"/>
+<line x1="578" y1="175" x2="578" y2="505" stroke="black"/>
+<line x1="588" y1="125" x2="588" y2="575" stroke="red"/>
+<line x1="598" y1="155" x2="598" y2="635" stroke="green"/>
 </svg>

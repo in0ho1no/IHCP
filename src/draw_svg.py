@@ -10,6 +10,7 @@ class DrawSvg:
     ARROW_HEAD = 8
 
     SPACE_FIGURE_TO_TEXT = 10
+    TEXT_MARGIN = 15
 
     @classmethod
     def get_string_bytes(cls, string: str) -> int:
@@ -47,7 +48,7 @@ class DrawSvg:
             text_width = 0
 
         # 終端位置を返す
-        end_x = center_x + figure_2_text_space + text_width
+        end_x = center_x + figure_2_text_space + text_width + DrawSvg.TEXT_MARGIN
         return end_x
 
     @staticmethod
