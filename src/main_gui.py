@@ -6,11 +6,6 @@ import streamlit as st
 from main import convert_file2svg_tuple_list
 
 
-def init_sesseion_state() -> None:
-    st.session_state.selected_file = ""
-    st.session_state.selected_module_svg = ""
-
-
 def get_folder_path() -> str:
     # 入力を促す
     path_input = st.text_input("対象のフォルダを選択してください")
@@ -35,12 +30,13 @@ def get_folder_path() -> str:
     # パスが更新されたら初期化する
     if ("selected_path" not in st.session_state) or (st.session_state.selected_path != path_input):
         st.session_state.selected_path = path_input
-        init_sesseion_state()
+        st.session_state.selected_file = ""
+        st.session_state.selected_module_svg = ""
 
     return path_input
 
 
-def set_file_button(path_folder: str) -> None:
+def create_file_button(path_folder: str) -> None:
     st.success(f"フォルダパス: {path_folder}")
     st.subheader("ファイル一覧")
     file_path_list = glob.glob(path_folder + "\\**\\*.hcp", recursive=True)
@@ -58,22 +54,49 @@ def set_file_button(path_folder: str) -> None:
         # ボタン配置
         file_name = file_path.replace(path_folder, "")
         if st.button(f"📄 {file_name}"):
+            # 選択されたらファイルパスを保持する
             st.session_state.selected_file = file_path
+            # モジュールの選択状態をクリア
+            st.session_state.selected_module_svg = ""
 
 
-def set_module_button(svg_tuple_list: list[tuple[str, str]]) -> None:
+def read_file(path: str) -> list[tuple[str, str]]:
+    svg_tuple_list: list[tuple[str, str]] = []
+    try:
+        svg_tuple_list = convert_file2svg_tuple_list(path)
+    except Exception as e:
+        st.error(f"ファイルの読み込み中にエラーが発生しました: {e}")
+
+    return svg_tuple_list
+
+
+def create_module_button(svg_tuple_list: list[tuple[str, str]]) -> None:
     st.subheader("モジュール一覧")
-    flag_set = False
 
     for svg_tuple in svg_tuple_list:
+        # ポップオーバーは表示サイズに制約がありそうなのでやめる
+        # with st.popover(f"{svg_tuple[0]}"):
+        #     st.markdown(svg_tuple[1], unsafe_allow_html=True)
         # ボタン配置
-        if st.button(f"📄 {svg_tuple[0]}"):
+        if st.button(f"{svg_tuple[0]}"):
             st.session_state.selected_module_svg = svg_tuple[1]
-        flag_set = True
 
-    # 更新がない場合のみ、状態を初期化する
-    if flag_set is False:
-        st.session_state.selected_module_svg = ""
+
+def set_module_list() -> None:
+    if "selected_file" in st.session_state:
+        select_file = st.session_state.selected_file
+
+        # 選択されたファイルの内容を表示
+        if select_file:
+            # ファイルの読み込み
+            svg_tuple_list = read_file(select_file)
+            # モジュールごとにボタンを表示
+            create_module_button(svg_tuple_list)
+
+
+def show_svg_image() -> None:
+    if "selected_module_svg" in st.session_state:
+        st.markdown(st.session_state.selected_module_svg, unsafe_allow_html=True)
 
 
 def main() -> None:
@@ -86,28 +109,15 @@ def main() -> None:
 
     # ファイルごとにボタンを表示
     with st.sidebar:
-        set_file_button(folder_path)
+        create_file_button(folder_path)
 
     st.divider()
 
-    # 選択されたファイルを表示
-    if "selected_file" in st.session_state:
-        selected_file = st.session_state.selected_file
-        file_path = os.path.join(folder_path, selected_file)
+    # モジュール一覧を表示
+    set_module_list()
 
-        # 選択されたファイルの内容を表示
-        if selected_file:
-            try:
-                svg_tuple_list = convert_file2svg_tuple_list(file_path)
-            except Exception as e:
-                st.error(f"ファイルの読み込み中にエラーが発生しました: {e}")
-
-            # モジュールごとにボタンを表示
-            set_module_button(svg_tuple_list)
-
-            if "selected_module_svg" in st.session_state:
-                st.subheader(f"ファイル内容: {selected_file}")
-                st.markdown(st.session_state.selected_module_svg, unsafe_allow_html=True)
+    # SVG画像を表示する
+    show_svg_image()
 
 
 if __name__ == "__main__":
