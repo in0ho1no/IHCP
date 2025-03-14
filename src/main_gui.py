@@ -6,9 +6,16 @@ import streamlit as st
 from main import convert_file2svg_tuple_list
 
 
+def init_sesseion_state() -> None:
+    st.session_state.selected_file = ""
+    st.session_state.selected_module_svg = ""
+
+
 def get_folder_path() -> str:
+    # 入力を促す
     path_input = st.text_input("対象のフォルダを選択してください")
 
+    # 入力チェック
     if not os.path.exists(path_input):
         st.error(f"右記パスは存在しません。: {path_input}")
         return ""
@@ -17,18 +24,27 @@ def get_folder_path() -> str:
         st.error(f"右記パスはフォルダではありません。: {path_input}")
         return ""
 
-    st.success(f"フォルダパス: {path_input}")
+    if not os.path.isabs(path_input):
+        st.error(f"相対パスの指定はできません。: {path_input}")
+        return ""
+
+    if any(pattern in path_input for pattern in ["..", "./", ".\\"]):
+        st.error(f"相対パスの指定はできません。: {path_input}")
+        return ""
+
+    # パスが更新されたら初期化する
+    if ("selected_path" not in st.session_state) or (st.session_state.selected_path != path_input):
+        st.session_state.selected_path = path_input
+        init_sesseion_state()
+
     return path_input
 
 
 def set_file_button(path_folder: str) -> None:
-    if not os.path.isabs(path_folder):
-        st.error("相対パスの指定はできません。")
-        return
-
+    st.success(f"フォルダパス: {path_folder}")
     st.subheader("ファイル一覧")
-    flag_set = False
     file_path_list = glob.glob(path_folder + "\\**\\*.hcp", recursive=True)
+
     for file_path in file_path_list:
         # 存在しないファイルは無視
         if not os.path.isfile(file_path):
@@ -44,13 +60,6 @@ def set_file_button(path_folder: str) -> None:
         if st.button(f"📄 {file_name}"):
             st.session_state.selected_file = file_path
 
-        flag_set = True
-
-    # 更新がない場合のみ、状態を初期化する
-    if flag_set is False:
-        st.error("フォルダ内に対象ファイルは存在しません。")
-        st.session_state.selected_file = ""
-
 
 def set_module_button(svg_tuple_list: list[tuple[str, str]]) -> None:
     st.subheader("モジュール一覧")
@@ -64,7 +73,6 @@ def set_module_button(svg_tuple_list: list[tuple[str, str]]) -> None:
 
     # 更新がない場合のみ、状態を初期化する
     if flag_set is False:
-        st.error("ファイル内にモジュールは存在しません。")
         st.session_state.selected_module_svg = ""
 
 
@@ -77,9 +85,10 @@ def main() -> None:
         return
 
     # ファイルごとにボタンを表示
-    set_file_button(folder_path)
+    with st.sidebar:
+        set_file_button(folder_path)
 
-    st.write("---")
+    st.divider()
 
     # 選択されたファイルを表示
     if "selected_file" in st.session_state:
