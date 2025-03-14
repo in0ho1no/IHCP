@@ -5,6 +5,8 @@ import streamlit as st
 
 from main import convert_file2svg_tuple_list
 
+COL_NUM = 2
+
 
 def get_folder_path() -> str:
     # 入力を促す
@@ -53,7 +55,7 @@ def create_file_button(path_folder: str) -> None:
 
         # ボタン配置
         file_name = file_path.replace(path_folder, "")
-        if st.button(f"📄 {file_name}"):
+        if st.button(f"{file_name}"):
             # 選択されたらファイルパスを保持する
             st.session_state.selected_file = file_path
             # モジュールの選択状態をクリア
@@ -71,15 +73,14 @@ def read_file(path: str) -> list[tuple[str, str]]:
 
 
 def create_module_button(svg_tuple_list: list[tuple[str, str]]) -> None:
-    st.subheader("モジュール一覧")
-
-    for svg_tuple in svg_tuple_list:
-        # ポップオーバーは表示サイズに制約がありそうなのでやめる
-        # with st.popover(f"{svg_tuple[0]}"):
-        #     st.markdown(svg_tuple[1], unsafe_allow_html=True)
-        # ボタン配置
-        if st.button(f"{svg_tuple[0]}"):
-            st.session_state.selected_module_svg = svg_tuple[1]
+    row = st.columns(COL_NUM)
+    # リスト内から順に配置
+    for svg_count, svg_tuple in enumerate(svg_tuple_list):
+        # 列の左から順に配置
+        with row[svg_count % COL_NUM]:
+            # ボタンを配置
+            if st.button(f"{svg_tuple[0]}"):
+                st.session_state.selected_module_svg = svg_tuple[1]
 
 
 def set_module_list() -> None:
@@ -114,7 +115,8 @@ def main() -> None:
     st.divider()
 
     # モジュール一覧を表示
-    set_module_list()
+    with st.container(height=150):
+        set_module_list()
 
     # SVG画像を表示する
     show_svg_image()
