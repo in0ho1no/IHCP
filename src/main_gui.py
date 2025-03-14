@@ -3,9 +3,9 @@ import os
 
 import streamlit as st
 
-from main import convert_file2svg_tuple_list
+from main import HCPInfo, convert_file2hcp_info_list
 
-COL_NUM = 2
+COL_NUM_MODULE = 2
 
 
 def get_folder_path() -> str:
@@ -33,6 +33,7 @@ def get_folder_path() -> str:
     if ("selected_path" not in st.session_state) or (st.session_state.selected_path != path_input):
         st.session_state.selected_path = path_input
         st.session_state.selected_file = ""
+        st.session_state.selected_module_hcp_text = ""
         st.session_state.selected_module_svg = ""
 
     return path_input
@@ -59,28 +60,30 @@ def create_file_button(path_folder: str) -> None:
             # 選択されたらファイルパスを保持する
             st.session_state.selected_file = file_path
             # モジュールの選択状態をクリア
+            st.session_state.selected_module_hcp_text = ""
             st.session_state.selected_module_svg = ""
 
 
-def read_file(path: str) -> list[tuple[str, str]]:
-    svg_tuple_list: list[tuple[str, str]] = []
+def read_file(path: str) -> list[HCPInfo]:
+    hcp_info_list: list[HCPInfo] = []
     try:
-        svg_tuple_list = convert_file2svg_tuple_list(path)
+        hcp_info_list = convert_file2hcp_info_list(path)
     except Exception as e:
         st.error(f"ファイルの読み込み中にエラーが発生しました: {e}")
 
-    return svg_tuple_list
+    return hcp_info_list
 
 
-def create_module_button(svg_tuple_list: list[tuple[str, str]]) -> None:
-    row = st.columns(COL_NUM)
+def create_module_button(hcp_info_list: list[HCPInfo]) -> None:
+    row = st.columns(COL_NUM_MODULE)
     # リスト内から順に配置
-    for svg_count, svg_tuple in enumerate(svg_tuple_list):
+    for count, hcp_info in enumerate(hcp_info_list):
         # 列の左から順に配置
-        with row[svg_count % COL_NUM]:
+        with row[count % COL_NUM_MODULE]:
             # ボタンを配置
-            if st.button(f"{svg_tuple[0]}"):
-                st.session_state.selected_module_svg = svg_tuple[1]
+            if st.button(f"{hcp_info.name}"):
+                st.session_state.selected_module_hcp_text = hcp_info.raw_text
+                st.session_state.selected_module_svg = hcp_info.svg_img
 
 
 def set_module_list() -> None:
@@ -90,14 +93,18 @@ def set_module_list() -> None:
         # 選択されたファイルの内容を表示
         if select_file:
             # ファイルの読み込み
-            svg_tuple_list = read_file(select_file)
+            hcp_info_list = read_file(select_file)
             # モジュールごとにボタンを表示
-            create_module_button(svg_tuple_list)
+            create_module_button(hcp_info_list)
 
 
 def show_svg_image() -> None:
     if "selected_module_svg" in st.session_state:
-        st.markdown(st.session_state.selected_module_svg, unsafe_allow_html=True)
+        tab_img, tab_txt = st.tabs(["IMG", "TXT"])
+        with tab_img:
+            st.markdown(st.session_state.selected_module_svg, unsafe_allow_html=True)
+        with tab_txt:
+            st.write(st.session_state.selected_module_hcp_text)
 
 
 def main() -> None:
