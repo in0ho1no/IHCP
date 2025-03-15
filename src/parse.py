@@ -12,11 +12,16 @@ class DiagramParser:
         self.update_line_type()
         self.update_line_io()
 
-        self.process_line_info_list = self.create_process_info_list_no()
-        self.data_line_info_list = self.create_data_info_list_no()
+        # 処理部とデータ部のリストを保持
+        self.process_line_info_list = self.create_process_info_list()
+        self.data_line_info_list = self.create_data_info_list()
 
+        # 処理部とデータ部の最小レベルを保持
         self.process_level_min = self.get_level_min(self.process_line_info_list)
         self.data_level_min = self.get_level_min(self.data_line_info_list)
+
+        # 処理部のみに記載されたin/outをdata部の情報として追加
+        self.merge_iodata_dataline()
 
     @staticmethod
     def convert_lines2lineinfo(lines: list[str]) -> list[LineInfo]:
@@ -114,32 +119,118 @@ class DiagramParser:
                     # 自身よりレベルが小さいなら階層が変わる
                     break
 
-    def create_process_info_list_no(self) -> list[LineInfo]:
-        """処理の行のリストに番号を割り当てて返す
+    @staticmethod
+    def __remove_duplicate_from_list(original_list: list[LineInfo]) -> list[LineInfo]:
+        """リストから重複した要素を除外する
+
+        Args:
+            original_list (list[LineInfo]): 除外前のリスト
 
         Returns:
-            list[LineInfo]: 番号が割り当てられた処理の行のリスト
+            list[LineInfo]: 除外後のリスト
+        """
+        removed_duplicate_list: list[LineInfo] = []
+        check_name_list: list[str] = []  # 重複チェックを効率化するための名前用リスト
+        for original in original_list:
+            # 未登録の名前だけを新規リストへ登録する
+            if original.text_clean not in check_name_list:
+                removed_duplicate_list.append(original)
+                check_name_list.append(original.text_clean)
+
+        return removed_duplicate_list
+
+    def create_process_info_list(self) -> list[LineInfo]:
+        """処理部の情報をリストにして返す
+
+        Returns:
+            list[LineInfo]:処理部の情報リスト
         """
         process_line_info_list = self.__categorize_line_info_process()
         process_lines = process_line_info_list.copy()
         self.__assign_line_relationships(process_lines)
         return process_lines
 
-    def create_data_info_list_no(self) -> list[LineInfo]:
-        """データの行のリストに番号を割り当てて返す
+    def create_data_info_list(self) -> list[LineInfo]:
+        """データ部の情報をリストにして返す
 
         Returns:
-            list[LineInfo]: 番号が割り当てられたデータの行のリスト
+            list[LineInfo]: データ部の情報リスト
         """
         data_line_info_list = self.__categorize_line_info_data()
-        data_lines = data_line_info_list.copy()
+        data_lines = self.__remove_duplicate_from_list(data_line_info_list)
         self.__assign_line_relationships(data_lines)
         return data_lines
 
     @staticmethod
     def get_level_min(info_list: list[LineInfo]) -> int:
+        """リスト内の最小レベルを取得する
+
+        Args:
+            info_list (list[LineInfo]): 最小レベルを取得したいリスト
+
+        Returns:
+            int: リスト内の最小レベル
+        """
         level_min: int = LineLevel.LEVEL_MAX
         for info in info_list:
             level_min = min(level_min, info.level.value)
 
         return level_min
+
+    def __create_io_data_info_list(self) -> list[LineInfo]:
+        """処理部のin/outからdataの情報リストを作成する
+
+        Returns:
+            list[LineInfo]: 作成したdataの情報リスト
+        """
+
+        def create_data_info(data_name: str) -> LineInfo:
+            """データ名に基づいて、データ部に相当する情報を作成する
+
+            Args:
+                data_name (str): データ名
+
+            Returns:
+                LineInfo: 作成したdataの情報
+            """
+            data_info = LineInfo()
+            data_info.text_org = data_name
+            data_info.level.value = self.data_level_min
+            data_info.type = LineTypeDefine.get_format_by_type(LineTypeEnum.DATA)
+            data_info.text_typeless = data_name
+            data_info.text_clean = data_name
+            return data_info
+
+        io_data_info_list: list[LineInfo] = []
+        for process_line_info in self.process_line_info_list:
+            # \inを\data情報化
+            for in_data in process_line_info.iodata.in_data_list:
+                io_data_info = create_data_info(in_data.name)
+                io_data_info_list.append(io_data_info)
+
+            # \outを\data情報化
+            for out_data in process_line_info.iodata.out_data_list:
+                io_data_info = create_data_info(out_data.name)
+                io_data_info_list.append(io_data_info)
+
+        return io_data_info_list
+
+    def __append_iodata_to_orgdata(self, io_data_list: list[LineInfo]) -> None:
+        """入出力データリストのデータをデータ部のリストへ追加する
+
+        Args:
+            io_data_list (list[LineInfo]): 入出力データのリスト
+        """
+        for io_data in io_data_list:
+            # データ部のリストからデータ部の名前だけのリストを用意する
+            # データ部のリストは都度更新する想定なので、名前だけリストも繰り返し文の中で都度生成する。
+            data_info_name_list = [data_info.text_clean for data_info in self.data_line_info_list]
+
+            # 名前だけリストに存在しないデータをデータ部のリストへ追加する
+            if io_data.text_clean not in data_info_name_list:
+                self.data_line_info_list.append(io_data)
+
+    def merge_iodata_dataline(self) -> None:
+        """処理部のみに記載されたin/outをdata部の情報として追加する"""
+        io_data_info_liset = self.__create_io_data_info_list()
+        self.__append_iodata_to_orgdata(io_data_info_liset)

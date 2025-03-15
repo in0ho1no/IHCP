@@ -77,7 +77,6 @@ class SVGRenderer:
         end_y = start_y + DiagramElement.LEVEL_SHIFT
 
         # マージンを設けておく
-        end_x += SVGRenderer.IMG_MARGIN
         end_y += SVGRenderer.IMG_MARGIN
         return end_y, end_x
 
@@ -149,8 +148,6 @@ class SVGRenderer:
             process_height = max(process_height, element.y)
             process_width = max(process_width, element.end_x)
 
-        # マージンを設ける
-        process_width += SVGRenderer.IMG_MARGIN
         return process_height, process_width
 
     def render_line_exit_from_process(self, process_end_x: int) -> int:
@@ -187,8 +184,8 @@ class SVGRenderer:
 
                 # 水平線の始点と終点を決定
                 line = Line()
-                line.start = Coordinate(element.end_x + 10, element.y + y_offset)
-                line.end = Coordinate(process_end_x + offset, element.y + y_offset)
+                line.start = Coordinate(element.end_x, element.y + y_offset)
+                line.end = Coordinate(process_end_x + SVGRenderer.IMG_MARGIN + offset, element.y + y_offset)
 
                 # 水平線を保持
                 connect_line = Process2Data()
@@ -214,7 +211,9 @@ class SVGRenderer:
 
         for process_element in self.process_elements:
             # 入出力がなければ何もしない
-            if process_element.line_info.iodata is None:
+            if (process_element.line_info.iodata.in_data_list is None) or (
+                (len(process_element.line_info.iodata.in_data_list) == 0) and (len(process_element.line_info.iodata.out_data_list) == 0)
+            ):
                 continue
 
             # 関数への入出力は接続線で表現しない
@@ -261,7 +260,6 @@ class SVGRenderer:
             data_width = max(data_width, end_x)
 
         # マージンを設ける
-        data_width += SVGRenderer.IMG_MARGIN
         return data_height, data_width
 
     def render_line_enter_to_data(self) -> None:
