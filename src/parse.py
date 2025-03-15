@@ -145,6 +145,26 @@ class DiagramParser:
                     # 自身よりレベルが小さいなら階層が変わる
                     break
 
+    @staticmethod
+    def remove_duplicate_from_list(original_list: list[LineInfo]) -> list[LineInfo]:
+        """リストから重複した要素を除外する
+
+        Args:
+            original_list (list[LineInfo]): 除外前のリスト
+
+        Returns:
+            list[LineInfo]: 除外後のリスト
+        """
+        removed_duplicate_list: list[LineInfo] = []
+        check_name_list: list[str] = []  # 重複チェックを効率化するための名前用リスト
+        for original in original_list:
+            # 未登録の名前だけを新規リストへ登録する
+            if original.text_clean not in check_name_list:
+                removed_duplicate_list.append(original)
+                check_name_list.append(original.text_clean)
+
+        return removed_duplicate_list
+
     def create_process_info_list_no(self) -> list[LineInfo]:
         """処理の行のリストに番号を割り当てて返す
 
@@ -163,7 +183,8 @@ class DiagramParser:
             list[LineInfo]: 番号が割り当てられたデータの行のリスト
         """
         data_line_info_list = self.__categorize_line_info_data()
-        data_lines = data_line_info_list.copy()
+        removed_duplicate_list = self.remove_duplicate_from_list(data_line_info_list)
+        data_lines = removed_duplicate_list.copy()
         self.__assign_line_relationships(data_lines)
         return data_lines
 
