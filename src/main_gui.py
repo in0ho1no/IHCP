@@ -76,12 +76,27 @@ def read_file(path: str) -> list[HCPInfo]:
 
 def create_module_button(hcp_info_list: list[HCPInfo]) -> None:
     row = st.columns(COL_NUM_MODULE)
+    module_name_list: list[str] = []
     # リスト内から順に配置
     for count, hcp_info in enumerate(hcp_info_list):
+        org_name = hcp_info.name
+
+        # モジュール名の重複回避
+        module_name = org_name
+        module_exist = True
+        duplicate_index = 1
+        while module_exist is True:
+            if module_name not in module_name_list:
+                module_name_list.append(module_name)
+                module_exist = False
+            else:
+                module_name = f"{org_name}_{duplicate_index}"
+                duplicate_index += 1
+
         # 列の左から順に配置
         with row[count % COL_NUM_MODULE]:
             # ボタンを配置
-            if st.button(f"{hcp_info.name}"):
+            if st.button(f"{module_name}"):
                 st.session_state.selected_module_hcp_text = hcp_info.raw_text
                 st.session_state.selected_module_svg = hcp_info.svg_img
 
