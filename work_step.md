@@ -1,51 +1,31 @@
 # IHCP
 
-## 開発
+## 開発環境準備
 
-### テンプレートから作成後に実行する
-
-workspace名の変更
-
-    git mv wsXXX.code-workspace wsDST.code-workspace
-
-README.mdのタイトルを変更する
-
-### 環境準備
+### 動作に必要な環境
 
 仮想環境を作成する
 
     uv venv --python 3.13
 
+
+GUI環境を用意する
+
+    uv pip install streamlit
+
+### 開発に必要な環境
+
 単体テスト環境を用意する
 
     uv pip install pytest
 
-## 設計図のリバース
-
-pyreverseを利用する  
-https://pylint.readthedocs.io/en/latest/additional_tools/pyreverse/index.html
-
-pyreverse は pylint に含まれるので以下で導入する
+設計図のリバース環境を用意する
 
     uv pip install pylint
 
-以下コマンドでsrcフォルダ以下のスクリプトファイルに基づいてクラス図・パッケージ図を生成する
+## 開発途中の作業メモ
 
-    pyreverse -o svg ./src/
-
-20250310時点でのバージョンは以下
-
-    PS D:\work\Py\21IHCP\IHCP> pylint --version
-    pylint 3.3.5
-    astroid 3.3.9
-    Python 3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]
-
-このバージョンにて、出力先フォルダの指定は上手くいっていないので、出力ファイルを手動でい動作させる。
-
-    pyreverse -o svg -d=./src/docs/img_reverse/ ./src/
-    pyreverse -o svg --output-directory=./src/docs/img_reverse/ ./src/
-
-## 単体テスト
+### 単体テスト
 
 setup.pyファイルを用意して、以下記載する。
 
@@ -70,6 +50,32 @@ setup.pyファイルを用意して、以下記載する。
     pytest
 
 各試験結果を個別に確認したい場合は -v オプションをつける
+
+### 設計時のリバース
+
+pyreverseを利用する  
+https://pylint.readthedocs.io/en/latest/additional_tools/pyreverse/index.html
+
+pyreverse は pylint に含まれるので先述した通り、uv仮想環境にpylintをインストールする。  
+
+以下コマンドでsrcフォルダ以下のスクリプトファイルに基づいてクラス図・パッケージ図を生成する
+
+    pyreverse -o svg ./src/
+
+20250310時点でのバージョンは以下
+
+    PS D:\work\Py\21IHCP\IHCP> pylint --version
+    pylint 3.3.5
+    astroid 3.3.9
+    Python 3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]
+
+今回試した限りでは、以下のような出力先フォルダの指定は成功しなかった。
+
+    pyreverse -o svg -d=./src/docs/img_reverse/ ./src/
+    pyreverse -o svg --output-directory=./src/docs/img_reverse/ ./src/
+
+出力後のファイル群は手動で移動させる。
+
 
 ## 対応している表記
 
@@ -100,3 +106,13 @@ HCPの記法に基づいてインデント(空白4つ∪タブ)でレベルを�
 ---| --- | ---
 \in | 処理・関数への入力 | レベル1へ記載した場合、関数への入力として扱う。レベル2以上へ記載した場合、単なる処理の入力として扱う。
 \out | 処理・関数からの出力 | レベル1へ記載した場合、関数からの出力として扱う。レベル2以上へ記載した場合、単なる処理の出力として扱う。
+
+## GUI起動
+
+仮想環境のターミナルにて以下コマンド実行する
+
+    streamlit run <file-name>
+
+batファイルも用意したので、以下ファイルをダブルクリックすることでも起動可能
+
+    run_gui.bat
