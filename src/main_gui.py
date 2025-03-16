@@ -6,6 +6,7 @@ import streamlit as st
 from main import HCPInfo, convert_file2hcp_info_list
 
 COL_NUM_MODULE = 2
+CONTAINER_HEIGHT_MODULES = 140
 
 
 def get_folder_path() -> str:
@@ -107,6 +108,7 @@ def set_module_list() -> None:
 
         # 選択されたファイルの内容を表示
         if select_file:
+            st.write(f"{select_file}")
             # ファイルの読み込み
             hcp_info_list = read_file(select_file)
             # モジュールごとにボタンを表示
@@ -123,7 +125,7 @@ def show_svg_image() -> None:
 
 
 def main() -> None:
-    st.title("HCPLens")
+    st.title("IHCP")
 
     # フォルダパスの取得
     folder_path = get_folder_path()
@@ -137,7 +139,7 @@ def main() -> None:
     st.divider()
 
     # モジュール一覧を表示
-    with st.container(height=150):
+    with st.container(height=CONTAINER_HEIGHT_MODULES):
         set_module_list()
 
     # SVG画像を表示する
