@@ -5,6 +5,8 @@ import streamlit as st
 
 from main import HCPInfo, convert_file2hcp_info_list
 
+PATH_DEFAULT = ""
+
 COL_NUM_MODULE = 2
 CONTAINER_HEIGHT_MODULES = 140
 
@@ -16,28 +18,37 @@ def get_folder_path() -> str:
     # 入力チェック
     if not os.path.exists(path_input):
         st.error(f"右記パスは存在しません。: {path_input}")
-        return ""
+        return PATH_DEFAULT
 
     if not os.path.isdir(path_input):
         st.error(f"右記パスはフォルダではありません。: {path_input}")
-        return ""
+        return PATH_DEFAULT
 
     if not os.path.isabs(path_input):
         st.error(f"相対パスの指定はできません。: {path_input}")
-        return ""
+        return PATH_DEFAULT
 
     if any(pattern in path_input for pattern in ["..", "./", ".\\"]):
         st.error(f"相対パスの指定はできません。: {path_input}")
-        return ""
+        return PATH_DEFAULT
+
+    # 問題なければパスを返す
+    return path_input
+
+
+def set_input_folder_path_section() -> None:
+    if "selected_path" not in st.session_state:
+        st.session_state.selected_path = PATH_DEFAULT
+
+    # フォルダパスの取得
+    folder_path = get_folder_path()
 
     # パスが更新されたら初期化する
-    if ("selected_path" not in st.session_state) or (st.session_state.selected_path != path_input):
-        st.session_state.selected_path = path_input
+    if st.session_state.selected_path != folder_path:
+        st.session_state.selected_path = folder_path
         st.session_state.selected_file = ""
         st.session_state.selected_module_hcp_text = ""
         st.session_state.selected_module_svg = ""
-
-    return path_input
 
 
 def create_file_button(path_folder: str) -> None:
@@ -63,6 +74,17 @@ def create_file_button(path_folder: str) -> None:
             # モジュールの選択状態をクリア
             st.session_state.selected_module_hcp_text = ""
             st.session_state.selected_module_svg = ""
+
+
+def set_file_button_section() -> None:
+    # フォルダパスが未指定なら何もしない
+    if "selected_path" not in st.session_state:
+        return
+    if st.session_state.selected_path == PATH_DEFAULT:
+        return
+
+    with st.sidebar:
+        create_file_button(st.session_state.selected_path)
 
 
 def read_file(path: str) -> list[HCPInfo]:
@@ -103,47 +125,69 @@ def create_module_button(hcp_info_list: list[HCPInfo]) -> None:
 
 
 def set_module_list() -> None:
-    if "selected_file" in st.session_state:
-        select_file = st.session_state.selected_file
+    # 選択されたファイルの内容を表示
+    select_file = st.session_state.selected_file
+    if select_file:
+        st.write(f"{select_file}")
+        # ファイルの読み込み
+        hcp_info_list = read_file(select_file)
+        # モジュールごとにボタンを表示
+        create_module_button(hcp_info_list)
 
-        # 選択されたファイルの内容を表示
-        if select_file:
-            st.write(f"{select_file}")
-            # ファイルの読み込み
-            hcp_info_list = read_file(select_file)
-            # モジュールごとにボタンを表示
-            create_module_button(hcp_info_list)
+
+def set_module_list_section() -> None:
+    # ファイル未選択なら何もしない
+    if "selected_file" not in st.session_state:
+        return
+    if st.session_state.selected_file == "":
+        return
+
+    st.divider()
+
+    with st.container(height=CONTAINER_HEIGHT_MODULES):
+        set_module_list()
 
 
 def show_svg_image() -> None:
-    if "selected_module_svg" in st.session_state:
-        tab_img, tab_txt = st.tabs(["IMG", "TXT"])
-        with tab_img:
-            st.markdown(st.session_state.selected_module_svg, unsafe_allow_html=True)
-        with tab_txt:
-            st.write(st.session_state.selected_module_hcp_text)
+    # モジュール未選択なら何もしない
+    if "selected_module_svg" not in st.session_state:
+        return
+    if st.session_state.selected_module_svg == "":
+        return
+
+    tab_img, tab_txt = st.tabs(["IMG", "TXT"])
+    with tab_img:
+        st.markdown(st.session_state.selected_module_svg, unsafe_allow_html=True)
+    with tab_txt:
+        st.write(st.session_state.selected_module_hcp_text)
+
+
+def set_save_button_section() -> None:
+    if "selected_module_svg" not in st.session_state:
+        return
+    if st.session_state.selected_module_svg == "":
+        return
+
+    st.divider()
 
 
 def main() -> None:
     st.title("IHCP")
 
     # フォルダパスの取得
-    folder_path = get_folder_path()
-    if folder_path == "":
-        return
+    set_input_folder_path_section()
 
     # ファイルごとにボタンを表示
-    with st.sidebar:
-        create_file_button(folder_path)
-
-    st.divider()
+    set_file_button_section()
 
     # モジュール一覧を表示
-    with st.container(height=CONTAINER_HEIGHT_MODULES):
-        set_module_list()
+    set_module_list_section()
 
     # SVG画像を表示する
     show_svg_image()
+
+    # 保存ボタンを用意する
+    set_save_button_section()
 
 
 if __name__ == "__main__":
