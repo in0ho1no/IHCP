@@ -16,15 +16,14 @@
 		// フォント設定
 		"editor.fontFamily": "Consolas, 'Meiryo UI','Courier New', monospace",
 
+		"markdown.preview.scrollPreviewWithEditor": false,
+
 		"editor.defaultFormatter": "charliermarsh.ruff",
 		"editor.formatOnSave": true,
 		"editor.codeActionsOnSave": {
 			"source.fixAll": "explicit",
 			"source.organizeImports": "explicit"
 		},
-		"ruff.format.args": [
-			"--config=pyproject.toml"
-		],
 		
 		"mypy-type-checker.args": [
 			"--warn-return-any",			// 戻り値を明示する
