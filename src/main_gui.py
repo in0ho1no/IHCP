@@ -144,6 +144,7 @@ def create_module_button(hcp_info_list: list[HCPInfo]) -> None:
         with row[count % COL_NUM_MODULE]:
             # ボタンを配置
             if st.button(f"{module_name}"):
+                st.session_state.selected_module_name = module_name
                 st.session_state.selected_module_hcp_text = hcp_info.raw_text
                 st.session_state.selected_module_svg = hcp_info.svg_img
 
@@ -169,6 +170,19 @@ def set_save_button_section() -> None:
         return
 
     st.divider()
+
+    create_save_button()
+
+
+def create_save_button() -> None:
+    st.write("IMGを入力フォルダ内に保存します")
+    if st.button("SVG画像として保存"):
+        basepath = st.session_state.selected_file.split(".")[0]
+        savepath = f"{basepath}_{st.session_state.selected_module_name}.svg"
+        with open(savepath, "w", encoding="utf-8") as f:
+            f.write(st.session_state.selected_module_svg)
+
+        st.success(f"保存成功: {savepath}")
 
 
 def main() -> None:
