@@ -1,3 +1,13 @@
+[project]
+name = "ihcp-project"
+version = "0.0.1"
+description = "HCPチャートの文字列を画像として表示する。"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "streamlit>=1.43.2",
+]
+
 [tool.ruff]
 # 1行の最大文字数
 line-length = 150
