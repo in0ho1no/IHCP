@@ -11,6 +11,21 @@ COL_NUM_MODULE = 2
 CONTAINER_HEIGHT_MODULES = 140
 
 
+def set_input_folder_path_section() -> None:
+    if "selected_path" not in st.session_state:
+        st.session_state.selected_path = PATH_DEFAULT
+
+    # フォルダパスの取得
+    folder_path = get_folder_path()
+
+    # パスが更新されたら初期化する
+    if st.session_state.selected_path != folder_path:
+        st.session_state.selected_path = folder_path
+        st.session_state.selected_file = ""
+        st.session_state.selected_module_hcp_text = ""
+        st.session_state.selected_module_svg = ""
+
+
 def get_folder_path() -> str:
     # 入力を促す
     path_input = st.text_input("対象のフォルダを選択してください")
@@ -36,19 +51,15 @@ def get_folder_path() -> str:
     return path_input
 
 
-def set_input_folder_path_section() -> None:
+def set_file_button_section() -> None:
+    # フォルダパスが未指定なら何もしない
     if "selected_path" not in st.session_state:
-        st.session_state.selected_path = PATH_DEFAULT
+        return
+    if st.session_state.selected_path == PATH_DEFAULT:
+        return
 
-    # フォルダパスの取得
-    folder_path = get_folder_path()
-
-    # パスが更新されたら初期化する
-    if st.session_state.selected_path != folder_path:
-        st.session_state.selected_path = folder_path
-        st.session_state.selected_file = ""
-        st.session_state.selected_module_hcp_text = ""
-        st.session_state.selected_module_svg = ""
+    with st.sidebar:
+        create_file_button(st.session_state.selected_path)
 
 
 def create_file_button(path_folder: str) -> None:
@@ -76,15 +87,28 @@ def create_file_button(path_folder: str) -> None:
             st.session_state.selected_module_svg = ""
 
 
-def set_file_button_section() -> None:
-    # フォルダパスが未指定なら何もしない
-    if "selected_path" not in st.session_state:
+def set_module_list_section() -> None:
+    # ファイル未選択なら何もしない
+    if "selected_file" not in st.session_state:
         return
-    if st.session_state.selected_path == PATH_DEFAULT:
+    if st.session_state.selected_file == "":
         return
 
-    with st.sidebar:
-        create_file_button(st.session_state.selected_path)
+    st.divider()
+
+    with st.container(height=CONTAINER_HEIGHT_MODULES):
+        set_module_list()
+
+
+def set_module_list() -> None:
+    # 選択されたファイルの内容を表示
+    select_file = st.session_state.selected_file
+    if select_file:
+        st.write(f"{select_file}")
+        # ファイルの読み込み
+        hcp_info_list = read_file(select_file)
+        # モジュールごとにボタンを表示
+        create_module_button(hcp_info_list)
 
 
 def read_file(path: str) -> list[HCPInfo]:
@@ -122,30 +146,6 @@ def create_module_button(hcp_info_list: list[HCPInfo]) -> None:
             if st.button(f"{module_name}"):
                 st.session_state.selected_module_hcp_text = hcp_info.raw_text
                 st.session_state.selected_module_svg = hcp_info.svg_img
-
-
-def set_module_list() -> None:
-    # 選択されたファイルの内容を表示
-    select_file = st.session_state.selected_file
-    if select_file:
-        st.write(f"{select_file}")
-        # ファイルの読み込み
-        hcp_info_list = read_file(select_file)
-        # モジュールごとにボタンを表示
-        create_module_button(hcp_info_list)
-
-
-def set_module_list_section() -> None:
-    # ファイル未選択なら何もしない
-    if "selected_file" not in st.session_state:
-        return
-    if st.session_state.selected_file == "":
-        return
-
-    st.divider()
-
-    with st.container(height=CONTAINER_HEIGHT_MODULES):
-        set_module_list()
 
 
 def show_svg_image() -> None:
