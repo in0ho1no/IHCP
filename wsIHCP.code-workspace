@@ -16,6 +16,8 @@
 		// フォント設定
 		"editor.fontFamily": "Consolas, 'Meiryo UI','Courier New', monospace",
 
+		"markdown.preview.scrollPreviewWithEditor": false,
+
 		"editor.defaultFormatter": "charliermarsh.ruff",
 		"editor.formatOnSave": true,
 		"editor.codeActionsOnSave": {
