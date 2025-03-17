@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="539" height="440" style="background-color: #808d81">
+<rect x="0" y="0" width="539" height="440" fill="#808d81" stroke="#808d81"/>
 <text x="19" y="30" text-anchor="start" dominant-baseline="middle" font-size="120%" rotate="0">モジュール名: OOOOO</text>
 <circle cx="30" cy="90" r="9" fill="white" stroke="black"/>
 <text x="49" y="90" text-anchor="start" dominant-baseline="middle" font-size="100%" rotate="0">シンプルな処理</text>
