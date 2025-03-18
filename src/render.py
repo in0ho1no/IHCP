@@ -277,11 +277,11 @@ class SVGRenderer:
             for data in data_list:
                 # 種別に応じた情報の更新
                 if io is True:
-                    y_offset = -5
+                    y_offset = +5
                     draw_line_method = self.draw_svg.draw_line_h
                     draw_dataio_method = self.draw_svg.draw_figure_data_func_in
                 else:
-                    y_offset = 5
+                    y_offset = -5
                     draw_line_method = self.draw_svg.draw_arrow_r
                     draw_dataio_method = self.draw_svg.draw_figure_data_func_out
 

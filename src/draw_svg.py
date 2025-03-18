@@ -1,5 +1,5 @@
 import math
-from typing import Callable
+from collections.abc import Callable
 
 from define import DiagramElement
 from line_type import LineTypeDefine, LineTypeEnum
@@ -27,13 +27,14 @@ class DrawSvg:
     def get_text_width(self, text: str) -> int:
         text_bytes = self.get_string_bytes(text.strip())
         half_bytes = int((text_bytes + 2 - 1) // 2)
-        text_width = half_bytes * 16  # デフォルトの文字幅は16px
+        text_width = half_bytes * 15  # デフォルトの文字幅は16px
         return text_width
 
     def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
         svg.append(
             f'<text x="{center_x}" y="{center_y}" '
             f'text-anchor="start" dominant-baseline="middle" '
+            f'font-family="Consolas, Meiryo UI, Courier New, monospace" '
             f'font-size="{font_size}%" rotate="{rotate}">{text}</text>'
         )
         text_width = int(self.get_text_width(text) * (font_size / 100))
