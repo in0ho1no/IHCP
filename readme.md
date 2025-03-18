@@ -1,3 +1,8 @@
+[![License](https://img.shields.io/github/license/in0ho1no/IHCP)](https://github.com/in0ho1no/IHCP/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/in0ho1no/IHCP)](https://github.com/in0ho1no/IHCP/releases)
+[![Mypy](https://img.shields.io/badge/Mypy-Checked-blue.svg)](http://mypy-lang.org/)
+[![Ruff](https://img.shields.io/badge/Ruff-Formatted-black.svg?logo=ruff)](https://github.com/astral-sh/ruff)
+
 # IHCP
 
 本ツールは、テキスト形式で記載されたHCPチャートを、SVG画像として描画する
