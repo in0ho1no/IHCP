@@ -55,15 +55,15 @@ class DiagramParser:
         """処理部の入出力情報を決定する"""
         for line_info in self.line_info_list:
             # \inと\outのパターンを抽出
-            in_matches = re.finditer(r"\\in\s+([\w\-()]+)", line_info.text_typeless)  # マッチした全ての文字列をリストに格納
-            out_matches = re.finditer(r"\\out\s+([\w\-()]+)", line_info.text_typeless)
+            in_matches = re.finditer(r"\\in\s+(\S+)", line_info.text_typeless)  # マッチした全ての文字列をリストに格納
+            out_matches = re.finditer(r"\\out\s+(\S+)", line_info.text_typeless)
 
             # データを対応するリストに格納
             in_data = [DataInfo(name=match.group(1)) for match in in_matches]  # マッチオブジェクトの2番目の要素を順に取り出したリストを連結
             out_data = [DataInfo(name=match.group(1)) for match in out_matches]
 
             # \inと\out要素を取り除いた行を取得
-            cleaned_text = re.sub(r"\\(?:in|out)(?:\s+[\w\-()]+)?", "", line_info.text_typeless).strip()
+            cleaned_text = re.sub(r"\\(?:in\s|out\s)(?:(\S+))?", "", line_info.text_typeless).strip()
 
             line_info.iodata = InOutData(in_data, out_data, line_info.level.value)
             line_info.text_clean = cleaned_text
