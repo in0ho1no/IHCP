@@ -230,32 +230,32 @@
 <text x="633" y="330" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ6</text>
 <rect x="605" y="351" width="18" height="18" fill="white" stroke="black"/>
 <text x="633" y="360" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ7</text>
-<line x1="484" y1="85" x2="605" y2="85" stroke="black"/>
-<line x1="534" y1="115" x2="635" y2="115" stroke="purple"/>
-<line x1="574" y1="125" x2="635" y2="125" stroke="red"/>
-<path d="M 635 125 L 627 121 L 627 129" stroke="red" fill="red" />
-<line x1="584" y1="155" x2="635" y2="155" stroke="green"/>
-<path d="M 635 155 L 627 151 L 627 159" stroke="green" fill="green" />
-<line x1="564" y1="175" x2="635" y2="175" stroke="black"/>
-<line x1="494" y1="215" x2="605" y2="215" stroke="red"/>
-<path d="M 605 215 L 597 211 L 597 219" stroke="red" fill="red" />
-<line x1="514" y1="205" x2="605" y2="205" stroke="blue"/>
-<line x1="524" y1="245" x2="605" y2="245" stroke="yellow"/>
-<path d="M 605 245 L 597 241 L 597 249" stroke="yellow" fill="yellow" />
-<line x1="544" y1="235" x2="605" y2="235" stroke="orange"/>
-<line x1="554" y1="275" x2="605" y2="275" stroke="turquoise"/>
-<path d="M 605 275 L 597 271 L 597 279" stroke="turquoise" fill="turquoise" />
-<line x1="504" y1="365" x2="605" y2="365" stroke="green"/>
-<path d="M 605 365 L 597 361 L 597 369" stroke="green" fill="green" />
-<line x1="484" y1="85" x2="484" y2="175" stroke="black"/>
-<line x1="494" y1="185" x2="494" y2="215" stroke="red"/>
-<line x1="504" y1="185" x2="504" y2="365" stroke="green"/>
-<line x1="514" y1="205" x2="514" y2="265" stroke="blue"/>
-<line x1="524" y1="245" x2="524" y2="275" stroke="yellow"/>
-<line x1="534" y1="115" x2="534" y2="355" stroke="purple"/>
-<line x1="544" y1="235" x2="544" y2="415" stroke="orange"/>
-<line x1="554" y1="275" x2="554" y2="425" stroke="turquoise"/>
-<line x1="564" y1="175" x2="564" y2="505" stroke="black"/>
-<line x1="574" y1="125" x2="574" y2="575" stroke="red"/>
-<line x1="584" y1="155" x2="584" y2="635" stroke="green"/>
+<line x1="484" y1="95" x2="605" y2="95" stroke="black"/>
+<line x1="534" y1="125" x2="635" y2="125" stroke="purple"/>
+<line x1="574" y1="115" x2="635" y2="115" stroke="red"/>
+<path d="M 635 115 L 627 111 L 627 119" stroke="red" fill="red" />
+<line x1="584" y1="145" x2="635" y2="145" stroke="green"/>
+<path d="M 635 145 L 627 141 L 627 149" stroke="green" fill="green" />
+<line x1="564" y1="185" x2="635" y2="185" stroke="black"/>
+<line x1="494" y1="205" x2="605" y2="205" stroke="red"/>
+<path d="M 605 205 L 597 201 L 597 209" stroke="red" fill="red" />
+<line x1="514" y1="215" x2="605" y2="215" stroke="blue"/>
+<line x1="524" y1="235" x2="605" y2="235" stroke="yellow"/>
+<path d="M 605 235 L 597 231 L 597 239" stroke="yellow" fill="yellow" />
+<line x1="544" y1="245" x2="605" y2="245" stroke="orange"/>
+<line x1="554" y1="265" x2="605" y2="265" stroke="turquoise"/>
+<path d="M 605 265 L 597 261 L 597 269" stroke="turquoise" fill="turquoise" />
+<line x1="504" y1="355" x2="605" y2="355" stroke="green"/>
+<path d="M 605 355 L 597 351 L 597 359" stroke="green" fill="green" />
+<line x1="484" y1="95" x2="484" y2="175" stroke="black"/>
+<line x1="494" y1="185" x2="494" y2="205" stroke="red"/>
+<line x1="504" y1="185" x2="504" y2="355" stroke="green"/>
+<line x1="514" y1="215" x2="514" y2="265" stroke="blue"/>
+<line x1="524" y1="235" x2="524" y2="275" stroke="yellow"/>
+<line x1="534" y1="125" x2="534" y2="355" stroke="purple"/>
+<line x1="544" y1="245" x2="544" y2="415" stroke="orange"/>
+<line x1="554" y1="265" x2="554" y2="425" stroke="turquoise"/>
+<line x1="564" y1="185" x2="564" y2="505" stroke="black"/>
+<line x1="574" y1="115" x2="574" y2="575" stroke="red"/>
+<line x1="584" y1="145" x2="584" y2="635" stroke="green"/>
 </svg>

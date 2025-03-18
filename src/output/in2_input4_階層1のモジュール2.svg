@@ -48,9 +48,9 @@
 <text x="288" y="90" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">bbb</text>
 <rect x="260" y="111" width="18" height="18" fill="white" stroke="black"/>
 <text x="288" y="120" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データaaa</text>
-<line x1="229" y1="85" x2="260" y2="85" stroke="black"/>
-<line x1="239" y1="125" x2="260" y2="125" stroke="red"/>
-<path d="M 260 125 L 252 121 L 252 129" stroke="red" fill="red" />
-<line x1="229" y1="85" x2="229" y2="145" stroke="black"/>
-<line x1="239" y1="125" x2="239" y2="215" stroke="red"/>
+<line x1="229" y1="95" x2="260" y2="95" stroke="black"/>
+<line x1="239" y1="115" x2="260" y2="115" stroke="red"/>
+<path d="M 260 115 L 252 111 L 252 119" stroke="red" fill="red" />
+<line x1="229" y1="95" x2="229" y2="145" stroke="black"/>
+<line x1="239" y1="115" x2="239" y2="215" stroke="red"/>
 </svg>

@@ -52,12 +52,12 @@
 <text x="358" y="150" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">buzz</text>
 <rect x="330" y="171" width="18" height="18" fill="white" stroke="black"/>
 <text x="358" y="180" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">temp</text>
-<line x1="309" y1="95" x2="330" y2="95" stroke="green"/>
-<path d="M 330 95 L 322 91 L 322 99" stroke="green" fill="green" />
-<line x1="289" y1="185" x2="330" y2="185" stroke="black"/>
-<path d="M 330 185 L 322 181 L 322 189" stroke="black" fill="black" />
-<line x1="299" y1="175" x2="330" y2="175" stroke="red"/>
-<line x1="289" y1="155" x2="289" y2="185" stroke="black"/>
-<line x1="299" y1="175" x2="299" y2="205" stroke="red"/>
-<line x1="309" y1="95" x2="309" y2="275" stroke="green"/>
+<line x1="309" y1="85" x2="330" y2="85" stroke="green"/>
+<path d="M 330 85 L 322 81 L 322 89" stroke="green" fill="green" />
+<line x1="289" y1="175" x2="330" y2="175" stroke="black"/>
+<path d="M 330 175 L 322 171 L 322 179" stroke="black" fill="black" />
+<line x1="299" y1="185" x2="330" y2="185" stroke="red"/>
+<line x1="289" y1="155" x2="289" y2="175" stroke="black"/>
+<line x1="299" y1="185" x2="299" y2="205" stroke="red"/>
+<line x1="309" y1="85" x2="309" y2="275" stroke="green"/>
 </svg>

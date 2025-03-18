@@ -71,13 +71,13 @@
 <line x1="426" y1="192" x2="444" y2="192" stroke="black"/>
 <line x1="426" y1="174" x2="426" y2="192" stroke="black"/>
 <path d="M 405 90 L 414 81 L 414 99 Z" stroke="black" fill="fuchsia" />
-<line x1="364" y1="85" x2="405" y2="85" stroke="black"/>
+<line x1="364" y1="95" x2="405" y2="95" stroke="black"/>
 <path d="M 423 180 L 414 171 L 414 189 Z" stroke="black" fill="aqua" />
-<line x1="374" y1="185" x2="405" y2="185" stroke="red"/>
-<path d="M 405 185 L 397 181 L 397 189" stroke="red" fill="red" />
-<line x1="384" y1="185" x2="405" y2="185" stroke="green"/>
-<path d="M 405 185 L 397 181 L 397 189" stroke="green" fill="green" />
-<line x1="364" y1="85" x2="364" y2="145" stroke="black"/>
-<line x1="374" y1="185" x2="374" y2="215" stroke="red"/>
-<line x1="384" y1="185" x2="384" y2="275" stroke="green"/>
+<line x1="374" y1="175" x2="405" y2="175" stroke="red"/>
+<path d="M 405 175 L 397 171 L 397 179" stroke="red" fill="red" />
+<line x1="384" y1="175" x2="405" y2="175" stroke="green"/>
+<path d="M 405 175 L 397 171 L 397 179" stroke="green" fill="green" />
+<line x1="364" y1="95" x2="364" y2="145" stroke="black"/>
+<line x1="374" y1="175" x2="374" y2="215" stroke="red"/>
+<line x1="384" y1="175" x2="384" y2="275" stroke="green"/>
 </svg>
