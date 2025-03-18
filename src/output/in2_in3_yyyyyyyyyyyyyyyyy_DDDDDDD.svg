@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="433" height="320" style="background-color: #808d81">
+<rect x="0" y="0" width="433" height="320" fill="#808d81" stroke="#808d81"/>
 <text x="19" y="30" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="120%" rotate="0">モジュール名: DDDDDDD</text>
 <circle cx="30" cy="90" r="9" fill="white" stroke="black"/>
 <text x="49" y="90" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">/* テスト的なモジュール */</text>
