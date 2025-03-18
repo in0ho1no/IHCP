@@ -277,11 +277,11 @@ class SVGRenderer:
             for data in data_list:
                 # 種別に応じた情報の更新
                 if io is True:
-                    y_offset = -5
+                    y_offset = +5
                     draw_line_method = self.draw_svg.draw_line_h
                     draw_dataio_method = self.draw_svg.draw_figure_data_func_in
                 else:
-                    y_offset = 5
+                    y_offset = -5
                     draw_line_method = self.draw_svg.draw_arrow_r
                     draw_dataio_method = self.draw_svg.draw_figure_data_func_out
 
@@ -351,16 +351,18 @@ class SVGRenderer:
             process2data(process_element.line_info.iodata.in_data_list)
             process2data(process_element.line_info.iodata.out_data_list)
 
-    def finish_svg(self, width: int, height: int) -> str:
+    def finish_svg(self, width: int, height: int, bg_color: str = "808d81") -> str:
         """SVGの描画を終える
 
         Args:
             width (int): 画像全体の幅
             height (int): 画像全体の高さ
+            bg_color (str): 画像の背景色
 
         Returns:
             str: SVGを構成する文字列リストを連結した文字列
         """
-        self.svg.insert(0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height + 50}" style="background-color: #808d81">')
+        self.svg.insert(0, f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height + 50}" style="background-color: #{bg_color}">')
+        self.svg.insert(1, f'<rect x="0" y="0" width="{width}" height="{height + 50}" fill="#{bg_color}" stroke="#{bg_color}"/>')
         self.svg.append("</svg>")
         return "\n".join(self.svg)
