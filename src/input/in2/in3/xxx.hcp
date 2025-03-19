@@ -18,6 +18,8 @@
 
 \module モジュール名のみ
 
+\module module-name-only123456789
+
 
 \module XXXXXXX
 /* テスト的なモジュール */

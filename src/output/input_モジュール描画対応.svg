@@ -1,91 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="768" height="1130" style="background-color: #808d81">
-<rect x="0" y="0" width="768" height="1130" fill="#808d81" stroke="#808d81"/>
-<text x="19" y="30" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="120%" rotate="0">モジュール名: モジュール描画対応</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="708" height="1130" style="background-color: #808d81">
+<rect x="0" y="0" width="708" height="1130" fill="#808d81" stroke="#808d81"/>
+<text x="19" y="30" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="18px" rotate="0">モジュール名: モジュール描画対応</text>
 <circle cx="30" cy="90" r="9" fill="white" stroke="black"/>
-<text x="49" y="90" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">処理開始</text>
+<text x="49" y="90" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">処理開始</text>
 <line x1="30" y1="72" x2="30" y2="81" stroke="black"/>
 <line x1="21" y1="72" x2="39" y2="72" stroke="black"/>
 <line x1="30" y1="99" x2="30" y2="108" stroke="black"/>
 <line x1="21" y1="108" x2="39" y2="108" stroke="black"/>
 <circle cx="60" cy="120" r="9" fill="white" stroke="black"/>
-<text x="79" y="120" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">必要な情報を揃える</text>
+<text x="79" y="120" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">必要な情報を揃える</text>
 <line x1="60" y1="102" x2="60" y2="111" stroke="black"/>
 <line x1="42" y1="102" x2="60" y2="102" stroke="black"/>
 <line x1="42" y1="84" x2="42" y2="102" stroke="black"/>
 <circle cx="90" cy="150" r="9" fill="white" stroke="black"/>
-<text x="109" y="150" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">排他を取得</text>
+<text x="109" y="150" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">排他を取得</text>
 <line x1="90" y1="132" x2="90" y2="141" stroke="black"/>
 <line x1="72" y1="132" x2="90" y2="132" stroke="black"/>
 <line x1="72" y1="114" x2="72" y2="132" stroke="black"/>
 <circle cx="90" cy="180" r="9" fill="white" stroke="black"/>
-<text x="98" y="179" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="240">↻</text>
-<text x="109" y="180" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">DBから取得</text>
+<path d="M 90 175 A 5 5, 0 0 1 90 185" stroke="black" fill="transparent"/>
+<path d="M 90 185 L 92 181 L 94 185.5 Z" stroke="black" fill="black"/>
+<text x="109" y="180" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">DBから取得</text>
 <line x1="90" y1="159" x2="90" y2="171" stroke="black"/>
 <circle cx="90" cy="210" r="9" fill="white" stroke="black"/>
-<text x="109" y="210" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">排他を解放</text>
+<text x="109" y="210" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">排他を解放</text>
 <line x1="90" y1="189" x2="90" y2="201" stroke="black"/>
 <line x1="90" y1="219" x2="90" y2="228" stroke="black"/>
 <line x1="81" y1="228" x2="99" y2="228" stroke="black"/>
 <circle cx="60" cy="240" r="9" fill="white" stroke="black"/>
-<text x="79" y="240" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ更新</text>
+<text x="79" y="240" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ更新</text>
 <line x1="60" y1="129" x2="60" y2="231" stroke="black"/>
 <circle cx="90" cy="270" r="9" fill="white" stroke="black"/>
-<text x="109" y="270" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">更新が必要か判定する</text>
+<text x="109" y="270" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">更新が必要か判定する</text>
 <line x1="90" y1="279" x2="90" y2="288" stroke="black"/>
 <line x1="81" y1="288" x2="99" y2="288" stroke="black"/>
 <line x1="90" y1="252" x2="90" y2="261" stroke="black"/>
 <line x1="72" y1="252" x2="90" y2="252" stroke="black"/>
 <line x1="72" y1="234" x2="72" y2="252" stroke="black"/>
 <circle cx="60" cy="300" r="9" fill="white" stroke="black"/>
-<text x="79" y="300" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">更新に伴った処理</text>
+<text x="79" y="300" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">更新に伴った処理</text>
 <line x1="60" y1="249" x2="60" y2="291" stroke="black"/>
 <circle cx="90" cy="330" r="9" fill="white" stroke="black"/>
-<text x="109" y="330" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">機能Aの実行</text>
+<text x="109" y="330" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">機能Aの実行</text>
 <line x1="90" y1="312" x2="90" y2="321" stroke="black"/>
 <line x1="72" y1="312" x2="90" y2="312" stroke="black"/>
 <line x1="72" y1="294" x2="72" y2="312" stroke="black"/>
 <circle cx="120" cy="360" r="9" fill="white" stroke="black"/>
-<text x="139" y="360" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">機能Aの前処理</text>
+<text x="139" y="360" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">機能Aの前処理</text>
 <line x1="120" y1="342" x2="120" y2="351" stroke="black"/>
 <line x1="102" y1="342" x2="120" y2="342" stroke="black"/>
 <line x1="102" y1="324" x2="102" y2="342" stroke="black"/>
 <circle cx="120" cy="390" r="9" fill="white" stroke="black"/>
-<text x="139" y="390" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">機能Aの本処理</text>
+<text x="139" y="390" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">機能Aの本処理</text>
 <line x1="120" y1="369" x2="120" y2="381" stroke="black"/>
 <circle cx="150" cy="420" r="9" fill="white" stroke="black"/>
 <polygon points="157 420 146 426 146 413" fill="white" stroke="black"/>
-<text x="169" y="420" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">条件を満足する</text>
+<text x="169" y="420" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">条件を満足する</text>
 <line x1="150" y1="402" x2="150" y2="411" stroke="black"/>
 <line x1="132" y1="402" x2="150" y2="402" stroke="black"/>
 <line x1="132" y1="384" x2="132" y2="402" stroke="black"/>
 <line x1="180" y1="441" x2="180" y2="459" stroke="black"/>
 <line x1="180" y1="441" x2="195" y2="441" stroke="black"/>
 <path d="M 195 441 L 187 437 L 187 445" stroke="black" fill="black" />
-<text x="199" y="450" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">(true) 条件を満足した</text>
+<text x="199" y="450" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">(true) 条件を満足した</text>
 <line x1="180" y1="432" x2="180" y2="441" stroke="black"/>
 <line x1="162" y1="432" x2="180" y2="432" stroke="black"/>
 <line x1="162" y1="414" x2="162" y2="432" stroke="black"/>
 <circle cx="210" cy="480" r="9" fill="white" stroke="black"/>
 <circle cx="210" cy="480" r="4" fill="white" stroke="black"/>
-<text x="229" y="480" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">関数を呼び出す</text>
+<text x="229" y="480" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">関数を呼び出す</text>
 <line x1="210" y1="462" x2="210" y2="471" stroke="black"/>
 <line x1="192" y1="462" x2="210" y2="462" stroke="black"/>
 <line x1="192" y1="444" x2="192" y2="462" stroke="black"/>
 <circle cx="210" cy="510" r="9" fill="white" stroke="black"/>
 <polygon points="217 510 206 516 206 503" fill="white" stroke="black"/>
-<text x="229" y="510" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">呼び出し結果に応じて分岐する</text>
+<text x="229" y="510" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">呼び出し結果に応じて分岐する</text>
 <line x1="210" y1="489" x2="210" y2="501" stroke="black"/>
 <line x1="210" y1="519" x2="210" y2="528" stroke="black"/>
 <line x1="201" y1="528" x2="219" y2="528" stroke="black"/>
 <line x1="240" y1="531" x2="240" y2="549" stroke="black"/>
 <line x1="240" y1="531" x2="255" y2="531" stroke="black"/>
 <path d="M 255 531 L 247 527 L 247 535" stroke="black" fill="black" />
-<text x="259" y="540" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">(成功したので出力有り)</text>
+<text x="259" y="540" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">(成功したので出力有り)</text>
 <line x1="240" y1="522" x2="240" y2="531" stroke="black"/>
 <line x1="222" y1="522" x2="240" y2="522" stroke="black"/>
 <line x1="222" y1="504" x2="222" y2="522" stroke="black"/>
 <circle cx="270" cy="570" r="9" fill="white" stroke="black"/>
-<text x="289" y="570" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">OK1</text>
+<text x="289" y="570" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">OK1</text>
 <line x1="270" y1="579" x2="270" y2="588" stroke="black"/>
 <line x1="261" y1="588" x2="279" y2="588" stroke="black"/>
 <line x1="270" y1="552" x2="270" y2="561" stroke="black"/>
@@ -94,10 +95,10 @@
 <line x1="240" y1="591" x2="240" y2="609" stroke="black"/>
 <line x1="240" y1="591" x2="255" y2="591" stroke="black"/>
 <path d="M 255 591 L 247 587 L 247 595" stroke="black" fill="black" />
-<text x="259" y="600" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">(成功したが出力無し)</text>
+<text x="259" y="600" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">(成功したが出力無し)</text>
 <line x1="240" y1="549" x2="240" y2="591" stroke="black"/>
 <circle cx="270" cy="630" r="9" fill="white" stroke="black"/>
-<text x="289" y="630" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">OK2</text>
+<text x="289" y="630" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">OK2</text>
 <line x1="270" y1="639" x2="270" y2="648" stroke="black"/>
 <line x1="261" y1="648" x2="279" y2="648" stroke="black"/>
 <line x1="270" y1="612" x2="270" y2="621" stroke="black"/>
@@ -106,10 +107,10 @@
 <line x1="240" y1="651" x2="240" y2="669" stroke="black"/>
 <line x1="240" y1="651" x2="255" y2="651" stroke="black"/>
 <path d="M 255 651 L 247 647 L 247 655" stroke="black" fill="black" />
-<text x="259" y="660" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">(失敗したが出力有り)</text>
+<text x="259" y="660" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">(失敗したが出力有り)</text>
 <line x1="240" y1="609" x2="240" y2="651" stroke="black"/>
 <circle cx="270" cy="690" r="9" fill="white" stroke="black"/>
-<text x="289" y="690" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">NG1</text>
+<text x="289" y="690" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">NG1</text>
 <line x1="270" y1="699" x2="270" y2="708" stroke="black"/>
 <line x1="261" y1="708" x2="279" y2="708" stroke="black"/>
 <line x1="270" y1="672" x2="270" y2="681" stroke="black"/>
@@ -118,12 +119,12 @@
 <line x1="240" y1="711" x2="240" y2="729" stroke="black"/>
 <line x1="240" y1="711" x2="255" y2="711" stroke="black"/>
 <path d="M 255 711 L 247 707 L 247 715" stroke="black" fill="black" />
-<text x="259" y="720" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">(失敗したので出力無し)</text>
+<text x="259" y="720" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">(失敗したので出力無し)</text>
 <line x1="240" y1="669" x2="240" y2="711" stroke="black"/>
 <line x1="240" y1="729" x2="240" y2="738" stroke="black"/>
 <line x1="231" y1="738" x2="249" y2="738" stroke="black"/>
 <circle cx="270" cy="750" r="9" fill="white" stroke="black"/>
-<text x="289" y="750" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">NG2</text>
+<text x="289" y="750" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">NG2</text>
 <line x1="270" y1="759" x2="270" y2="768" stroke="black"/>
 <line x1="261" y1="768" x2="279" y2="768" stroke="black"/>
 <line x1="270" y1="732" x2="270" y2="741" stroke="black"/>
@@ -132,12 +133,12 @@
 <line x1="180" y1="771" x2="180" y2="789" stroke="black"/>
 <line x1="180" y1="771" x2="195" y2="771" stroke="black"/>
 <path d="M 195 771 L 187 767 L 187 775" stroke="black" fill="black" />
-<text x="199" y="780" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">(false) 条件を満足しなかった</text>
+<text x="199" y="780" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">(false) 条件を満足しなかった</text>
 <line x1="180" y1="459" x2="180" y2="771" stroke="black"/>
 <line x1="180" y1="789" x2="180" y2="798" stroke="black"/>
 <line x1="171" y1="798" x2="189" y2="798" stroke="black"/>
 <circle cx="210" cy="810" r="9" fill="white" stroke="black"/>
-<text x="229" y="810" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">何もしない</text>
+<text x="229" y="810" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">何もしない</text>
 <line x1="210" y1="819" x2="210" y2="828" stroke="black"/>
 <line x1="201" y1="828" x2="219" y2="828" stroke="black"/>
 <line x1="210" y1="792" x2="210" y2="801" stroke="black"/>
@@ -146,38 +147,38 @@
 <line x1="150" y1="831" x2="150" y2="840" stroke="black"/>
 <polygon points="150 849 142 835 157 835" fill="white" stroke="black"/>
 <line x1="141" y1="849" x2="159" y2="849" stroke="black"/>
-<text x="169" y="840" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">9</text>
+<text x="169" y="840" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">9</text>
 <line x1="150" y1="429" x2="150" y2="831" stroke="black"/>
 <circle cx="120" cy="870" r="9" fill="white" stroke="black"/>
-<text x="139" y="870" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">機能Aの後処理</text>
+<text x="139" y="870" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">機能Aの後処理</text>
 <line x1="120" y1="399" x2="120" y2="861" stroke="black"/>
 <line x1="120" y1="879" x2="120" y2="888" stroke="black"/>
 <line x1="111" y1="888" x2="129" y2="888" stroke="black"/>
 <circle cx="90" cy="900" r="9" fill="white" stroke="black"/>
-<text x="109" y="900" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">機能Bの実行</text>
+<text x="109" y="900" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">機能Bの実行</text>
 <line x1="90" y1="339" x2="90" y2="891" stroke="black"/>
 <line x1="90" y1="909" x2="90" y2="918" stroke="black"/>
 <line x1="81" y1="918" x2="99" y2="918" stroke="black"/>
 <circle cx="120" cy="930" r="9" fill="white" stroke="black"/>
-<text x="139" y="930" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">機能Bの前処理</text>
+<text x="139" y="930" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">機能Bの前処理</text>
 <line x1="120" y1="912" x2="120" y2="921" stroke="black"/>
 <line x1="102" y1="912" x2="120" y2="912" stroke="black"/>
 <line x1="102" y1="894" x2="102" y2="912" stroke="black"/>
 <circle cx="120" cy="960" r="9" fill="white" stroke="black"/>
-<text x="139" y="960" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">機能Bの後処理</text>
+<text x="139" y="960" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">機能Bの後処理</text>
 <line x1="120" y1="939" x2="120" y2="951" stroke="black"/>
 <line x1="120" y1="981" x2="120" y2="990" stroke="black"/>
 <polygon points="120 999 112 985 127 985" fill="white" stroke="black"/>
 <line x1="111" y1="999" x2="129" y2="999" stroke="black"/>
-<text x="139" y="990" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">2</text>
+<text x="139" y="990" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">2</text>
 <line x1="120" y1="969" x2="120" y2="981" stroke="black"/>
 <circle cx="60" cy="1020" r="9" fill="white" stroke="black"/>
-<text x="79" y="1020" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">処理終了</text>
+<text x="79" y="1020" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">処理終了</text>
 <line x1="60" y1="309" x2="60" y2="1011" stroke="black"/>
 <line x1="60" y1="1029" x2="60" y2="1038" stroke="black"/>
 <line x1="51" y1="1038" x2="69" y2="1038" stroke="black"/>
 <circle cx="90" cy="1050" r="9" fill="white" stroke="black"/>
-<text x="109" y="1050" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">戻り値を返す</text>
+<text x="109" y="1050" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">戻り値を返す</text>
 <line x1="90" y1="1059" x2="90" y2="1068" stroke="black"/>
 <line x1="81" y1="1068" x2="99" y2="1068" stroke="black"/>
 <line x1="90" y1="1032" x2="90" y2="1041" stroke="black"/>
@@ -186,77 +187,77 @@
 <line x1="120" y1="1071" x2="120" y2="1080" stroke="black"/>
 <polygon points="120 1089 112 1075 127 1075" fill="white" stroke="black"/>
 <line x1="111" y1="1089" x2="129" y2="1089" stroke="black"/>
-<text x="139" y="1080" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">TRUE(成功値) 固定</text>
+<text x="139" y="1080" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">TRUE(成功値) 固定</text>
 <line x1="120" y1="1062" x2="120" y2="1071" stroke="black"/>
 <line x1="102" y1="1062" x2="120" y2="1062" stroke="black"/>
 <line x1="102" y1="1044" x2="102" y2="1062" stroke="black"/>
-<line x1="199" y1="175" x2="484" y2="175" stroke="black"/>
-<path d="M 199 175 L 207 171 L 207 179" stroke="black" fill="black" />
-<line x1="199" y1="185" x2="494" y2="185" stroke="red"/>
-<line x1="199" y1="185" x2="504" y2="185" stroke="green"/>
-<line x1="274" y1="265" x2="514" y2="265" stroke="blue"/>
-<path d="M 274 265 L 282 261 L 282 269" stroke="blue" fill="blue" />
-<line x1="274" y1="275" x2="524" y2="275" stroke="yellow"/>
-<line x1="259" y1="355" x2="534" y2="355" stroke="purple"/>
-<path d="M 259 355 L 267 351 L 267 359" stroke="purple" fill="purple" />
-<line x1="289" y1="415" x2="544" y2="415" stroke="orange"/>
-<path d="M 289 415 L 297 411 L 297 419" stroke="orange" fill="orange" />
-<line x1="289" y1="425" x2="554" y2="425" stroke="turquoise"/>
-<line x1="454" y1="505" x2="564" y2="505" stroke="black"/>
-<path d="M 454 505 L 462 501 L 462 509" stroke="black" fill="black" />
-<line x1="334" y1="575" x2="574" y2="575" stroke="red"/>
-<line x1="334" y1="635" x2="584" y2="635" stroke="green"/>
-<rect x="605" y="81" width="18" height="18" fill="white" stroke="black"/>
-<text x="633" y="90" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ1</text>
-<rect x="635" y="111" width="18" height="18" fill="white" stroke="black"/>
-<text x="663" y="120" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ1-1</text>
-<line x1="644" y1="102" x2="644" y2="111" stroke="black"/>
-<line x1="626" y1="102" x2="644" y2="102" stroke="black"/>
-<line x1="626" y1="84" x2="626" y2="102" stroke="black"/>
-<rect x="635" y="141" width="18" height="18" fill="white" stroke="black"/>
-<text x="663" y="150" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ(AAA)</text>
-<line x1="644" y1="129" x2="644" y2="141" stroke="black"/>
-<rect x="635" y="171" width="18" height="18" fill="white" stroke="black"/>
-<text x="663" y="180" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ(種類)</text>
-<line x1="644" y1="159" x2="644" y2="171" stroke="black"/>
-<rect x="605" y="201" width="18" height="18" fill="white" stroke="black"/>
-<text x="633" y="210" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ2</text>
-<rect x="605" y="231" width="18" height="18" fill="white" stroke="black"/>
-<text x="633" y="240" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ3</text>
-<rect x="605" y="261" width="18" height="18" fill="white" stroke="black"/>
-<text x="633" y="270" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ4</text>
-<rect x="605" y="291" width="18" height="18" fill="white" stroke="black"/>
-<text x="633" y="300" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ5</text>
-<rect x="605" y="321" width="18" height="18" fill="white" stroke="black"/>
-<text x="633" y="330" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ6</text>
-<rect x="605" y="351" width="18" height="18" fill="white" stroke="black"/>
-<text x="633" y="360" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">データ7</text>
-<line x1="484" y1="95" x2="605" y2="95" stroke="black"/>
-<line x1="534" y1="125" x2="635" y2="125" stroke="purple"/>
-<line x1="574" y1="115" x2="635" y2="115" stroke="red"/>
-<path d="M 635 115 L 627 111 L 627 119" stroke="red" fill="red" />
-<line x1="584" y1="145" x2="635" y2="145" stroke="green"/>
-<path d="M 635 145 L 627 141 L 627 149" stroke="green" fill="green" />
-<line x1="564" y1="185" x2="635" y2="185" stroke="black"/>
-<line x1="494" y1="205" x2="605" y2="205" stroke="red"/>
-<path d="M 605 205 L 597 201 L 597 209" stroke="red" fill="red" />
-<line x1="514" y1="215" x2="605" y2="215" stroke="blue"/>
-<line x1="524" y1="235" x2="605" y2="235" stroke="yellow"/>
-<path d="M 605 235 L 597 231 L 597 239" stroke="yellow" fill="yellow" />
-<line x1="544" y1="245" x2="605" y2="245" stroke="orange"/>
-<line x1="554" y1="265" x2="605" y2="265" stroke="turquoise"/>
-<path d="M 605 265 L 597 261 L 597 269" stroke="turquoise" fill="turquoise" />
-<line x1="504" y1="355" x2="605" y2="355" stroke="green"/>
-<path d="M 605 355 L 597 351 L 597 359" stroke="green" fill="green" />
-<line x1="484" y1="95" x2="484" y2="175" stroke="black"/>
-<line x1="494" y1="185" x2="494" y2="205" stroke="red"/>
-<line x1="504" y1="185" x2="504" y2="355" stroke="green"/>
-<line x1="514" y1="215" x2="514" y2="265" stroke="blue"/>
-<line x1="524" y1="235" x2="524" y2="275" stroke="yellow"/>
-<line x1="534" y1="125" x2="534" y2="355" stroke="purple"/>
-<line x1="544" y1="245" x2="544" y2="415" stroke="orange"/>
-<line x1="554" y1="265" x2="554" y2="425" stroke="turquoise"/>
-<line x1="564" y1="185" x2="564" y2="505" stroke="black"/>
-<line x1="574" y1="115" x2="574" y2="575" stroke="red"/>
-<line x1="584" y1="145" x2="584" y2="635" stroke="green"/>
+<line x1="184" y1="175" x2="442" y2="175" stroke="black"/>
+<path d="M 184 175 L 192 171 L 192 179" stroke="black" fill="black" />
+<line x1="184" y1="185" x2="452" y2="185" stroke="red"/>
+<line x1="184" y1="185" x2="462" y2="185" stroke="green"/>
+<line x1="244" y1="265" x2="472" y2="265" stroke="blue"/>
+<path d="M 244 265 L 252 261 L 252 269" stroke="blue" fill="blue" />
+<line x1="244" y1="275" x2="482" y2="275" stroke="yellow"/>
+<line x1="238" y1="355" x2="492" y2="355" stroke="purple"/>
+<path d="M 238 355 L 246 351 L 246 359" stroke="purple" fill="purple" />
+<line x1="268" y1="415" x2="502" y2="415" stroke="orange"/>
+<path d="M 268 415 L 276 411 L 276 419" stroke="orange" fill="orange" />
+<line x1="268" y1="425" x2="512" y2="425" stroke="turquoise"/>
+<line x1="412" y1="505" x2="522" y2="505" stroke="black"/>
+<path d="M 412 505 L 420 501 L 420 509" stroke="black" fill="black" />
+<line x1="328" y1="575" x2="532" y2="575" stroke="red"/>
+<line x1="328" y1="635" x2="542" y2="635" stroke="green"/>
+<rect x="563" y="81" width="18" height="18" fill="white" stroke="black"/>
+<text x="591" y="90" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ1</text>
+<rect x="593" y="111" width="18" height="18" fill="white" stroke="black"/>
+<text x="621" y="120" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ1-1</text>
+<line x1="602" y1="102" x2="602" y2="111" stroke="black"/>
+<line x1="584" y1="102" x2="602" y2="102" stroke="black"/>
+<line x1="584" y1="84" x2="584" y2="102" stroke="black"/>
+<rect x="593" y="141" width="18" height="18" fill="white" stroke="black"/>
+<text x="621" y="150" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ(AAA)</text>
+<line x1="602" y1="129" x2="602" y2="141" stroke="black"/>
+<rect x="593" y="171" width="18" height="18" fill="white" stroke="black"/>
+<text x="621" y="180" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ(種類)</text>
+<line x1="602" y1="159" x2="602" y2="171" stroke="black"/>
+<rect x="563" y="201" width="18" height="18" fill="white" stroke="black"/>
+<text x="591" y="210" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ2</text>
+<rect x="563" y="231" width="18" height="18" fill="white" stroke="black"/>
+<text x="591" y="240" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ3</text>
+<rect x="563" y="261" width="18" height="18" fill="white" stroke="black"/>
+<text x="591" y="270" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ4</text>
+<rect x="563" y="291" width="18" height="18" fill="white" stroke="black"/>
+<text x="591" y="300" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ5</text>
+<rect x="563" y="321" width="18" height="18" fill="white" stroke="black"/>
+<text x="591" y="330" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ6</text>
+<rect x="563" y="351" width="18" height="18" fill="white" stroke="black"/>
+<text x="591" y="360" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">データ7</text>
+<line x1="442" y1="95" x2="563" y2="95" stroke="black"/>
+<line x1="492" y1="125" x2="593" y2="125" stroke="purple"/>
+<line x1="532" y1="115" x2="593" y2="115" stroke="red"/>
+<path d="M 593 115 L 585 111 L 585 119" stroke="red" fill="red" />
+<line x1="542" y1="145" x2="593" y2="145" stroke="green"/>
+<path d="M 593 145 L 585 141 L 585 149" stroke="green" fill="green" />
+<line x1="522" y1="185" x2="593" y2="185" stroke="black"/>
+<line x1="452" y1="205" x2="563" y2="205" stroke="red"/>
+<path d="M 563 205 L 555 201 L 555 209" stroke="red" fill="red" />
+<line x1="472" y1="215" x2="563" y2="215" stroke="blue"/>
+<line x1="482" y1="235" x2="563" y2="235" stroke="yellow"/>
+<path d="M 563 235 L 555 231 L 555 239" stroke="yellow" fill="yellow" />
+<line x1="502" y1="245" x2="563" y2="245" stroke="orange"/>
+<line x1="512" y1="265" x2="563" y2="265" stroke="turquoise"/>
+<path d="M 563 265 L 555 261 L 555 269" stroke="turquoise" fill="turquoise" />
+<line x1="462" y1="355" x2="563" y2="355" stroke="green"/>
+<path d="M 563 355 L 555 351 L 555 359" stroke="green" fill="green" />
+<line x1="442" y1="95" x2="442" y2="175" stroke="black"/>
+<line x1="452" y1="185" x2="452" y2="205" stroke="red"/>
+<line x1="462" y1="185" x2="462" y2="355" stroke="green"/>
+<line x1="472" y1="215" x2="472" y2="265" stroke="blue"/>
+<line x1="482" y1="235" x2="482" y2="275" stroke="yellow"/>
+<line x1="492" y1="125" x2="492" y2="355" stroke="purple"/>
+<line x1="502" y1="245" x2="502" y2="415" stroke="orange"/>
+<line x1="512" y1="265" x2="512" y2="425" stroke="turquoise"/>
+<line x1="522" y1="185" x2="522" y2="505" stroke="black"/>
+<line x1="532" y1="115" x2="532" y2="575" stroke="red"/>
+<line x1="542" y1="145" x2="542" y2="635" stroke="green"/>
 </svg>
