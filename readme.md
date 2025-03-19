@@ -53,6 +53,10 @@
 
 ## 導入手順
 
+<details>
+
+<summary>本環境の初回導入手順はこちら</summary>
+
 本ツールを利用する準備手順を示す。
 
 ### 基本的な環境準備
@@ -68,7 +72,7 @@ Pythonパッケージ・プロジェクト管理ツールであるuvをインス
 導入済みなら、この手順はスキップする。
 
 [公式ページ](https://github.com/astral-sh/uv?tab=readme-ov-file#installation)
-の手順に従い、以下コマンドを利用する。
+に記載された、以下コマンドを利用する。
 
 ```
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex
@@ -133,6 +137,8 @@ uv pip show streamlit
     Requires: altair, blinker, cachetools, click, gitpython, numpy, packaging, pandas, pillow, protobuf, pyarrow, pydeck, requests, tenacity, toml, tornado, typing-extensions, watchdog
     Required-by:
 
+</details>
+
 ## 実行手順
 
 以下ファイルをダブルクリックすることでguiを起動する。
@@ -140,6 +146,10 @@ uv pip show streamlit
     run_gui.bat
 
 ### 初回起動時
+
+<details>
+
+<summary>streamlitのツール初回起動時はこちら</summary>
 
 初回起動時は、メルマガの登録を促すメッセージが表示される。
 不要であるため、何も入力せずにEnterを押下する。
@@ -173,6 +183,8 @@ uv pip show streamlit
     URL: http://127.0.0.1:8501
 
 同時にブラウザでGUIが表示されるので、本ツールを利用可能となる。
+
+</details>
 
 ### 2回目以降の起動時
 
