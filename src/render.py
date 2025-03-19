@@ -73,10 +73,11 @@ class SVGRenderer:
         Returns:
             tuple[int, int]: 描画後のサイズ(高さ, 幅)
         """
-        end_x = self.draw_svg.draw_string(self.svg, start_x, start_y, "モジュール名: " + self.name, font_size=120)
+        end_x = self.draw_svg.draw_string(self.svg, start_x, start_y, "モジュール名: " + self.name, font_size=150)
         end_y = start_y + DiagramElement.LEVEL_SHIFT
 
         # マージンを設けておく
+        end_x += SVGRenderer.IMG_MARGIN
         end_y += SVGRenderer.IMG_MARGIN
         return end_y, end_x
 
