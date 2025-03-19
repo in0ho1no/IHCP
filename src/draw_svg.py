@@ -210,9 +210,9 @@ class DrawSvg:
 
         svg.append(
             f'<path d="'
-            f"M {end_x} {end_y} L {end_x + 2.5} {end_y - 4} "  # 始点へ移動して、描画
-            f'M {end_x} {end_y} L {end_x + 4} {end_y + 0.5}" '  # 始点へ移動して、描画
-            f'stroke="black" fill="transparent"/>'
+            f"M {end_x} {end_y} L {end_x + 2} {end_y - 4} "  # 始点へ移動して、描画
+            f'L {end_x + 4} {end_y + 0.5} Z" '  # パスを閉じる
+            f'stroke="black" fill="black"/>'
         )
         # 文字列の描画
         end_x = self.draw_string(svg, center_x, center_y, text)

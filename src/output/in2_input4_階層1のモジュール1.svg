@@ -25,7 +25,7 @@
 <line x1="72" y1="174" x2="72" y2="192" stroke="black"/>
 <circle cx="90" cy="240" r="9" fill="white" stroke="black"/>
 <path d="M 90 235 A 5 5, 0 0 1 90 245" stroke="black" fill="transparent"/>
-<path d="M 90 245 L 92.5 241 M 90 245 L 94 245.5" stroke="black" fill="transparent"/>
+<path d="M 90 245 L 92 241 L 94 245.5 Z" stroke="black" fill="black"/>
 <text x="109" y="240" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">DBから取得</text>
 <line x1="90" y1="219" x2="90" y2="231" stroke="black"/>
 <circle cx="90" cy="270" r="9" fill="white" stroke="black"/>
