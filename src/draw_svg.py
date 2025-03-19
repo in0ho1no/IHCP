@@ -188,8 +188,32 @@ class DrawSvg:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{self.CIRCLE_R}" fill="white" stroke="black"/>')
 
         # 記号の描画
-        self.draw_text(svg, center_x + 8, center_y - 1, "↻", rotate=240)
+        radius = self.CIRCLE_R - (self.CIRCLE_R // 2)  # 半径
 
+        start_x = center_x
+        start_y = center_y - radius
+
+        end_x = center_x
+        end_y = center_y + radius
+
+        x_axis_rotation = 0  # 公式ドキュメントでも0固定
+        large_arc_flag = 0  # 半円なので0固定
+        sweep_flag = 1  # 右周りの指定なので1
+
+        svg.append(
+            f'<path d="M {start_x} {start_y} '  # 始点へ移動
+            f"A {radius} {radius}, "  # X軸方向・Y軸方向の半径
+            f"{x_axis_rotation} {large_arc_flag} {sweep_flag} "
+            f'{end_x} {end_y}" '  # 終点
+            f'stroke="black" fill="transparent"/>'
+        )
+
+        svg.append(
+            f'<path d="'
+            f"M {end_x} {end_y} L {end_x + 2.5} {end_y - 4} "  # 始点へ移動して、描画
+            f'M {end_x} {end_y} L {end_x + 4} {end_y + 0.5}" '  # 始点へ移動して、描画
+            f'stroke="black" fill="transparent"/>'
+        )
         # 文字列の描画
         end_x = self.draw_string(svg, center_x, center_y, text)
 

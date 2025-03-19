@@ -18,7 +18,8 @@
 <line x1="72" y1="132" x2="90" y2="132" stroke="black"/>
 <line x1="72" y1="114" x2="72" y2="132" stroke="black"/>
 <circle cx="90" cy="180" r="9" fill="white" stroke="black"/>
-<text x="98" y="179" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="240">↻</text>
+<path d="M 90 175 A 5 5, 0 0 1 90 185" stroke="black" fill="transparent"/>
+<path d="M 90 185 L 92.5 181 M 90 185 L 94 185.5" stroke="black" fill="transparent"/>
 <text x="109" y="180" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">DBから取得</text>
 <line x1="90" y1="159" x2="90" y2="171" stroke="black"/>
 <circle cx="90" cy="210" r="9" fill="white" stroke="black"/>
