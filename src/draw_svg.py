@@ -12,32 +12,45 @@ class DrawSvg:
     SPACE_FIGURE_TO_TEXT = 10
     TEXT_MARGIN = 15
 
+    FONT_SIZE_PX = 12
+
     @classmethod
-    def get_string_bytes(cls, string: str) -> int:
-        count = 0
+    def get_string_widths(cls, string: str) -> int:
+        """文字列の幅を取得する
+
+        2バイト文字を基準に積算する
+        1バイト文字は、0.5文字扱いとする
+
+        Args:
+            string (str): 幅を取得したい文字列
+
+        Returns:
+            int: 文字列の幅。端数は切り上げ。
+        """
+        count_bytes: float = 0
         for char in string:
             # ASCII文字(1バイト文字)
             if ord(char) < 128:
-                count += 1
+                count_bytes += 0.5
             # それ以外(2バイト文字)
             else:
-                count += 2
-        return count
+                count_bytes += 1.0
+        string_bytes = math.ceil(count_bytes)
+        return string_bytes
 
-    def get_text_width(self, text: str) -> int:
-        text_bytes = self.get_string_bytes(text.strip())
-        half_bytes = int((text_bytes + 2 - 1) // 2)
-        text_width = half_bytes * 15  # デフォルトの文字幅は16px
-        return text_width
+    def get_text_width(self, text: str, font_px: int) -> int:
+        text_bytes = self.get_string_widths(text.strip())
+        return text_bytes * font_px
 
     def draw_text(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
+        font_px = int(DrawSvg.FONT_SIZE_PX * (font_size / 100))
         svg.append(
             f'<text x="{center_x}" y="{center_y}" '
             f'text-anchor="start" dominant-baseline="middle" '
-            f'font-family="Consolas, Meiryo UI, Courier New, monospace" '
-            f'font-size="{font_size}%" rotate="{rotate}">{text}</text>'
+            f'font-family="Consolas, Courier New, monospace" '
+            f'font-size="{font_px}px" rotate="{rotate}">{text}</text>'
         )
-        text_width = int(self.get_text_width(text) * (font_size / 100))
+        text_width = self.get_text_width(text, font_px)
         return text_width
 
     def draw_string(self, svg: list[str], center_x: int, center_y: int, text: str, font_size: int = 100, rotate: int = 0) -> int:
@@ -175,8 +188,32 @@ class DrawSvg:
         svg.append(f'<circle cx="{center_x}" cy="{center_y}" r="{self.CIRCLE_R}" fill="white" stroke="black"/>')
 
         # 記号の描画
-        self.draw_text(svg, center_x + 8, center_y - 1, "↻", rotate=240)
+        radius = self.CIRCLE_R - (self.CIRCLE_R // 2)  # 半径
 
+        start_x = center_x
+        start_y = center_y - radius
+
+        end_x = center_x
+        end_y = center_y + radius
+
+        x_axis_rotation = 0  # 公式ドキュメントでも0固定
+        large_arc_flag = 0  # 半円なので0固定
+        sweep_flag = 1  # 右周りの指定なので1
+
+        svg.append(
+            f'<path d="M {start_x} {start_y} '  # 始点へ移動
+            f"A {radius} {radius}, "  # X軸方向・Y軸方向の半径
+            f"{x_axis_rotation} {large_arc_flag} {sweep_flag} "
+            f'{end_x} {end_y}" '  # 終点
+            f'stroke="black" fill="transparent"/>'
+        )
+
+        svg.append(
+            f'<path d="'
+            f"M {end_x} {end_y} L {end_x + 2} {end_y - 4} "  # 始点へ移動して、描画
+            f'L {end_x + 4} {end_y + 0.5} Z" '  # パスを閉じる
+            f'stroke="black" fill="black"/>'
+        )
         # 文字列の描画
         end_x = self.draw_string(svg, center_x, center_y, text)
 

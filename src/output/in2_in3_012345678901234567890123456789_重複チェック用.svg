@@ -1,43 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="286" height="320" style="background-color: #808d81">
-<rect x="0" y="0" width="286" height="320" fill="#808d81" stroke="#808d81"/>
-<text x="19" y="30" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="120%" rotate="0">モジュール名: 重複チェック用</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="316" height="320" style="background-color: #808d81">
+<rect x="0" y="0" width="316" height="320" fill="#808d81" stroke="#808d81"/>
+<text x="19" y="30" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="18px" rotate="0">モジュール名: 重複チェック用</text>
 <circle cx="30" cy="90" r="9" fill="white" stroke="black"/>
-<text x="49" y="90" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">シンプルな処理555555</text>
+<text x="49" y="90" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">シンプルな処理555555</text>
 <line x1="30" y1="72" x2="30" y2="81" stroke="black"/>
 <line x1="21" y1="72" x2="39" y2="72" stroke="black"/>
 <line x1="30" y1="99" x2="30" y2="108" stroke="black"/>
 <line x1="21" y1="108" x2="39" y2="108" stroke="black"/>
 <circle cx="60" cy="120" r="9" fill="white" stroke="black"/>
-<text x="79" y="120" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">初期化</text>
+<text x="79" y="120" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">初期化</text>
 <line x1="60" y1="102" x2="60" y2="111" stroke="black"/>
 <line x1="42" y1="102" x2="60" y2="102" stroke="black"/>
 <line x1="42" y1="84" x2="42" y2="102" stroke="black"/>
 <circle cx="90" cy="150" r="9" fill="white" stroke="black"/>
-<text x="109" y="150" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">何もしない</text>
+<text x="109" y="150" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">何もしない</text>
 <line x1="90" y1="159" x2="90" y2="168" stroke="black"/>
 <line x1="81" y1="168" x2="99" y2="168" stroke="black"/>
 <line x1="90" y1="132" x2="90" y2="141" stroke="black"/>
 <line x1="72" y1="132" x2="90" y2="132" stroke="black"/>
 <line x1="72" y1="114" x2="72" y2="132" stroke="black"/>
 <circle cx="60" cy="180" r="9" fill="white" stroke="black"/>
-<text x="79" y="180" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">メイン処理</text>
+<text x="79" y="180" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">メイン処理</text>
 <line x1="60" y1="129" x2="60" y2="171" stroke="black"/>
 <circle cx="90" cy="210" r="9" fill="white" stroke="black"/>
-<text x="109" y="210" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">何もしない</text>
+<text x="109" y="210" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">何もしない</text>
 <line x1="90" y1="219" x2="90" y2="228" stroke="black"/>
 <line x1="81" y1="228" x2="99" y2="228" stroke="black"/>
 <line x1="90" y1="192" x2="90" y2="201" stroke="black"/>
 <line x1="72" y1="192" x2="90" y2="192" stroke="black"/>
 <line x1="72" y1="174" x2="72" y2="192" stroke="black"/>
 <circle cx="60" cy="240" r="9" fill="white" stroke="black"/>
-<text x="79" y="240" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">後処理</text>
+<text x="79" y="240" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">後処理</text>
 <line x1="60" y1="189" x2="60" y2="231" stroke="black"/>
 <line x1="60" y1="249" x2="60" y2="258" stroke="black"/>
 <line x1="51" y1="258" x2="69" y2="258" stroke="black"/>
 <line x1="90" y1="261" x2="90" y2="270" stroke="black"/>
 <polygon points="90 279 82 265 97 265" fill="white" stroke="black"/>
 <line x1="81" y1="279" x2="99" y2="279" stroke="black"/>
-<text x="109" y="270" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Meiryo UI, Courier New, monospace" font-size="100%" rotate="0">何もしない</text>
+<text x="109" y="270" text-anchor="start" dominant-baseline="middle" font-family="Consolas, Courier New, monospace" font-size="12px" rotate="0">何もしない</text>
 <line x1="90" y1="252" x2="90" y2="261" stroke="black"/>
 <line x1="72" y1="252" x2="90" y2="252" stroke="black"/>
 <line x1="72" y1="234" x2="72" y2="252" stroke="black"/>
