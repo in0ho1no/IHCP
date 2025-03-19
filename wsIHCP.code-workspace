@@ -17,6 +17,7 @@
 		"editor.fontFamily": "Consolas, 'Meiryo UI','Courier New', monospace",
 
 		"markdown.preview.scrollPreviewWithEditor": false,
+		"markdown.extension.toc.levels": "2..6",
 
 		"editor.defaultFormatter": "charliermarsh.ruff",
 		"editor.formatOnSave": true,
