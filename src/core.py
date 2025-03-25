@@ -7,6 +7,14 @@ from render import SVGRenderer
 
 
 class HCPInfo(NamedTuple):
+    """hcpに関する情報
+
+    Attributes:
+        name(str): モジュール名
+        raw_text(list[str]): svgへ変換する基の生文字列
+        svg_img(str): hcpファイルをパースしてレンダリングしたsvg画像の文字列
+    """
+
     name: str
     raw_text: list[str]
     svg_img: str
