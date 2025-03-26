@@ -3,7 +3,7 @@ import os
 
 import streamlit as st
 
-from main import HCPInfo, convert_file2hcp_info_list
+from core import HCPInfo, convert_file2hcp_info_list
 
 PATH_DEFAULT = ""
 

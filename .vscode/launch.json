@@ -6,7 +6,7 @@
             "name": "Python デバッガー: main",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}\\src\\main.py",
+            "program": "${workspaceFolder}\\src\\main_cli.py",
             "console": "integratedTerminal"
         }
     ]
