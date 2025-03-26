@@ -1,5 +1,3 @@
-import glob
-import os
 from typing import NamedTuple
 
 from define import ParseInfo, ParseInfo4Render
@@ -9,6 +7,14 @@ from render import SVGRenderer
 
 
 class HCPInfo(NamedTuple):
+    """hcpに関する情報
+
+    Attributes:
+        name(str): モジュール名
+        raw_text(list[str]): svgへ変換する基の生文字列
+        svg_img(str): hcpファイルをパースしてレンダリングしたsvg画像の文字列
+    """
+
     name: str
     raw_text: list[str]
     svg_img: str
@@ -48,22 +54,3 @@ def convert_file2hcp_info_list(file_path: str) -> list[HCPInfo]:
         hcp_info_list.append(HCPInfo(section_name, section_lines, svg_output))
 
     return hcp_info_list
-
-
-def main() -> None:
-    input_folder = ".\\src\\input\\"
-    hcp_file_list = glob.glob(input_folder + "**\\*.hcp", recursive=True)
-    for hcp_file in hcp_file_list:
-        # ファイルを読み込んでSVG画像として保存する
-        hcp_info_list = convert_file2hcp_info_list(hcp_file)
-        for hcp_info in hcp_info_list:
-            # SVG画像として保存
-            file_path = hcp_file.replace(input_folder, "")
-            rename_path = "_".join(file_path.split("\\"))
-            basename = os.path.basename(rename_path).split(".")[0]
-            with open(f"./src/output/{basename}_{hcp_info.name}.svg", "w", encoding="utf-8") as f:
-                f.write(hcp_info.svg_img)
-
-
-if __name__ == "__main__":
-    main()
