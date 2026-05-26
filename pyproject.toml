@@ -5,7 +5,7 @@ description = "HCPチャートの文字列を画像として表示する。"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "streamlit>=1.43.2",
+    "streamlit>=1.56.0",
 ]
 
 [tool.ruff]
